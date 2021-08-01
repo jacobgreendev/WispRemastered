@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        Application.targetFrameRate = Int32.MaxValue;
+        Application.targetFrameRate = 60;
         Instance = this;
         playerRigidbody.isKinematic = true;
     }
