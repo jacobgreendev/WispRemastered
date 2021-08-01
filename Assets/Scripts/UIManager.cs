@@ -6,9 +6,12 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
-    [SerializeField] private LineRenderer dragLineRenderer;
     private Camera mainCamera;
     private Vector3 playerWorldPosition; //For use with centering line renderer
+
+    [Header("Drag Indicator")]
+    [SerializeField] private LineRenderer dragLineRenderer;
+
 
     public Vector2 DragVector
     {
