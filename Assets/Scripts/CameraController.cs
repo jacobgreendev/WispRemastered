@@ -13,15 +13,19 @@ public class CameraController : MonoBehaviour
     private Vector3 offset;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
         following = PlayerController.Instance.transform;
         offset = transform.position - following.position;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         var currentPosition = transform.position;
         var targetPosition = following.position + offset;
