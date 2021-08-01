@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private readonly LineRenderer dragLineRenderer;
+    [SerializeField] private LineRenderer dragLineRenderer;
     private Camera mainCamera;
     private Vector2 screenCentre = new(Screen.width / 2, Screen.height / 2);
 
