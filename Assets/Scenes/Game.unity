@@ -441,7 +441,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: db5c80644edf6a844afb418cea34981b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -480,7 +480,7 @@ Transform:
   m_GameObject: {fileID: 396733018}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 37.2}
-  m_LocalScale: {x: 1, y: 1, z: 10}
+  m_LocalScale: {x: 10, y: 1, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -534,6 +534,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRigidbody: {fileID: 606629894}
+  forwardForce: 2000
+  sidewaysForcePerUnitDragLength: 10
 --- !u!135 &606629893
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -839,7 +841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649f2fd7bf380a84581e21299ea0d2b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followLerpSpeed: 1
+  followLerpSpeed: 30
 --- !u!1 &1825410909
 GameObject:
   m_ObjectHideFlags: 0
