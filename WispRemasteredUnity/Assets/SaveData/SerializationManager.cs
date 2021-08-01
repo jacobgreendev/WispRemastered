@@ -32,7 +32,11 @@ public class SerializationManager
     public static object Load(string path)
     {
         if(!File.Exists(path))
+        {
+            Debug.LogError("Save File does not exist");
             return null;
+        }
+            
 
         BinaryFormatter formatter = GetBinaryFormatter();
         FileStream file = File.Open(path, FileMode.Open);
