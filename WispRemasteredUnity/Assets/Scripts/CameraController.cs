@@ -9,8 +9,13 @@ public class CameraController : MonoBehaviour
     public event CameraPositionUpdatedEventHandler CameraPositionUpdated;
 
     private Transform following;
+    private Transform focal;
     private Vector3 offset;
     private new Camera camera;
+
+    [SerializeField] private float birdseyeViewHeight, heightForFullBirdseyeView;
+    private float previousLandedHeight;
+    private Vector3 birdseyeViewOffset;
 
     [Header("Lerp Speeds")]
     [SerializeField] private float followLerpSpeed;
@@ -32,20 +37,35 @@ public class CameraController : MonoBehaviour
         following = PlayerController.Instance.transform;
         offset = transform.position - following.position;
         PlayerController.Instance.VelocityUpdated += OnPlayerVelocityUpdate;
+        PlayerController.Instance.OnLand += UpdatePreviousLandedHeight;
+        focal = CameraFocal.TransformInstance;
+        birdseyeViewOffset = birdseyeViewHeight * Vector3.up;
+        previousLandedHeight = following.position.y;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        var followingHeightAbovePrevious = following.position.y - previousLandedHeight;
+        var birdseyeAmount = Mathf.Clamp(followingHeightAbovePrevious / heightForFullBirdseyeView, 0, 1);
+
         var currentPosition = transform.position;
-        var targetPosition = following.position + offset;
+        var targetPosition = Vector3.Lerp(following.position + offset, following.position + birdseyeViewOffset, birdseyeAmount);
 
         if (Vector3.Distance(currentPosition, targetPosition) > 0)
         {
             transform.position = Vector3.Lerp(currentPosition, targetPosition, followLerpSpeed * Time.deltaTime);
             CameraPositionUpdated(transform.position);
         }
+
+        transform.LookAt(focal);
     }
+
+    private void UpdatePreviousLandedHeight(Transform landedOn)
+    {
+        previousLandedHeight = landedOn.position.y;
+    }
+
     private void OnPlayerVelocityUpdate(Vector3 velocity)
     {
         camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, defaultFov + (fovPerUnitSpeed * velocity.z), fovLerpSpeed * Time.deltaTime);

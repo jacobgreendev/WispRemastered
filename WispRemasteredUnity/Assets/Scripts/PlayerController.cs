@@ -140,4 +140,4 @@ public class PlayerController : MonoBehaviour
 public delegate void PositionUpdatedEventHandler(Vector3 newPosition);
 public delegate void InputDetectedEventHandler(bool detected);
 public delegate void VelocityUpdatedEventHandler(Vector3 velocity);
-public delegate void OnLandEventHandler();
+public delegate void OnLandEventHandler(Transform landedOn);
