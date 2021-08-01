@@ -6,7 +6,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private LineRenderer dragLineRenderer;
     private Camera mainCamera;
-    private Vector2 playerScreenPosition; //For use with centering line renderer
+    private Vector3 playerWorldPosition; //For use with centering line renderer
 
     // Start is called before the first frame update
     private void Start()
@@ -14,9 +14,10 @@ public class UIManager : MonoBehaviour
         PlayerController.Instance.DragPositionUpdated += OnDragPositionUpdate;
         PlayerController.Instance.PlayerPositionUpdated += OnPlayerPositionUpdate;
         PlayerController.Instance.TouchDetectedWhileNotInFlight += DragEnabled;
+        CameraController.Instance.CameraPositionUpdated += OnCameraPositionUpdate;
         mainCamera = Camera.main;
         OnPlayerPositionUpdate(PlayerController.Instance.transform.position); //Initialise player position on first frame
-        dragLineRenderer.SetPosition(0, playerScreenPosition); //SetPosition is relative to line renderer position, which in this case is the bottom left
+        dragLineRenderer.SetPosition(0, mainCamera.WorldToScreenPoint(playerWorldPosition)); //SetPosition is relative to line renderer position, which in this case is the bottom left
     }
 
     // Update is called once per frame
@@ -32,8 +33,13 @@ public class UIManager : MonoBehaviour
 
     private void OnPlayerPositionUpdate(Vector3 position)
     {
-        playerScreenPosition = mainCamera.WorldToScreenPoint(position);
-        dragLineRenderer.SetPosition(0, playerScreenPosition); //Sets centre of line renderer to the player's position on screen
+        playerWorldPosition = position;
+        dragLineRenderer.SetPosition(0, mainCamera.WorldToScreenPoint(playerWorldPosition)); //Sets centre of line renderer to the player's position on screen
+    }
+
+    private void OnCameraPositionUpdate(Vector3 position)
+    {
+        dragLineRenderer.SetPosition(0, mainCamera.WorldToScreenPoint(playerWorldPosition)); //Sets centre of line renderer to the player's position on screen
     }
 
     private void DragEnabled(bool enabled)
