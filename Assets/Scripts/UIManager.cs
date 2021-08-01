@@ -6,19 +6,17 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private LineRenderer dragLineRenderer;
     private Camera mainCamera;
-    private Vector2 screenCentre = new(Screen.width / 2, Screen.height / 2);
-
-    private void Awake()
-    {
-        
-    }
+    private Vector2 playerScreenPosition; //For use with centering line renderer
 
     // Start is called before the first frame update
     private void Start()
     {
         PlayerController.Instance.DragPositionUpdated += OnDragPositionUpdate;
+        PlayerController.Instance.PlayerPositionUpdated += OnPlayerPositionUpdate;
+        PlayerController.Instance.TouchDetectedWhileNotInFlight += DragEnabled;
         mainCamera = Camera.main;
-        dragLineRenderer.SetPosition(0, screenCentre); //Position is relative to line renderer position, which in this case is the bottom left
+        OnPlayerPositionUpdate(PlayerController.Instance.transform.position); //Initialise player position on first frame
+        dragLineRenderer.SetPosition(0, playerScreenPosition); //SetPosition is relative to line renderer position, which in this case is the bottom left
     }
 
     // Update is called once per frame
@@ -27,9 +25,19 @@ public class UIManager : MonoBehaviour
 
     }
 
-    void OnDragPositionUpdate(Vector2 position)
+    private void OnDragPositionUpdate(Vector3 position)
     {
-        Debug.Log($"Input drag position: {position}");
-        dragLineRenderer.SetPosition(1, position);
+        dragLineRenderer.SetPosition(1, (Vector2) position);
+    }
+
+    private void OnPlayerPositionUpdate(Vector3 position)
+    {
+        playerScreenPosition = mainCamera.WorldToScreenPoint(position);
+        dragLineRenderer.SetPosition(0, playerScreenPosition); //Sets centre of line renderer to the player's position on screen
+    }
+
+    private void DragEnabled(bool enabled)
+    {
+        dragLineRenderer.enabled = enabled;
     }
 }
