@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
     {
         playerRigidbody.isKinematic = false;
         inFlight = true;
-        playerRigidbody.AddForce((forwardForce * transform.forward) + (sidewaysForcePerUnitDragLength * (Vector3) UIManager.Instance.DragLength));
+        playerRigidbody.AddForce((forwardForce * transform.forward) + (sidewaysForcePerUnitDragLength * (Vector3) UIManager.Instance.DragVector));
     }
 
     private void Land()

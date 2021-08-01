@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
     private Camera mainCamera;
     private Vector3 playerWorldPosition; //For use with centering line renderer
 
-    public Vector2 DragLength
+    public Vector2 DragVector
     {
         get
         {
