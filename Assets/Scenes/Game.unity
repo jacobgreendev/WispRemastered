@@ -1100,7 +1100,7 @@ MonoBehaviour:
   bodyTransform: {fileID: 391476406}
   bodyDirectionLerpSpeed: 10
   floorMarkerProjector: {fileID: 1612407816}
-  floorMarkerMaxSize: 20
+  floorMarkerMaxSize: 10
   floorMarkerMinSize: 2
 --- !u!135 &606629893
 SphereCollider:
@@ -1486,7 +1486,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1028440511}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.18, z: -19.08}
+  m_LocalPosition: {x: 0, y: 4.18, z: -15.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1772,7 +1772,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1612407815}
+  - component: {fileID: 1612407818}
   - component: {fileID: 1612407816}
+  - component: {fileID: 1612407817}
   m_Layer: 0
   m_Name: FloorMarkerProjector
   m_TagString: Untagged
@@ -1815,9 +1817,37 @@ MonoBehaviour:
   m_UVScale: {x: 1, y: 1}
   m_UVBias: {x: 0, y: 0}
   m_ScaleMode: 0
-  m_Offset: {x: 0, y: 0, z: 44.3}
-  m_Size: {x: 2, y: 2, z: 88.6}
+  m_Offset: {x: 0, y: 0, z: 25}
+  m_Size: {x: 2, y: 2, z: 50}
   m_FadeFactor: 0.73
+--- !u!114 &1612407817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612407814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f2488ae569b5804ca66f626317da3cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSize: 0
+  maxSize: 0
+--- !u!114 &1612407818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612407814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f2488ae569b5804ca66f626317da3cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSize: 2
+  maxSize: 50
 --- !u!1 &1825410909
 GameObject:
   m_ObjectHideFlags: 0
