@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("LandingTrigger") && other.transform != currentlyLandedOn)
+        if (other.CompareTag(GameConstants.LandingTrigger_Tag) && other.transform != currentlyLandedOn)
         {
             Land(other.transform);
         }
