@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public event PositionUpdatedEventHandler PlayerPositionUpdated;
     public event InputDetectedEventHandler TouchDetectedWhileNotInFlight;
     public event OnLandEventHandler OnLand;
+    public event OnFireEventHandler OnFire;
     public event VelocityUpdatedEventHandler VelocityUpdated;
 
     private bool inFlight = false;
@@ -28,8 +29,6 @@ public class PlayerController : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private Transform bodyTransform;
     [SerializeField] private float bodyDirectionLerpSpeed;
-    [SerializeField] private DecalProjector floorMarkerProjector;
-    [SerializeField] private float floorMarkerMaxSize, floorMarkerMinSize;
 
     // Start is called before the first frame update
     void Awake()
@@ -51,7 +50,6 @@ public class PlayerController : MonoBehaviour
             PlayerPositionUpdated(transform.position);
             VelocityUpdated(playerRigidbody.velocity);
             UpdateBodyFacingDirection();
-            UpdateFloorMarkerSize();
         }
     }
 
@@ -78,27 +76,13 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateBodyFacingDirection()
     {
-        var targetRotation = inFlight ? Quaternion.LookRotation(playerRigidbody.velocity) : Quaternion.LookRotation(Vector3.down);
+        var targetRotation = inFlight && playerRigidbody.velocity.magnitude > 0 ? Quaternion.LookRotation(playerRigidbody.velocity) : Quaternion.LookRotation(Vector3.down);
         bodyTransform.rotation = Quaternion.Lerp(bodyTransform.rotation, targetRotation, bodyDirectionLerpSpeed * Time.deltaTime);
-    }
-
-    private void UpdateFloorMarkerSize()
-    {
-        var currentSize = floorMarkerProjector.size;
-        Ray ray = new Ray(transform.position, Vector3.down);
-
-        if (Physics.Raycast(ray, out var hit, currentSize.z))
-        {
-            var distance = Vector3.Distance(hit.point, transform.position);
-            var newSize = Mathf.Lerp(floorMarkerMinSize, floorMarkerMaxSize, distance / currentSize.z);
-            currentSize.x = newSize;
-            currentSize.y = newSize;
-            floorMarkerProjector.size = currentSize;
-        }
     }
 
     private void Fire()
     {
+        OnFire();
         playerRigidbody.isKinematic = false;
         inFlight = true;
         var sidewaysDirection = (Vector3) UIManager.Instance.DragVector.normalized;
@@ -110,6 +94,7 @@ public class PlayerController : MonoBehaviour
 
     private void Land(Transform landedOn)
     {
+        OnLand(landedOn);
         playerRigidbody.isKinematic = true;
         currentlyLandedOn = landedOn;
         VelocityUpdated(Vector3.zero);
@@ -141,3 +126,4 @@ public delegate void PositionUpdatedEventHandler(Vector3 newPosition);
 public delegate void InputDetectedEventHandler(bool detected);
 public delegate void VelocityUpdatedEventHandler(Vector3 velocity);
 public delegate void OnLandEventHandler(Transform landedOn);
+public delegate void OnFireEventHandler();
