@@ -13,7 +13,9 @@ public class PlayerController : MonoBehaviour
 
     private bool inFlight = false;
     private bool wasTouchingLastFrame = false;
+    private Vector2 touchPosition;
     [SerializeField] private Rigidbody playerRigidbody;
+    [SerializeField] private float forwardForce, sidewaysForcePerUnitDragLength;
 
     // Start is called before the first frame update
     void Awake()
@@ -47,8 +49,8 @@ public class PlayerController : MonoBehaviour
         if (isTouching)
         {
             TouchDetectedWhileNotInFlight(true);
-            var touchPos = Input.touchCount > 0 ? Input.GetTouch(0).position : (Vector2)Input.mousePosition;
-            DragPositionUpdated(touchPos);
+            touchPosition = Input.touchCount > 0 ? Input.GetTouch(0).position : (Vector2)Input.mousePosition;
+            DragPositionUpdated(touchPosition);
             wasTouchingLastFrame = true;
         }
         else
@@ -66,6 +68,7 @@ public class PlayerController : MonoBehaviour
     {
         playerRigidbody.isKinematic = false;
         inFlight = true;
+        playerRigidbody.AddForce((forwardForce * transform.forward) + (sidewaysForcePerUnitDragLength * (Vector3) UIManager.Instance.DragLength));
     }
 
     private void Land()
