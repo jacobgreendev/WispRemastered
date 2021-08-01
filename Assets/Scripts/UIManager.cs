@@ -4,9 +4,24 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance;
+
     [SerializeField] private LineRenderer dragLineRenderer;
     private Camera mainCamera;
     private Vector3 playerWorldPosition; //For use with centering line renderer
+
+    public Vector2 DragLength
+    {
+        get
+        {
+            return dragLineRenderer.GetPosition(0) - dragLineRenderer.GetPosition(1);
+        }
+    }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Start is called before the first frame update
     private void Start()
