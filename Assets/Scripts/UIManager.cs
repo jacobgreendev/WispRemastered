@@ -7,10 +7,13 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     private Camera mainCamera;
-    private Vector3 playerWorldPosition; //For use with centering line renderer
+    private Vector2 playerScreenPosition; //For use with centering line renderer
 
     [Header("Drag Indicator")]
     [SerializeField] private LineRenderer dragLineRenderer;
+
+    [Range(0f, 1f)]
+    [SerializeField] private float maxDragDistanceAsScreenWidthRatio;
 
 
     public Vector2 DragVector
@@ -18,6 +21,14 @@ public class UIManager : MonoBehaviour
         get
         {
             return dragLineRenderer.GetPosition(0) - dragLineRenderer.GetPosition(1);
+        }
+    }
+
+    public float MaxDragDistance
+    {
+        get
+        {
+            return maxDragDistanceAsScreenWidthRatio * Screen.width;
         }
     }
 
@@ -35,7 +46,7 @@ public class UIManager : MonoBehaviour
         CameraController.Instance.CameraPositionUpdated += OnCameraPositionUpdate;
         mainCamera = Camera.main;
         OnPlayerPositionUpdate(PlayerController.Instance.transform.position); //Initialise player position on first frame
-        dragLineRenderer.SetPosition(0, mainCamera.WorldToScreenPoint(playerWorldPosition)); //SetPosition is relative to line renderer position, which in this case is the bottom left
+        dragLineRenderer.SetPosition(0, playerScreenPosition); //SetPosition is relative to line renderer position, which in this case is the bottom left
     }
 
     // Update is called once per frame
@@ -46,18 +57,24 @@ public class UIManager : MonoBehaviour
 
     private void OnDragPositionUpdate(Vector3 position)
     {
-        dragLineRenderer.SetPosition(1, (Vector2) position);
+        var newDragPos = (Vector2) position;
+        if(Vector3.Distance(playerScreenPosition, newDragPos) > maxDragDistanceAsScreenWidthRatio * Screen.width)
+        {
+            newDragPos = playerScreenPosition + (newDragPos - playerScreenPosition).normalized * maxDragDistanceAsScreenWidthRatio * Screen.width;
+        }
+
+        dragLineRenderer.SetPosition(1, (Vector2) newDragPos);
     }
 
     private void OnPlayerPositionUpdate(Vector3 position)
     {
-        playerWorldPosition = position;
-        dragLineRenderer.SetPosition(0, mainCamera.WorldToScreenPoint(playerWorldPosition)); //Sets centre of line renderer to the player's position on screen
+        playerScreenPosition = mainCamera.WorldToScreenPoint(position);
+        dragLineRenderer.SetPosition(0, playerScreenPosition); //Sets centre of line renderer to the player's position on screen
     }
 
     private void OnCameraPositionUpdate(Vector3 position)
     {
-        dragLineRenderer.SetPosition(0, mainCamera.WorldToScreenPoint(playerWorldPosition)); //Sets centre of line renderer to the player's position on screen
+        dragLineRenderer.SetPosition(0, playerScreenPosition); //Sets centre of line renderer to the player's position on screen
     }
 
     private void DragEnabled(bool enabled)

@@ -1,7 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Physics")]
     [SerializeField] private Rigidbody playerRigidbody;
-    [SerializeField] private float forwardForce, sidewaysForcePerUnitDragLength;
+    [SerializeField] private float forwardForce, maxSidewaysForce;
 
     private Transform currentlyLandedOn;
 
@@ -29,6 +28,8 @@ public class PlayerController : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private Transform bodyTransform;
     [SerializeField] private float bodyDirectionLerpSpeed;
+    [SerializeField] private DecalProjector floorMarkerProjector;
+    [SerializeField] private float floorMarkerMaxSize, floorMarkerMinSize;
 
     // Start is called before the first frame update
     void Awake()
@@ -50,6 +51,7 @@ public class PlayerController : MonoBehaviour
             PlayerPositionUpdated(transform.position);
             VelocityUpdated(playerRigidbody.velocity);
             UpdateBodyFacingDirection();
+            UpdateFloorMarkerSize();
         }
     }
 
@@ -80,11 +82,30 @@ public class PlayerController : MonoBehaviour
         bodyTransform.rotation = Quaternion.Lerp(bodyTransform.rotation, targetRotation, bodyDirectionLerpSpeed * Time.deltaTime);
     }
 
+    private void UpdateFloorMarkerSize()
+    {
+        var currentSize = floorMarkerProjector.size;
+        Ray ray = new Ray(transform.position, Vector3.down);
+
+        if (Physics.Raycast(ray, out var hit, currentSize.z))
+        {
+            var distance = Vector3.Distance(hit.point, transform.position);
+            var newSize = Mathf.Lerp(floorMarkerMinSize, floorMarkerMaxSize, distance / currentSize.z);
+            currentSize.x = newSize;
+            currentSize.y = newSize;
+            floorMarkerProjector.size = currentSize;
+        }
+    }
+
     private void Fire()
     {
         playerRigidbody.isKinematic = false;
         inFlight = true;
-        playerRigidbody.AddForce((forwardForce * transform.forward) + (sidewaysForcePerUnitDragLength * (Vector3) UIManager.Instance.DragVector));
+        var sidewaysDirection = (Vector3) UIManager.Instance.DragVector.normalized;
+        var sidewaysPower = maxSidewaysForce * (UIManager.Instance.DragVector.magnitude / UIManager.Instance.MaxDragDistance); //Max power * Percentage of max drag length
+        var totalSidewaysForce = sidewaysDirection * sidewaysPower;
+        var totalForwardForce = forwardForce * transform.forward;
+        playerRigidbody.AddForce(totalForwardForce + totalSidewaysForce);
     }
 
     private void Land(Transform landedOn)
