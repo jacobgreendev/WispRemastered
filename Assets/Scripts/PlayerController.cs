@@ -26,6 +26,10 @@ public class PlayerController : MonoBehaviour
     [Header("Lerp Times")]
     [SerializeField] private float landLerpTime;
 
+    [Header("Visuals")]
+    [SerializeField] private Transform bodyTransform;
+    [SerializeField] private float bodyDirectionLerpSpeed;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -45,6 +49,7 @@ public class PlayerController : MonoBehaviour
         {
             PlayerPositionUpdated(transform.position);
             VelocityUpdated(playerRigidbody.velocity);
+            UpdateBodyFacingDirection();
         }
     }
 
@@ -67,6 +72,12 @@ public class PlayerController : MonoBehaviour
                 Fire();
             }
         }
+    }
+
+    private void UpdateBodyFacingDirection()
+    {
+        var targetRotation = inFlight ? Quaternion.LookRotation(playerRigidbody.velocity) : Quaternion.LookRotation(Vector3.down);
+        bodyTransform.rotation = Quaternion.Lerp(bodyTransform.rotation, targetRotation, bodyDirectionLerpSpeed * Time.deltaTime);
     }
 
     private void Fire()
