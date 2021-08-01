@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7277463607791836381
+--- !u!1 &5178798152754478913
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3632561526902542729}
-  - component: {fileID: 8853461555843321554}
-  - component: {fileID: 7283847770656645958}
+  - component: {fileID: 1245531834937520661}
+  - component: {fileID: 6484523258870541646}
+  - component: {fileID: 5058979546349453530}
   m_Layer: 0
   m_Name: FlameParticles
   m_TagString: Untagged
@@ -18,28 +18,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3632561526902542729
+--- !u!4 &1245531834937520661
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7277463607791836381}
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 5178798152754478913}
+  m_LocalRotation: {x: -1, y: -0, z: -0, w: 0}
+  m_LocalPosition: {x: 0.02, y: 0, z: 0.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!198 &8853461555843321554
+--- !u!198 &6484523258870541646
 ParticleSystem:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7277463607791836381}
+  m_GameObject: {fileID: 5178798152754478913}
   serializedVersion: 8
   lengthInSec: 5
   simulationSpeed: 1
@@ -168,9 +168,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 5
-      minScalar: 5
+      minMaxState: 3
+      scalar: 4
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1135,7 +1135,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   RotationModule:
-    enabled: 1
+    enabled: 0
     x:
       serializedVersion: 2
       minMaxState: 3
@@ -1305,33 +1305,33 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0.43300706, b: 0, a: 1}
-        key1: {r: 0, g: 0, b: 0, a: 1}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key0: {r: 1, g: 0.686182, b: 0.4481132, a: 1}
+        key1: {r: 0.17647058, g: 0.07612458, b: 0, a: 1}
+        key2: {r: 0, g: 0, b: 0, a: 1}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 65535
-        ctime2: 0
+        ctime1: 58789
+        ctime2: 65535
         ctime3: 0
         ctime4: 0
         ctime5: 0
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 43947
-        atime2: 65535
-        atime3: 0
+        atime1: 65342
+        atime2: 42020
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_NumColorKeys: 2
-        m_NumAlphaKeys: 3
+        m_NumColorKeys: 3
+        m_NumAlphaKeys: 2
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -3804,7 +3804,7 @@ ParticleSystem:
     primitives: []
   SubModule:
     serializedVersion: 2
-    enabled: 1
+    enabled: 0
     subEmitters:
     - serializedVersion: 3
       emitter: {fileID: 0}
@@ -4740,14 +4740,14 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!199 &7283847770656645958
+--- !u!199 &5058979546349453530
 ParticleSystemRenderer:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7277463607791836381}
+  m_GameObject: {fileID: 5178798152754478913}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -4796,14 +4796,14 @@ ParticleSystemRenderer:
   m_RenderAlignment: 4
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
+  m_UseCustomVertexStreams: 1
   m_EnableGPUInstancing: 1
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
-  m_VertexStreams: 00010304
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_VertexStreams: 00030409
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
