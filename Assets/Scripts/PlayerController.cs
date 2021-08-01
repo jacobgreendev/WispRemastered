@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
 
     public event PositionUpdatedEventHandler DragPositionUpdated;
+    public event PositionUpdatedEventHandler PlayerPositionUpdated;
+    public event InputDetectedEventHandler TouchDetectedWhileNotInFlight;
 
     private bool inFlight = false;
 
@@ -22,11 +24,31 @@ public class PlayerController : MonoBehaviour
     {
         if (!inFlight)
         {
-            var touchPos = Input.touchCount > 0 ? Input.GetTouch(0).position : (Vector2) Input.mousePosition;
+            DoInput();
+        }
+        else
+        {
+            PlayerPositionUpdated(transform.position);
+        }
+    }
+
+    private void DoInput()
+    {
+        var isTouching = Input.touchCount > 0 || Input.GetMouseButton(0);
+        if (isTouching)
+        {
+            TouchDetectedWhileNotInFlight(true);
+            var touchPos = Input.touchCount > 0 ? Input.GetTouch(0).position : (Vector2)Input.mousePosition;
             DragPositionUpdated(touchPos);
         }
+        else
+        {
+            TouchDetectedWhileNotInFlight(false);
+        }
+        
     }
 
 }
 
-public delegate void PositionUpdatedEventHandler(Vector2 newPosition);
+public delegate void PositionUpdatedEventHandler(Vector3 newPosition);
+public delegate void InputDetectedEventHandler(bool detected);
