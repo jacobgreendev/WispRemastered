@@ -316,7 +316,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1.82
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &290567895
 GameObject:
@@ -622,7 +622,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1.82
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &347815495
 GameObject:
@@ -861,7 +861,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1.82
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &391476405
 GameObject:
@@ -1264,7 +1264,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1.82
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &465706107
 GameObject:
@@ -1634,7 +1634,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1.82
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &605308231
 GameObject:
@@ -1788,9 +1788,6 @@ MonoBehaviour:
   landLerpTime: 0.1
   bodyTransform: {fileID: 391476406}
   bodyDirectionLerpSpeed: 10
-  floorMarkerProjector: {fileID: 1612407816}
-  floorMarkerMaxSize: 10
-  floorMarkerMinSize: 2
 --- !u!135 &606629893
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2125,7 +2122,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1.82
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &786259453
 GameObject:
@@ -2267,7 +2264,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1.82
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &859025156
 GameObject:
@@ -2443,7 +2440,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1.82
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &931057897
 GameObject:
@@ -3226,7 +3223,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1.82
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1066720814
 GameObject:
@@ -3640,7 +3637,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1.82
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1329169750
 GameObject:
@@ -3685,7 +3682,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1.82
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1363913021
 GameObject:
@@ -3827,7 +3824,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1.82
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1387657088
 GameObject:
@@ -4294,7 +4291,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1.82
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1612407814
 GameObject:
@@ -4307,7 +4304,6 @@ GameObject:
   - component: {fileID: 1612407815}
   - component: {fileID: 1612407818}
   - component: {fileID: 1612407816}
-  - component: {fileID: 1612407817}
   m_Layer: 0
   m_Name: FloorMarkerProjector
   m_TagString: Untagged
@@ -4351,22 +4347,8 @@ MonoBehaviour:
   m_UVBias: {x: 0, y: 0}
   m_ScaleMode: 0
   m_Offset: {x: 0, y: 0, z: 25}
-  m_Size: {x: 2, y: 2, z: 50}
+  m_Size: {x: 1, y: 1, z: 50}
   m_FadeFactor: 0.73
---- !u!114 &1612407817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1612407814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f2488ae569b5804ca66f626317da3cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minSize: 0
-  maxSize: 0
 --- !u!114 &1612407818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4380,7 +4362,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSize: 1
-  maxSize: 50
+  maxSize: 10
+  fadeTime: 0.3
 --- !u!1 &1625495629
 GameObject:
   m_ObjectHideFlags: 0
@@ -4686,7 +4669,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1.82
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1731018523
 GameObject:
@@ -4765,7 +4748,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1.82
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1735462674
 GameObject:
@@ -4810,7 +4793,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1.82
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1817889063
 GameObject:
