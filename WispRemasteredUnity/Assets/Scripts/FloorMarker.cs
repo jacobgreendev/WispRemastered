@@ -21,7 +21,9 @@ public class FloorMarker : MonoBehaviour
         PlayerController.Instance.OnLand += FadeOutFloorMarker;
         PlayerController.Instance.OnFire += FadeInFloorMarker;
         UpdateFloorMarkerSize(PlayerController.Instance.transform.position);
-        decalMaterial = projector.material;
+
+        decalMaterial = new Material(projector.material);
+        projector.material = decalMaterial; //Changing projector.material will change the asset, so make a copy instead
     }
 
     // Update is called once per frame
