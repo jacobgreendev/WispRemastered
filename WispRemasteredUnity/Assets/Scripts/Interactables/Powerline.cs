@@ -5,7 +5,6 @@ using UnityEngine;
 public class Powerline : Interactable
 {
     [SerializeField] private Transform endTransform;
-    [SerializeField] private LineRenderer lineRenderer;
 
     public Transform EndTransform
     {
