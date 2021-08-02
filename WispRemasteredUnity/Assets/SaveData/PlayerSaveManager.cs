@@ -10,6 +10,7 @@ public static class PlayerSaveManager
         try
         {
             localSave = (LocalSaveData) SerializationManager.Load(Application.persistentDataPath + GameConstants.SaveDataFilePath);
+            LocalSaveData.Instance = localSave;
         }
         catch(InvalidCastException e)
         {
