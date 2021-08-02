@@ -1,36 +1,9 @@
 using System;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 
 public static class PlayerSaveManager
 {
-    [MenuItem("Save Options/Save Test File")]
-    static void SaveTestFile()
-    {
-        if (LocalSaveData.save == null)
-            CreateSaveFile();
-
-        LocalSaveData.save.hiScore = 10;
-        SaveFile();          
-    }
-
-    [MenuItem("Save Options/Load Save File")]
-    static void LoadTestFile()
-    {
-        if(LoadSaveFile())
-        {
-            Debug.Log("Saved file had a Max Score of " + LocalSaveData.save.hiScore);
-        }
-    }
-
-    [MenuItem("Save Options/Delete Save File")]
-    static void DeleteSaveFile()
-    {
-        File.Delete(Application.persistentDataPath + GameConstants.SaveDataFilePath);
-        Debug.Log("Save File deleted");
-    } 
-
     public static bool LoadSaveFile()
     {
         LocalSaveData localSave;
