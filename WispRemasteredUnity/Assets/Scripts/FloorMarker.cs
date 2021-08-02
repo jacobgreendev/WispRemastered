@@ -11,6 +11,7 @@ public class FloorMarker : MonoBehaviour
 
     [Header("Fading In/Out")]
     [SerializeField] private float fadeTime;
+    private float maxAlpha;
     private Coroutine currentFadeRoutine;
     private Material markerMaterial;
 
@@ -25,6 +26,7 @@ public class FloorMarker : MonoBehaviour
 
 
         markerMaterial = marker.GetComponent<Renderer>().material;
+        maxAlpha = markerMaterial.GetFloat("_Alpha");
 
         //markerMaterial = new Material(marker.GetComponent<Renderer>().material);
         //projector.material = decalMaterial; //Changing projector.material will change the asset, so make a copy instead
@@ -85,7 +87,7 @@ public class FloorMarker : MonoBehaviour
         {
             StopCoroutine(currentFadeRoutine);
         }
-        currentFadeRoutine = StartCoroutine(FadeFloorMarker(markerMaterial.GetFloat("_Alpha"), 1, fadeTime));
+        currentFadeRoutine = StartCoroutine(FadeFloorMarker(markerMaterial.GetFloat("_Alpha"), maxAlpha, fadeTime));
     }
 
     private IEnumerator FadeFloorMarker(float initialAlpha, float targetAlpha, float fadeTime)
