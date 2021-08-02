@@ -8,6 +8,9 @@ public static class GameConstants
     public const string Tag_LandingTrigger = "LandingTrigger";
     public const string Tag_Ground = "Ground";
 
+    ///Layers
+    public const string Layer_Ground = "Ground";
+
     //Paths
     public const string SaveFolderPath = "/LocalData";
     public const string SaveDataFilePath = SaveFolderPath + "/" + SaveDataFileName + ".save";
