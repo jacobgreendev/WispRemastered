@@ -33,7 +33,8 @@ public class SerializationManager
     {
         if(!File.Exists(path))
         {
-            Debug.LogError("Save File does not exist");
+            Debug.LogError("Save File does not exist, creating new LocalSaveData");
+            PlayerSaveManager.CreateSaveFile();
             return null;
         }
             
