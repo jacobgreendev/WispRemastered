@@ -184,42 +184,40 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator LerpToPosition(float lerpTime, Vector3 initialPosition, Vector3 endPosition, bool isPlayer = true)
+    {
+        float time = 0;
+        while (time < lerpTime)
+        {
+            time += Time.deltaTime;
+            transform.position = Vector3.Lerp(initialPosition, endPosition, time / landLerpTime);
+            if(isPlayer) PlayerPositionUpdated(transform.position);
+            yield return null;
+        }
+    }
+
     private void InteractPowerline(Transform powerlineTransform, Powerline powerline)
     {
         StartCoroutine(RidePowerline(transform.position, powerlineTransform.position, powerline.EndTransform));
     }
 
-    private IEnumerator RidePowerline(Vector3 initialPlayerPosition, Vector3 startPosition, Transform endTransform)
+    private IEnumerator RidePowerline(Vector3 initialPlayerPosition, Vector3 powerlineStartPosition, Transform powerlineEndTransform)
     {
         var currentSpeed = playerRigidbody.velocity.magnitude;
         playerRigidbody.isKinematic = true;
 
         isInteracting = true;
 
-        float time = 0;
-        while (time < landLerpTime)
-        {
-            time += Time.deltaTime;
-            transform.position = Vector3.Lerp(initialPlayerPosition, startPosition, time / landLerpTime);
-            yield return null;
-        }
+        yield return StartCoroutine(LerpToPosition(landLerpTime, initialPlayerPosition, powerlineStartPosition));
 
-        var endPosition = endTransform.position;
-        playerRigidbody.velocity = (endPosition - startPosition).normalized * currentSpeed;
+        var endPosition = powerlineEndTransform.position;
+        playerRigidbody.velocity = (endPosition - powerlineStartPosition).normalized * currentSpeed;
         VelocityUpdated(playerRigidbody.velocity);
         UpdateBodyFacingDirection();
 
+        yield return StartCoroutine(LerpToPosition(powerlineTravelTime, powerlineStartPosition, powerlineEndTransform.position));
 
-        time = 0f;
-        while(time < powerlineTravelTime)
-        {
-            time += Time.deltaTime;
-            transform.position = Vector3.Lerp(startPosition, endPosition, time / powerlineTravelTime);
-            PlayerPositionUpdated(transform.position);
-            yield return null;
-        }
-
-        Land(endTransform);
+        Land(powerlineEndTransform);
         isInteracting = false;
     }
 
