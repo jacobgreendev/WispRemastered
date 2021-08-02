@@ -3,5 +3,5 @@ public class LocalSaveData
 {
     public static LocalSaveData Instance;
 
-    public int hiScore;
+    public int hiScore = 0;
 }
