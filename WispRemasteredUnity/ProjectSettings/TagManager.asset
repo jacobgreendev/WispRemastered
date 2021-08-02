@@ -6,7 +6,7 @@ TagManager:
   tags:
   - LandingTrigger
   - Ground
-  - PowerlineTrigger
+  - InteractableTrigger
   layers:
   - Default
   - TransparentFX

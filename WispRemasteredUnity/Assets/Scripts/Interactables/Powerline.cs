@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Powerline : MonoBehaviour
+public class Powerline : Interactable
 {
     [SerializeField] private Transform endTransform;
     [SerializeField] private LineRenderer lineRenderer;

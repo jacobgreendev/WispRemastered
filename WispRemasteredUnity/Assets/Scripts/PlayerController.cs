@@ -153,9 +153,9 @@ public class PlayerController : MonoBehaviour
             {
                 Land(other.transform);
             }
-            else if (other.CompareTag(GameConstants.Tag_PowerlineTrigger) && other.transform != currentlyLandedOn)
+            else if (other.CompareTag(GameConstants.Tag_InteractableTrigger) && other.transform != currentlyLandedOn)
             {
-                InteractPowerline(other.transform);
+                TryInteractWith(other.transform);
             }
         }
     }
@@ -168,10 +168,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void InteractPowerline(Transform powerlineTransform)
+    private void TryInteractWith(Transform interactableTransform)
     {
-        currentlyLandedOn = powerlineTransform;
-        var powerline = powerlineTransform.GetComponent<Powerline>();
+        Interactable interactable = interactableTransform.GetComponent<Interactable>();
+
+        if (interactable.IsUsableBy(currentForm))
+        {
+            currentlyLandedOn = interactableTransform;
+            switch (interactable.Type)
+            {
+                case InteractableType.Powerline:
+                    InteractPowerline(interactableTransform, (Powerline) interactable);
+                    break;
+            }
+        }
+    }
+
+    private void InteractPowerline(Transform powerlineTransform, Powerline powerline)
+    {
         StartCoroutine(RidePowerline(transform.position, powerlineTransform.position, powerline.EndTransform));
     }
 
