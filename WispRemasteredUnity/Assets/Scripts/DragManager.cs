@@ -13,7 +13,7 @@ public class DragManager : MonoBehaviour
     [SerializeField] private LineRenderer dragLineRenderer;
 
     [Range(0f, 1f)]
-    [SerializeField] private float maxDragDistanceAsScreenWidthRatio;
+    [SerializeField] private float maxDragDistanceAsScreenSizeRatio;
 
 
     public Vector2 DragVector
@@ -28,7 +28,7 @@ public class DragManager : MonoBehaviour
     {
         get
         {
-            return maxDragDistanceAsScreenWidthRatio * Screen.width;
+            return maxDragDistanceAsScreenSizeRatio * Mathf.Min(Screen.width, Screen.height);
         }
     }
 
@@ -52,9 +52,9 @@ public class DragManager : MonoBehaviour
     private void OnDragPositionUpdate(Vector3 position)
     {
         var newDragPos = (Vector2) position;
-        if(Vector3.Distance(playerScreenPosition, newDragPos) > maxDragDistanceAsScreenWidthRatio * Screen.width)
+        if(Vector3.Distance(playerScreenPosition, newDragPos) > maxDragDistanceAsScreenSizeRatio * Screen.width)
         {
-            newDragPos = playerScreenPosition + (newDragPos - playerScreenPosition).normalized * maxDragDistanceAsScreenWidthRatio * Screen.width;
+            newDragPos = playerScreenPosition + (newDragPos - playerScreenPosition).normalized * maxDragDistanceAsScreenSizeRatio * Screen.width;
         }
 
         dragLineRenderer.SetPosition(1, (Vector2) newDragPos);
