@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class DragManager : MonoBehaviour
 {
-    public static UIManager Instance;
+    public static DragManager Instance;
 
     private Camera mainCamera;
     private Vector2 playerScreenPosition; //For use with centering line renderer
@@ -47,12 +47,6 @@ public class UIManager : MonoBehaviour
         mainCamera = Camera.main;
         OnPlayerPositionUpdate(PlayerController.Instance.transform.position); //Initialise player position on first frame
         dragLineRenderer.SetPosition(0, playerScreenPosition); //SetPosition is relative to line renderer position, which in this case is the bottom left
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-
     }
 
     private void OnDragPositionUpdate(Vector3 position)

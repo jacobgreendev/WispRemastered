@@ -88,8 +88,8 @@ public class PlayerController : MonoBehaviour
         OnFire();
         playerRigidbody.isKinematic = false;
         inFlight = true;
-        var sidewaysDirection = (Vector3) UIManager.Instance.DragVector.normalized;
-        var sidewaysPower = maxSidewaysForce * (UIManager.Instance.DragVector.magnitude / UIManager.Instance.MaxDragDistance); //Max power * Percentage of max drag length
+        var sidewaysDirection = (Vector3) DragManager.Instance.DragVector.normalized;
+        var sidewaysPower = maxSidewaysForce * (DragManager.Instance.DragVector.magnitude / DragManager.Instance.MaxDragDistance); //Max power * Percentage of max drag length
         var totalSidewaysForce = sidewaysDirection * sidewaysPower;
         var totalForwardForce = forwardForce * transform.forward;
         playerRigidbody.AddForce(totalForwardForce + totalSidewaysForce);
