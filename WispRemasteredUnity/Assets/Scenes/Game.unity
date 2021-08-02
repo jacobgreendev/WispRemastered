@@ -946,8 +946,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRigidbody: {fileID: 606629894}
-  forwardForce: 1500
-  maxSidewaysForce: 1500
+  forwardForceMultiplier: 10
+  sidewaysForceMultiplier: 10
+  verticalForceMultiplier: 5
+  yAffectsZ: 10
   landLerpTime: 0.1
   deathLoadDelay: 0
   bodyTransform: {fileID: 391476406}

@@ -43,7 +43,7 @@ public class CameraController : MonoBehaviour
         previousLandedHeight = following.position.y;
     }
 
-    // Update is called once per frame
+    // Update is called once per Physics Update
     void FixedUpdate()
     {
         var followingHeightAbovePrevious = following.position.y - previousLandedHeight;

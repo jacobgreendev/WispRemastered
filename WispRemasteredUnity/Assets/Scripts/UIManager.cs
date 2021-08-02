@@ -58,9 +58,9 @@ public class UIManager : MonoBehaviour
     private void OnDragPositionUpdate(Vector3 position)
     {
         var newDragPos = (Vector2) position;
-        if(Vector3.Distance(playerScreenPosition, newDragPos) > maxDragDistanceAsScreenWidthRatio * Screen.width)
+        if(Vector3.Distance(playerScreenPosition, newDragPos) > MaxDragDistance)
         {
-            newDragPos = playerScreenPosition + (newDragPos - playerScreenPosition).normalized * maxDragDistanceAsScreenWidthRatio * Screen.width;
+            newDragPos = playerScreenPosition + (newDragPos - playerScreenPosition).normalized * MaxDragDistance;
         }
 
         dragLineRenderer.SetPosition(1, (Vector2) newDragPos);

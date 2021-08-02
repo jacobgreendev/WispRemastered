@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Physics")]
     [SerializeField] private Rigidbody playerRigidbody;
-    [SerializeField] private float forwardForce, maxSidewaysForce;
+    [SerializeField] private float forwardForceMultiplier, sidewaysForceMultiplier, verticalForceMultiplier;
 
     private Transform currentlyLandedOn;
 
@@ -54,7 +54,15 @@ public class PlayerController : MonoBehaviour
             VelocityUpdated(playerRigidbody.velocity);
             UpdateBodyFacingDirection();
         }
+
+#if UNITY_EDITOR
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            Die();
+        }
+#endif
     }
+
 
     private void DoInput()
     {
@@ -88,11 +96,15 @@ public class PlayerController : MonoBehaviour
         OnFire();
         playerRigidbody.isKinematic = false;
         inFlight = true;
-        var sidewaysDirection = (Vector3) UIManager.Instance.DragVector.normalized;
-        var sidewaysPower = maxSidewaysForce * (UIManager.Instance.DragVector.magnitude / UIManager.Instance.MaxDragDistance); //Max power * Percentage of max drag length
-        var totalSidewaysForce = sidewaysDirection * sidewaysPower;
-        var totalForwardForce = forwardForce * transform.forward;
-        playerRigidbody.AddForce(totalForwardForce + totalSidewaysForce);
+
+        Vector2 dragVector = UIManager.Instance.DragVector;
+
+        Vector3 xForce = transform.right * dragVector.x * sidewaysForceMultiplier;
+        Vector3 yForce = transform.up * dragVector.y * verticalForceMultiplier;
+        Vector3 zForce = transform.forward * dragVector.magnitude * forwardForceMultiplier;
+        if (zForce.z < 0) zForce = Vector3.zero; //Do not allow player to travel backwards
+        
+        playerRigidbody.AddForce(xForce + yForce + zForce);
     }
 
     private void Land(Transform landedOn)
