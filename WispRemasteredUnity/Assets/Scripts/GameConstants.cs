@@ -7,6 +7,7 @@ public static class GameConstants
     ///Tags
     public const string Tag_LandingTrigger = "LandingTrigger";
     public const string Tag_Ground = "Ground";
+    public const string Tag_PowerlineTrigger = "PowerlineTrigger";
 
     ///Layers
     public const string Layer_Ground = "Ground";

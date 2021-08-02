@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public event OnDeathEventHandler OnDeath;
 
     private bool inFlight = false;
+    private bool isInteracting = false;
     private bool wasTouchingLastFrame = false;
     private Vector2 touchPosition;
 
@@ -44,15 +45,18 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!inFlight)
+        if (!isInteracting)
         {
-            DoInput();
-        }
-        else
-        {
-            PlayerPositionUpdated(transform.position);
-            VelocityUpdated(playerRigidbody.velocity);
-            UpdateBodyFacingDirection();
+            if (!inFlight)
+            {
+                DoInput();
+            }
+            else
+            {
+                PlayerPositionUpdated(transform.position);
+                VelocityUpdated(playerRigidbody.velocity);
+                UpdateBodyFacingDirection();
+            }
         }
     }
 
@@ -101,7 +105,7 @@ public class PlayerController : MonoBehaviour
         playerRigidbody.isKinematic = true;
         currentlyLandedOn = landedOn;
         VelocityUpdated(Vector3.zero);
-        StartCoroutine(LandingLerp(transform.position, landedOn.position, landLerpTime));
+        StartCoroutine(LandingLerp(transform.position, landedOn.position));
     }
 
     private void Die()
@@ -114,9 +118,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag(GameConstants.Tag_LandingTrigger) && other.transform != currentlyLandedOn)
+        if (!isInteracting && inFlight)
         {
-            Land(other.transform);
+            if (other.CompareTag(GameConstants.Tag_LandingTrigger) && other.transform != currentlyLandedOn)
+            {
+                Land(other.transform);
+            }
+            else if (other.CompareTag(GameConstants.Tag_PowerlineTrigger) && other.transform != currentlyLandedOn)
+            {
+                InteractPowerline(other.transform);
+            }
         }
     }
 
@@ -128,6 +139,45 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void InteractPowerline(Transform powerlineTransform)
+    {
+        currentlyLandedOn = powerlineTransform;
+        var powerline = powerlineTransform.GetComponent<Powerline>();
+        StartCoroutine(RidePowerline(transform.position, powerlineTransform.position, powerline.EndTransform));
+    }
+
+    private IEnumerator RidePowerline(Vector3 initialPlayerPosition, Vector3 startPosition, Transform endTransform)
+    {
+        isInteracting = true;
+
+        float time = 0;
+        while (time < landLerpTime)
+        {
+            time += Time.deltaTime;
+            transform.position = Vector3.Lerp(initialPlayerPosition, startPosition, time / landLerpTime);
+            yield return null;
+        }
+
+        var endPosition = endTransform.position;
+        var currentSpeed = playerRigidbody.velocity.magnitude;
+        playerRigidbody.velocity = (endPosition - startPosition).normalized * currentSpeed;
+        VelocityUpdated(playerRigidbody.velocity);
+        UpdateBodyFacingDirection();
+
+        var lerpTime = Vector3.Distance(startPosition, endPosition) / playerRigidbody.velocity.magnitude;
+        time = 0f;
+        while(time < lerpTime)
+        {
+            time += Time.deltaTime;
+            transform.position = Vector3.Lerp(startPosition, endPosition, time / lerpTime);
+            PlayerPositionUpdated(transform.position);
+            yield return null;
+        }
+
+        Land(endTransform);
+        isInteracting = false;
+    }
+
     //Probably temporary until a proper death handler is created
     private IEnumerator WaitAndReloadScene()
     {
@@ -135,13 +185,13 @@ public class PlayerController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    private IEnumerator LandingLerp(Vector3 initialPosition, Vector3 targetPosition, float lerpTime)
+    private IEnumerator LandingLerp(Vector3 initialPosition, Vector3 targetPosition)
     {
         float time = 0;
-        while(time < lerpTime)
+        while (time < landLerpTime)
         {
             time += Time.deltaTime;
-            transform.position = Vector3.Lerp(initialPosition, targetPosition, time / lerpTime);
+            transform.position = Vector3.Lerp(initialPosition, targetPosition, time / landLerpTime);
             yield return null;
         }
         inFlight = false;
