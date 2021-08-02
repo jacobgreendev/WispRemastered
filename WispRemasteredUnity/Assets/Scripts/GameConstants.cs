@@ -5,7 +5,8 @@ using UnityEngine;
 public static class GameConstants
 {
     ///Tags
-    public const string LandingTrigger_Tag = "LandingTrigger";
+    public const string Tag_LandingTrigger = "LandingTrigger";
+    public const string Tag_Ground = "Ground";
 
     //Paths
     public const string SaveFolderPath = "/LocalData";
