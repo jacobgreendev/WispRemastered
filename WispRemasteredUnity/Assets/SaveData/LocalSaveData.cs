@@ -1,7 +1,7 @@
 [System.Serializable]
 public class LocalSaveData
 {
-    public static LocalSaveData save;
+    public static LocalSaveData Instance;
 
     public int hiScore;
 }

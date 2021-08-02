@@ -22,11 +22,11 @@ public static class PlayerSaveManager
 
     public static bool SaveFile()
     {
-        return SerializationManager.SaveLocalPlayerData(LocalSaveData.save);
+        return SerializationManager.SaveLocalPlayerData(LocalSaveData.Instance);
     }
 
     public static void CreateSaveFile()
     {
-        LocalSaveData.save = new LocalSaveData();
+        LocalSaveData.Instance = new LocalSaveData();
     }
 }

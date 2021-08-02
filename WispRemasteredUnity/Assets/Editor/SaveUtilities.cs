@@ -9,10 +9,10 @@ public class SaveUtilities : MonoBehaviour
     [MenuItem("Save Options/Save Test File")]
     static void SaveTestFile()
     {
-        if (LocalSaveData.save == null)
+        if (LocalSaveData.Instance == null)
             PlayerSaveManager.CreateSaveFile();
 
-        LocalSaveData.save.hiScore = 10;
+        LocalSaveData.Instance.hiScore = 10;
         PlayerSaveManager.SaveFile();
     }
 
@@ -21,7 +21,7 @@ public class SaveUtilities : MonoBehaviour
     {
         if (PlayerSaveManager.LoadSaveFile())
         {
-            Debug.Log("Saved file had a Max Score of " + LocalSaveData.save.hiScore);
+            Debug.Log("Saved file had a Max Score of " + LocalSaveData.Instance.hiScore);
         }
     }
 
