@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public event OnLandEventHandler OnLand;
     public event OnFireEventHandler OnFire;
     public event VelocityUpdatedEventHandler VelocityUpdated;
+    public event OnDeathEventHandler OnDeath;
 
     private bool inFlight = false;
     private bool wasTouchingLastFrame = false;
@@ -23,8 +25,9 @@ public class PlayerController : MonoBehaviour
 
     private Transform currentlyLandedOn;
 
-    [Header("Lerp Times")]
+    [Header("Time Values")]
     [SerializeField] private float landLerpTime;
+    [SerializeField] private float deathLoadDelay;
 
     [Header("Visuals")]
     [SerializeField] private Transform bodyTransform;
@@ -101,12 +104,35 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(LandingLerp(transform.position, landedOn.position, landLerpTime));
     }
 
+    private void Die()
+    {
+        OnDeath();
+        bodyTransform.gameObject.SetActive(false);
+        playerRigidbody.isKinematic = true;
+        StartCoroutine(WaitAndReloadScene());
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(GameConstants.LandingTrigger_Tag) && other.transform != currentlyLandedOn)
+        if(other.CompareTag(GameConstants.Tag_LandingTrigger) && other.transform != currentlyLandedOn)
         {
             Land(other.transform);
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag(GameConstants.Tag_Ground))
+        {
+            Die();
+        }
+    }
+
+    //Probably temporary until a proper death handler is created
+    private IEnumerator WaitAndReloadScene()
+    {
+        yield return new WaitForSeconds(deathLoadDelay);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private IEnumerator LandingLerp(Vector3 initialPosition, Vector3 targetPosition, float lerpTime)
@@ -127,3 +153,4 @@ public delegate void InputDetectedEventHandler(bool detected);
 public delegate void VelocityUpdatedEventHandler(Vector3 velocity);
 public delegate void OnLandEventHandler(Transform landedOn);
 public delegate void OnFireEventHandler();
+public delegate void OnDeathEventHandler();
