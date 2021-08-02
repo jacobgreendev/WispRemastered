@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 xForce = transform.right * dragVector.x * sidewaysForceMultiplier;
         Vector3 yForce = transform.up * dragVector.y * verticalForceMultiplier;
-        Vector3 zForce = transform.forward * dragVector.magnitude * forwardForceMultiplier;
+        Vector3 zForce = transform.forward * (dragVector.magnitude / UIManager.Instance.MaxDragDistance) * forwardForceMultiplier;
         if (zForce.z < 0) zForce = Vector3.zero; //Do not allow player to travel backwards
         
         playerRigidbody.AddForce(xForce + yForce + zForce);
