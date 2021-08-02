@@ -23,15 +23,14 @@ public class ScoreManager : MonoBehaviour
     private void AddScore(Transform landedOn)
     {
         score++;
-        Debug.Log(score);
     }
 
     private void CheckForHiScore()
     {
         PlayerSaveManager.LoadSaveFile();
-        if(score > LocalSaveData.save.hiScore)
+        if(score > LocalSaveData.Instance.hiScore)
         {
-            LocalSaveData.save.hiScore = score;
+            LocalSaveData.Instance.hiScore = score;
         }
         PlayerSaveManager.SaveFile();
     }
