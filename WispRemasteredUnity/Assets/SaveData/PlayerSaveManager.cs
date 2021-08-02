@@ -11,7 +11,7 @@ public static class PlayerSaveManager
         if (LocalSaveData.save == null)
             CreateSaveFile();
 
-        LocalSaveData.save.maxScore = 10;
+        LocalSaveData.save.hiScore = 10;
         SaveFile();          
     }
 
@@ -20,7 +20,7 @@ public static class PlayerSaveManager
     {
         if(LoadSaveFile())
         {
-            Debug.Log("Saved file had a Max Score of " + LocalSaveData.save.maxScore);
+            Debug.Log("Saved file had a Max Score of " + LocalSaveData.save.hiScore);
         }
     }
 
