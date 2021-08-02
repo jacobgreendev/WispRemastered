@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     [Header("Time Values")]
     [SerializeField] private float landLerpTime;
     [SerializeField] private float deathLoadDelay;
+    [SerializeField] private float powerlineTravelTime;
 
     [Header("Visuals")]
     [SerializeField] private Transform bodyTransform;
@@ -148,6 +149,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator RidePowerline(Vector3 initialPlayerPosition, Vector3 startPosition, Transform endTransform)
     {
+        var currentSpeed = playerRigidbody.velocity.magnitude;
+        playerRigidbody.isKinematic = true;
+
         isInteracting = true;
 
         float time = 0;
@@ -159,17 +163,16 @@ public class PlayerController : MonoBehaviour
         }
 
         var endPosition = endTransform.position;
-        var currentSpeed = playerRigidbody.velocity.magnitude;
         playerRigidbody.velocity = (endPosition - startPosition).normalized * currentSpeed;
         VelocityUpdated(playerRigidbody.velocity);
         UpdateBodyFacingDirection();
 
-        var lerpTime = Vector3.Distance(startPosition, endPosition) / playerRigidbody.velocity.magnitude;
+
         time = 0f;
-        while(time < lerpTime)
+        while(time < powerlineTravelTime)
         {
             time += Time.deltaTime;
-            transform.position = Vector3.Lerp(startPosition, endPosition, time / lerpTime);
+            transform.position = Vector3.Lerp(startPosition, endPosition, time / powerlineTravelTime);
             PlayerPositionUpdated(transform.position);
             yield return null;
         }

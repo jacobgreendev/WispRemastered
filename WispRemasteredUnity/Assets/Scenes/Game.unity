@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragLineRenderer: {fileID: 1015811270}
-  maxDragDistanceAsScreenWidthRatio: 0.3
+  maxDragDistanceAsScreenSizeRatio: 0.45
 --- !u!1 &108064334
 GameObject:
   m_ObjectHideFlags: 0
@@ -950,6 +950,7 @@ MonoBehaviour:
   maxSidewaysForce: 1500
   landLerpTime: 0.1
   deathLoadDelay: 0
+  powerlineTravelTime: 0.4
   bodyTransform: {fileID: 391476406}
   bodyDirectionLerpSpeed: 10
 --- !u!135 &606629893
@@ -2577,6 +2578,10 @@ PrefabInstance:
     - target: {fileID: 3064947308040621150, guid: ea46d7222ddbfa24dbc544b4cbbdadf3, type: 3}
       propertyPath: m_Name
       value: ElectricityParticles
+      objectReference: {fileID: 0}
+    - target: {fileID: 3064947308040621150, guid: ea46d7222ddbfa24dbc544b4cbbdadf3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8943916553440067850, guid: ea46d7222ddbfa24dbc544b4cbbdadf3, type: 3}
       propertyPath: m_RootOrder
