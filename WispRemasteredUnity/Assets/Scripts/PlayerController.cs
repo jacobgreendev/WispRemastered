@@ -14,11 +14,19 @@ public class PlayerController : MonoBehaviour
     public event OnFireEventHandler OnFire;
     public event VelocityUpdatedEventHandler VelocityUpdated;
     public event OnDeathEventHandler OnDeath;
+    public event OnFormChangeEventHandler OnFormChange;
 
     private bool inFlight = false;
     private bool isInteracting = false;
     private bool wasTouchingLastFrame = false;
     private Vector2 touchPosition;
+
+    private WispForm currentForm;
+
+    public WispForm CurrentForm
+    {
+        get => currentForm;
+    }
 
     [Header("Physics")]
     [SerializeField] private Rigidbody playerRigidbody;
@@ -43,6 +51,11 @@ public class PlayerController : MonoBehaviour
         playerRigidbody.isKinematic = true;
     }
 
+    private void Start()
+    {
+        currentForm = WispForm.Flame;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -58,6 +71,16 @@ public class PlayerController : MonoBehaviour
                 VelocityUpdated(playerRigidbody.velocity);
                 UpdateBodyFacingDirection();
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            ChangeForm(WispForm.Spark);
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            ChangeForm(WispForm.Flame);
         }
     }
 
@@ -102,11 +125,16 @@ public class PlayerController : MonoBehaviour
 
     private void Land(Transform landedOn)
     {
-        OnLand(landedOn);
         playerRigidbody.isKinematic = true;
         currentlyLandedOn = landedOn;
         VelocityUpdated(Vector3.zero);
-        StartCoroutine(LandingLerp(transform.position, landedOn.position));
+        StartCoroutine(LandingLerp(transform.position, landedOn.position, landedOn));
+    }
+
+    private void ChangeForm(WispForm newForm)
+    {
+        OnFormChange(currentForm, newForm);
+        currentForm = newForm;
     }
 
     private void Die()
@@ -188,7 +216,7 @@ public class PlayerController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    private IEnumerator LandingLerp(Vector3 initialPosition, Vector3 targetPosition)
+    private IEnumerator LandingLerp(Vector3 initialPosition, Vector3 targetPosition, Transform landedOn)
     {
         float time = 0;
         while (time < landLerpTime)
@@ -198,6 +226,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         inFlight = false;
+        OnLand(landedOn);
     }
 }
 
@@ -207,3 +236,4 @@ public delegate void VelocityUpdatedEventHandler(Vector3 velocity);
 public delegate void OnLandEventHandler(Transform landedOn);
 public delegate void OnFireEventHandler();
 public delegate void OnDeathEventHandler();
+public delegate void OnFormChangeEventHandler(WispForm oldForm, WispForm newForm);
