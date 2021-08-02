@@ -94,11 +94,11 @@ public class FloorMarker : MonoBehaviour
     {
         float time = 0;
         float newAlpha;
-        while (time < fadeTime)
+        while (time <= fadeTime)
         {
-            newAlpha = Mathf.Lerp(initialAlpha, targetAlpha, time / fadeTime);
-            markerMaterial.SetFloat("_Alpha", newAlpha);
             time += Time.deltaTime;
+            newAlpha = Mathf.Lerp(initialAlpha, targetAlpha, Mathf.Clamp01(time / fadeTime));
+            markerMaterial.SetFloat("_Alpha", newAlpha);
             yield return null;
         }
     }
