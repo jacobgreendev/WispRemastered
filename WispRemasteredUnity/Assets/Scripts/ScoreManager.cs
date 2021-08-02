@@ -28,9 +28,10 @@ public class ScoreManager : MonoBehaviour
     private void CheckForHiScore()
     {
         PlayerSaveManager.LoadSaveFile();
-        if(score > LocalSaveData.Instance.hiScore)
+        var saveData = LocalSaveData.Instance;
+        if(score > saveData.hiScore)
         {
-            LocalSaveData.Instance.hiScore = score;
+            saveData.hiScore = score;
         }
         PlayerSaveManager.SaveFile();
     }
