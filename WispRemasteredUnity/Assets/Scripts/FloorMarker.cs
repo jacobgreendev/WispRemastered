@@ -6,6 +6,7 @@ using UnityEngine.Rendering.Universal;
 public class FloorMarker : MonoBehaviour
 {
     private DecalProjector projector;
+    private LineRenderer lineRenderer;
     [SerializeField] private float minSize, maxSize;
 
     [Header("Fading In/Out")]
@@ -17,24 +18,37 @@ public class FloorMarker : MonoBehaviour
     void Start()
     {
         projector = GetComponent<DecalProjector>();
-        PlayerController.Instance.PlayerPositionUpdated += UpdateFloorMarkerSize;
+        lineRenderer = GetComponent<LineRenderer>();
+        PlayerController.Instance.PlayerPositionUpdated += UpdateHeight;
         PlayerController.Instance.OnLand += FadeOutFloorMarker;
         PlayerController.Instance.OnFire += FadeInFloorMarker;
-        UpdateFloorMarkerSize(PlayerController.Instance.transform.position);
+        UpdateHeight(PlayerController.Instance.transform.position);
 
         decalMaterial = new Material(projector.material);
         projector.material = decalMaterial; //Changing projector.material will change the asset, so make a copy instead
     }
 
-    // Update is called once per frame
-    private void UpdateFloorMarkerSize(Vector3 position)
+    private void UpdateHeight(Vector3 position)
+    {
+        Ray ray = new Ray(position, Vector3.down);
+
+        var distance = Mathf.Infinity;
+
+        if (Physics.Raycast(ray, out var hit))
+        {
+            distance = Vector3.Distance(hit.point, transform.position);
+            UpdateLineRendererPositions(new Vector3[] { position, hit.point });
+        }
+
+        UpdateFloorMarkerSize(distance);
+    }
+
+    private void UpdateFloorMarkerSize(float distance)
     {
         var currentSize = projector.size;
-        Ray ray = new Ray(transform.position, Vector3.down);
 
-        if (Physics.Raycast(ray, out var hit, currentSize.z))
+        if(distance <= currentSize.z)
         {
-            var distance = Vector3.Distance(hit.point, transform.position);
             var newSize = Mathf.Lerp(minSize, maxSize, distance / currentSize.z);
             currentSize.x = newSize;
             currentSize.y = newSize;
@@ -46,6 +60,11 @@ public class FloorMarker : MonoBehaviour
         }
 
         projector.size = currentSize;
+    }
+
+    private void UpdateLineRendererPositions(Vector3[] positions)
+    {
+        lineRenderer.SetPositions(positions);
     }
 
     private void FadeOutFloorMarker(Transform landedOn)
