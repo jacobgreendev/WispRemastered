@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (other.CompareTag(GameConstants.Tag_InteractableTrigger) && other.transform != currentlyLandedOn)
             {
-                TryInteractWith(other.transform);
+                TryInteractWith(other.GetComponent<Interactable>());
             }
         }
     }
@@ -191,9 +191,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void TryInteractWith(Transform interactableTransform)
+    private void TryInteractWith(Interactable interactable)
     {
-        Interactable interactable = interactableTransform.GetComponent<Interactable>();
+        Transform interactableTransform = interactable.transform;
         Debug.Log($"Trying to interact with {interactable.Type}");
 
         if (interactable.IsUsableBy(currentForm))
