@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private bool isInteracting = false;
     private bool wasTouchingLastFrame = false;
     private Vector2 touchPosition;
+    private Vector3 currentForceVector;
 
     private WispFormType currentForm;
 
@@ -93,6 +94,8 @@ public class PlayerController : MonoBehaviour
             touchPosition = Input.touchCount > 0 ? Input.GetTouch(0).position : (Vector2)Input.mousePosition;
             DragPositionUpdated(touchPosition);
             wasTouchingLastFrame = true;
+
+            UpdateForceVector();
         }
         else
         {
@@ -111,17 +114,27 @@ public class PlayerController : MonoBehaviour
         bodyTransform.rotation = Quaternion.Lerp(bodyTransform.rotation, targetRotation, bodyDirectionLerpSpeed * Time.deltaTime);
     }
 
+    private void UpdateForceVector()
+    {
+        Vector2 dragVector = DragManager.Instance.DragVector;
+
+        var sidewaysDirection = (Vector3)DragManager.Instance.DragVector.normalized;
+        var sidewaysPower = maxSidewaysForce * (DragManager.Instance.DragVector.magnitude / DragManager.Instance.MaxDragDistance); //Max power * Percentage of max drag length
+        var totalSidewaysForce = sidewaysDirection * sidewaysPower;
+        var totalForwardForce = forwardForce * transform.forward;
+
+        currentForceVector = totalForwardForce + totalSidewaysForce;
+        TrajectoryRenderer.Instance.DisplayPath(transform.position, currentForceVector, playerRigidbody.mass, playerRigidbody.drag, 1);
+    }
+
     private void Fire()
     {
         OnFire();
         playerRigidbody.velocity = Vector3.zero;
         playerRigidbody.isKinematic = false;
         inFlight = true;
-        var sidewaysDirection = (Vector3) DragManager.Instance.DragVector.normalized;
-        var sidewaysPower = maxSidewaysForce * (DragManager.Instance.DragVector.magnitude / DragManager.Instance.MaxDragDistance); //Max power * Percentage of max drag length
-        var totalSidewaysForce = sidewaysDirection * sidewaysPower;
-        var totalForwardForce = forwardForce * transform.forward;
-        playerRigidbody.AddForce(totalForwardForce + totalSidewaysForce);
+        
+        playerRigidbody.AddForce(currentForceVector);
     }
 
     private void Land(Transform landedOn, bool inPlace = false)
