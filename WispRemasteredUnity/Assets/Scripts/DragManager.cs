@@ -41,7 +41,7 @@ public class DragManager : MonoBehaviour
     private void Start()
     {
         PlayerController.Instance.DragPositionUpdated += OnDragPositionUpdate;
-        PlayerController.Instance.PlayerPositionUpdated += OnPlayerPositionUpdate;
+        //PlayerController.Instance.PlayerPositionUpdated += OnPlayerPositionUpdate;
         PlayerController.Instance.TouchDetectedWhileNotInFlight += DragEnabled;
         CameraController.Instance.CameraPositionUpdated += OnCameraPositionUpdate;
         mainCamera = Camera.main;
@@ -51,6 +51,9 @@ public class DragManager : MonoBehaviour
 
     private void OnDragPositionUpdate(Vector3 position)
     {
+        playerScreenPosition = mainCamera.WorldToScreenPoint(PlayerController.Instance.transform.position);
+        dragLineRenderer.SetPosition(0, playerScreenPosition); //Sets centre of line renderer to the player's position on screen
+
         var newDragPos = (Vector2) position;
         if(Vector3.Distance(playerScreenPosition, newDragPos) > maxDragDistanceAsScreenSizeRatio * Screen.width)
         {
@@ -62,8 +65,8 @@ public class DragManager : MonoBehaviour
 
     private void OnPlayerPositionUpdate(Vector3 position)
     {
-        playerScreenPosition = mainCamera.WorldToScreenPoint(position);
-        dragLineRenderer.SetPosition(0, playerScreenPosition); //Sets centre of line renderer to the player's position on screen
+        //playerScreenPosition = mainCamera.WorldToScreenPoint(position);
+         
     }
 
     private void OnCameraPositionUpdate(Vector3 position)
