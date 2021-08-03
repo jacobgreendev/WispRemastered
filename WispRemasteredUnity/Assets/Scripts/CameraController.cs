@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour
     public event CameraPositionUpdatedEventHandler CameraPositionUpdated;
 
     private Transform following;
+    private Rigidbody followingRigidbody;
     private Transform focal;
     private Vector3 offset;
     private new Camera camera;
@@ -36,10 +37,11 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         following = PlayerController.Instance.transform;
+        followingRigidbody = following.GetComponent<Rigidbody>();
         offset = transform.position - following.position;
-        PlayerController.Instance.VelocityUpdated += OnPlayerVelocityUpdate;
-        PlayerController.Instance.OnLand += UpdatePreviousLandedHeight;
+        PlayerController.Instance.OnResetJourney += UpdatePreviousLandedHeight;
         PlayerController.Instance.OnFire += EnableBirdseye;
+        PlayerController.Instance.OnLand += DisableBirdseye;
         focal = CameraFocal.TransformInstance;
         birdseyeViewOffset = birdseyeViewHeight * Vector3.up;
         previousLandedHeight = following.position.y;
@@ -66,27 +68,22 @@ public class CameraController : MonoBehaviour
         }
 
         transform.LookAt(focal);
+        camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, defaultFov + (fovPerUnitSpeed * followingRigidbody.velocity.z), fovLerpSpeed * Time.deltaTime);
     }
 
-    private void EnableBirdseye()
+    public void EnableBirdseye()
     {
         birdseyeViewEnabled = true;
     }
 
-    private void DisableBirdseye()
+    public void DisableBirdseye(Transform landedOn = null)
     {
         birdseyeViewEnabled = false;
     }
 
-    private void UpdatePreviousLandedHeight(Transform landedOn)
+    private void UpdatePreviousLandedHeight(Vector3 position)
     {
-        previousLandedHeight = landedOn.position.y;
-        DisableBirdseye();
-    }
-
-    private void OnPlayerVelocityUpdate(Vector3 velocity)
-    {
-        camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, defaultFov + (fovPerUnitSpeed * velocity.z), fovLerpSpeed * Time.deltaTime);
+        previousLandedHeight = position.y;
     }
 
     public delegate void CameraPositionUpdatedEventHandler(Vector3 position);

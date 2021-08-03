@@ -1334,13 +1334,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRigidbody: {fileID: 606629894}
-  generalForceStrength: 750
+  generalForceStrength: 1000
   sidewaysForceMultiplier: 1.5
   forwardForceMultiplier: 1.5
   verticalForceMultiplier: 1.5
   landLerpTime: 0.1
   deathLoadDelay: 0
-  powerlineTravelTime: 0.4
   bodyTransform: {fileID: 391476406}
   bodyDirectionLerpSpeed: 10
 --- !u!135 &606629893
@@ -3184,8 +3183,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   usableByList: 00000000
   type: 1
+  landLerpTime: 0.4
   distance: 30
-  fuseTime: 2
+  fuseTime: 0
   travelTime: 1
   explosionForce: 15
   parentTransform: {fileID: 1890816839}
@@ -8750,3 +8750,5 @@ MonoBehaviour:
   usableByList: 01000000
   type: 0
   endTransform: {fileID: 6698623087186259979}
+  landLerpTime: 0.1
+  travelTime: 0.5

@@ -8,11 +8,10 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
 
     public event PositionUpdatedEventHandler DragPositionUpdated;
-    public event PositionUpdatedEventHandler PlayerPositionUpdated;
+    public event OnResetJourneyEventHandler OnResetJourney;
     public event InputDetectedEventHandler TouchDetectedWhileNotInFlight;
     public event OnLandEventHandler OnLand;
     public event OnFireEventHandler OnFire;
-    public event VelocityUpdatedEventHandler VelocityUpdated;
     public event OnDeathEventHandler OnDeath;
     public event OnFormChangeEventHandler OnFormChange;
 
@@ -29,6 +28,16 @@ public class PlayerController : MonoBehaviour
         get => currentForm;
     }
 
+    public Rigidbody Rigidbody
+    {
+        get => playerRigidbody;
+    }
+
+    public bool IsInteracting
+    {
+        get => isInteracting; set => isInteracting = value;
+    }
+
     [Header("Physics")]
     [SerializeField] private Rigidbody playerRigidbody;
     [SerializeField] private float generalForceStrength, sidewaysForceMultiplier, forwardForceMultiplier, verticalForceMultiplier;
@@ -38,7 +47,6 @@ public class PlayerController : MonoBehaviour
     [Header("Time Values")]
     [SerializeField] private float landLerpTime;
     [SerializeField] private float deathLoadDelay;
-    [SerializeField] private float powerlineTravelTime;
 
     [Header("Visuals")]
     [SerializeField] private Transform bodyTransform;
@@ -68,8 +76,6 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                PlayerPositionUpdated(transform.position);
-                VelocityUpdated(playerRigidbody.velocity);
                 UpdateBodyFacingDirection();
             }
         }
@@ -108,7 +114,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void UpdateBodyFacingDirection()
+    public void UpdateBodyFacingDirection()
     {
         var targetRotation = inFlight && playerRigidbody.velocity.magnitude > 0 ? Quaternion.LookRotation(playerRigidbody.velocity.normalized) : Quaternion.LookRotation(Vector3.down);
         bodyTransform.rotation = Quaternion.Lerp(bodyTransform.rotation, targetRotation, bodyDirectionLerpSpeed * Time.deltaTime);
@@ -137,14 +143,13 @@ public class PlayerController : MonoBehaviour
         playerRigidbody.AddForce(currentForceVector);
     }
 
-    private void Land(Transform landedOn, bool inPlace = false)
+    public void Land(Transform landedOn, bool inPlace = false)
     {
         currentlyLandedOn = landedOn;
 
         if (!inPlace)
         {
             playerRigidbody.isKinematic = true;
-            VelocityUpdated(Vector3.zero);
             StartCoroutine(LandingLerp(transform.position, landedOn.position, landedOn));
         }
         else
@@ -152,6 +157,11 @@ public class PlayerController : MonoBehaviour
             inFlight = false;
             OnLand(currentlyLandedOn);
         }
+    }
+
+    public void ResetJourney()
+    {
+        OnResetJourney(transform.position);
     }
 
     private void ChangeForm(WispFormType newForm)
@@ -199,98 +209,30 @@ public class PlayerController : MonoBehaviour
         if (interactable.IsUsableBy(currentForm))
         {
             currentlyLandedOn = interactableTransform;
-            switch (interactable.Type)
-            {
-                case InteractableType.Powerline:
-                    InteractPowerline(interactableTransform, (Powerline) interactable);
-                    break;
-
-                case InteractableType.Firework:
-                    InteractFirework(interactableTransform, (Firework)interactable);
-                    break;
-            }
+            interactable.DoInteraction(this);
         }
     }
 
-    private IEnumerator LerpToPosition(Transform lerpingTransform, float lerpTime, Vector3 initialPosition, Vector3 endPosition, bool isPlayer = true)
+    public IEnumerator LerpToPosition(Transform lerpingTransform, float lerpTime, Vector3 initialPosition, Vector3 endPosition)
     {
         float time = 0;
         while (time < lerpTime)
         {
             time += Time.deltaTime;
             lerpingTransform.position = Vector3.Lerp(initialPosition, endPosition, time / lerpTime);
-            if(isPlayer) PlayerPositionUpdated(transform.position);
             yield return null;
         }
     }
 
-    private IEnumerator SmoothLerpToPosition(Transform lerpingTransform, float lerpTime, Vector3 initialPosition, Vector3 endPosition, bool isPlayer = true)
+    public IEnumerator SmoothLerpToPosition(Transform lerpingTransform, float lerpTime, Vector3 initialPosition, Vector3 endPosition, bool isPlayer = true)
     {
         float time = 0;
         while (time < lerpTime)
         {
             time += Time.deltaTime;
             lerpingTransform.position = Vector3.Lerp(initialPosition, endPosition, Mathf.SmoothStep(0, 1, time / lerpTime));
-            if (isPlayer) PlayerPositionUpdated(transform.position);
             yield return null;
         }
-    }
-
-    private void InteractPowerline(Transform powerlineTransform, Powerline powerline)
-    {
-        StartCoroutine(RidePowerline(transform.position, powerlineTransform.position, powerline.EndTransform));
-    }
-
-    private IEnumerator RidePowerline(Vector3 initialPlayerPosition, Vector3 powerlineStartPosition, Transform powerlineEndTransform)
-    {
-        var currentSpeed = playerRigidbody.velocity.magnitude;
-        playerRigidbody.isKinematic = true;
-        isInteracting = true;
-
-        yield return StartCoroutine(LerpToPosition(transform, landLerpTime, initialPlayerPosition, powerlineStartPosition));
-
-        var endPosition = powerlineEndTransform.position;
-        playerRigidbody.velocity = (endPosition - powerlineStartPosition).normalized * currentSpeed;
-        VelocityUpdated(playerRigidbody.velocity);
-        UpdateBodyFacingDirection();
-
-        yield return StartCoroutine(LerpToPosition(transform, powerlineTravelTime, powerlineStartPosition, powerlineEndTransform.position));
-
-        Land(powerlineEndTransform);
-        isInteracting = false;
-    }
-
-    private void InteractFirework(Transform fireworkTransform, Firework firework)
-    {
-        StartCoroutine(RideFirework(fireworkTransform, firework));
-    }
-
-    private IEnumerator RideFirework(Transform fireworkTransform, Firework firework)
-    {
-        OnLand(fireworkTransform);
-        playerRigidbody.isKinematic = true;
-        isInteracting = true;
-
-        yield return StartCoroutine(LerpToPosition(transform, landLerpTime, transform.position, firework.FuseStart.position));
-
-        playerRigidbody.velocity = (firework.FuseEnd.position - firework.FuseStart.position).normalized;
-        VelocityUpdated(playerRigidbody.velocity);
-        UpdateBodyFacingDirection();
-
-        yield return StartCoroutine(LerpToPosition(transform, firework.FuseTime, firework.FuseStart.position, firework.FuseEnd.position));
-
-        var endPosition = firework.ParentTransform.position + firework.ParentTransform.up * firework.Distance;
-
-
-        transform.parent = firework.ParentTransform;
-        yield return StartCoroutine(SmoothLerpToPosition(firework.ParentTransform, firework.TravelTime, firework.ParentTransform.position, endPosition));
-        transform.parent = null;
-
-        playerRigidbody.isKinematic = false;
-        Land(fireworkTransform, inPlace : true);
-        playerRigidbody.velocity = fireworkTransform.up * firework.ExplosionForce;
-        isInteracting = false;
-        Destroy(firework.ParentTransform.gameObject);
     }
 
     //Probably temporary until a proper death handler is created
@@ -316,8 +258,8 @@ public class PlayerController : MonoBehaviour
 
 public delegate void PositionUpdatedEventHandler(Vector3 newPosition);
 public delegate void InputDetectedEventHandler(bool detected);
-public delegate void VelocityUpdatedEventHandler(Vector3 velocity);
 public delegate void OnLandEventHandler(Transform landedOn);
 public delegate void OnFireEventHandler();
 public delegate void OnDeathEventHandler();
 public delegate void OnFormChangeEventHandler(WispFormType oldForm, WispFormType newForm);
+public delegate void OnResetJourneyEventHandler(Vector3 position);

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactable : MonoBehaviour
+public abstract class Interactable : MonoBehaviour
 {
     [SerializeField] protected List<WispFormType> usableByList;
     private HashSet<WispFormType> usableBy = new HashSet<WispFormType>();
@@ -26,6 +26,8 @@ public class Interactable : MonoBehaviour
     {
         get => type;
     }
+
+    public abstract void DoInteraction(PlayerController player);
 }
 
 public enum InteractableType

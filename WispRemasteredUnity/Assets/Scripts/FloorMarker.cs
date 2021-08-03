@@ -19,11 +19,8 @@ public class FloorMarker : MonoBehaviour
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        PlayerController.Instance.PlayerPositionUpdated += UpdateHeight;
         PlayerController.Instance.OnLand += FadeOutFloorMarker;
         PlayerController.Instance.OnFire += FadeInFloorMarker;
-        UpdateHeight(PlayerController.Instance.transform.position);
-
 
         markerMaterial = marker.GetComponent<Renderer>().material;
         maxAlpha = markerMaterial.GetFloat("_Alpha");
@@ -32,16 +29,18 @@ public class FloorMarker : MonoBehaviour
         //projector.material = decalMaterial; //Changing projector.material will change the asset, so make a copy instead
     }
 
-    private void UpdateHeight(Vector3 position)
+    private void Update()
     {
-        Ray ray = new Ray(position, Vector3.down);
+        var playerPosition = PlayerController.Instance.transform.position;
+
+        Ray ray = new Ray(playerPosition, Vector3.down);
 
         var distance = Mathf.Infinity;
 
         if (Physics.Raycast(ray, out var hit, maxDistance, 1 << LayerMask.NameToLayer(GameConstants.Layer_Ground)))
         {
             distance = Vector3.Distance(hit.point, transform.position);
-            UpdateLineRendererPositions(new Vector3[] { position, hit.point });
+            UpdateLineRendererPositions(new Vector3[] { playerPosition, hit.point });
         }
 
         UpdateFloorMarker(hit.point, distance);
