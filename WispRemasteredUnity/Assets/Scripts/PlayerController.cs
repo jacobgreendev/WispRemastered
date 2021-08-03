@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody playerRigidbody;
     [SerializeField] private float generalForceStrength, sidewaysForceMultiplier, forwardForceMultiplier, verticalForceMultiplier;
 
-    private Transform currentlyLandedOn;
+    private Interactable currentlyLandedOn;
 
     [Header("Time Values")]
     [SerializeField] private float landLerpTime;
@@ -143,15 +143,14 @@ public class PlayerController : MonoBehaviour
         playerRigidbody.AddForce(currentForceVector);
     }
 
-    public void Land(Transform landedOn, bool inPlace = false)
-    {
-        currentlyLandedOn = landedOn;
+    public void Land(Interactable landedOn, Transform landTransform, bool inPlace = false)
+    {      
         ResetJourney();
 
         if (!inPlace)
         {
             playerRigidbody.isKinematic = true;
-            StartCoroutine(LandingLerp(transform.position, landedOn.position, landedOn));
+            StartCoroutine(LandingLerp(transform.position, landTransform.position, landedOn));
         }
         else
         {
@@ -183,13 +182,12 @@ public class PlayerController : MonoBehaviour
     {
         if (!isInteracting && inFlight)
         {
-            if (other.CompareTag(GameConstants.Tag_LandingTrigger) && other.transform != currentlyLandedOn)
+            Interactable interactableHit = other.GetComponent<Interactable>();
+
+            if(other.CompareTag(GameConstants.Tag_InteractableTrigger) && interactableHit != currentlyLandedOn)
             {
-                Land(other.transform);
-            }
-            else if (other.CompareTag(GameConstants.Tag_InteractableTrigger) && other.transform != currentlyLandedOn)
-            {
-                TryInteractWith(other.GetComponent<Interactable>());
+                currentlyLandedOn = interactableHit;
+                TryInteractWith(interactableHit);
             }
         }
     }
@@ -209,7 +207,7 @@ public class PlayerController : MonoBehaviour
 
         if (interactable.IsUsableBy(currentForm))
         {
-            currentlyLandedOn = interactableTransform;
+            currentlyLandedOn = interactable;
             interactable.DoInteraction(this);
         }
     }
@@ -243,7 +241,7 @@ public class PlayerController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    private IEnumerator LandingLerp(Vector3 initialPosition, Vector3 targetPosition, Transform landedOn)
+    private IEnumerator LandingLerp(Vector3 initialPosition, Vector3 targetPosition, Interactable landedOn)
     {
         float time = 0;
         while (time < landLerpTime)
@@ -259,7 +257,7 @@ public class PlayerController : MonoBehaviour
 
 public delegate void PositionUpdatedEventHandler(Vector3 newPosition);
 public delegate void InputDetectedEventHandler(bool detected);
-public delegate void OnLandEventHandler(Transform landedOn);
+public delegate void OnLandEventHandler(Interactable landedOn);
 public delegate void OnFireEventHandler();
 public delegate void OnDeathEventHandler();
 public delegate void OnFormChangeEventHandler(WispFormType oldForm, WispFormType newForm);

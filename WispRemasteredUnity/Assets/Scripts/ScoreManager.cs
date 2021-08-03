@@ -20,7 +20,7 @@ public class ScoreManager : MonoBehaviour
         PlayerController.Instance.OnDeath += CheckForHiScore;
     }
 
-    private void AddScore(Transform landedOn)
+    private void AddScore(Interactable landedOn)
     {
         score++;
     }

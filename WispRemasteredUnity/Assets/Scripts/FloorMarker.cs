@@ -68,7 +68,7 @@ public class FloorMarker : MonoBehaviour
         lineRenderer.SetPositions(positions);
     }
 
-    private void FadeOutFloorMarker(Transform landedOn)
+    private void FadeOutFloorMarker(Interactable landedOn)
     {
         if (currentFadeRoutine != null)
         {

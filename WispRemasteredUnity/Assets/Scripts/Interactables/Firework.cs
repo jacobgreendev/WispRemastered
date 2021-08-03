@@ -49,7 +49,7 @@ public class Firework : Interactable
 
         //Re-enable wisp physics, "land" in place (i.e enable controls), and give the wisp some velocity
         player.Rigidbody.isKinematic = false;
-        player.Land(transform, inPlace: true);
+        player.Land(this, transform, inPlace: true);
         player.Rigidbody.velocity = parentTransform.up * explosionForce;
 
         //Disable interacting state and smoothly slow time until the player fires again

@@ -39,7 +39,7 @@ public class Powerline : Interactable
 
         //Lerp the wisp along the powerline, make it land at the end and disable interacting state
         yield return StartCoroutine(player.LerpToPosition(playerTransform, travelTime, powerlineStartPosition, endTransform.position));
-        player.Land(endTransform);
+        player.Land(this, endTransform);
         player.IsInteracting = false;
     }
 }

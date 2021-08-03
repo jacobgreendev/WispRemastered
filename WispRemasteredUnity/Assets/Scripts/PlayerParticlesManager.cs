@@ -30,11 +30,11 @@ public class PlayerParticlesManager : MonoBehaviour
         }        
     }
 
-    private void PlayLandEffect(Transform landedOn)
+    private void PlayLandEffect(Interactable landedOn)
     {
         var effectTransform = currentFormDetails.particleSystem.transform;
         var oldPos = effectTransform.position;
-        effectTransform.position = landedOn.position;
+        effectTransform.position = landedOn.transform.position;
         currentFormDetails.landEffect.Play();
         effectTransform.position = oldPos;
     }

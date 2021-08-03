@@ -76,7 +76,7 @@ public class CameraController : MonoBehaviour
         birdseyeViewEnabled = true;
     }
 
-    public void DisableBirdseye(Transform landedOn = null)
+    public void DisableBirdseye(Interactable landedOn = null)
     {
         birdseyeViewEnabled = false;
     }

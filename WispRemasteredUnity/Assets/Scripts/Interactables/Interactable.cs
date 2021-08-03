@@ -32,6 +32,7 @@ public abstract class Interactable : MonoBehaviour
 
 public enum InteractableType
 {
+    SimpleLandable,
     Powerline,
     Firework
 }
