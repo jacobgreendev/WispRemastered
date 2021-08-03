@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class Powerline : Interactable
 {
-    [SerializeField] private Transform endTransform;
+    [SerializeField] private Transform startTransform, endTransform;
     [SerializeField] private float landLerpTime, travelTime;
+    [SerializeField] private LineRenderer lineRenderer;
 
     public Transform EndTransform
     {
         get => endTransform;
+    }
+
+    private void Start() 
+    {
+        lineRenderer.SetPosition(0, startTransform.position);
+        lineRenderer.SetPosition(1, endTransform.position);
     }
 
     public override void DoInteraction(PlayerController player)
@@ -22,7 +29,7 @@ public class Powerline : Interactable
         var currentSpeed = player.Rigidbody.velocity.magnitude;
         var playerTransform = player.transform;
         var initialPlayerPosition = playerTransform.position;
-        var powerlineStartPosition = transform.position;
+        var powerlineStartPosition = startTransform.position;
 
         //Disable wisp physics and enable interacting state
         player.Rigidbody.isKinematic = true;

@@ -4,7 +4,7 @@ using UnityEngine;
 public class Firework : Interactable
 {
     [SerializeField] private float landLerpTime, distance, fuseTime, travelTime, explosionForce;
-    [SerializeField] private Transform parentTransform, fuseStart, fuseEnd;
+    [SerializeField] private Transform fuseStart, fuseEnd;
 
     [Header("Slow-motion")]
     [SerializeField] private float slowMoTime = 0.5f;
@@ -41,17 +41,17 @@ public class Firework : Interactable
         yield return StartCoroutine(player.LerpToPosition(playerTransform, fuseTime, fuseStart.position, fuseEnd.position));
 
         //Calculate the final position of the firework
-        var endPosition = parentTransform.position + parentTransform.up * distance;
+        var endPosition = transform.position + transform.up * distance;
 
         //Parent the wisp to the firework, smooth lerp the firework to the end position, and unparent
-        player.transform.parent = parentTransform;
-        yield return StartCoroutine(player.SmoothLerpToPosition(parentTransform, travelTime, parentTransform.position, endPosition));
+        player.transform.parent = transform;
+        yield return StartCoroutine(player.SmoothLerpToPosition(transform, travelTime, transform.position, endPosition));
         player.transform.parent = null;
 
         //Re-enable wisp physics, "land" in place (i.e enable controls), and give the wisp some velocity
         player.Rigidbody.isKinematic = false;
         player.Land(this, transform, inPlace: true);
-        player.Rigidbody.velocity = parentTransform.up * explosionForce;
+        player.Rigidbody.velocity = transform.up * explosionForce;
 
         //Disable interacting state and smoothly slow time until the player fires again
         player.IsInteracting = false;       

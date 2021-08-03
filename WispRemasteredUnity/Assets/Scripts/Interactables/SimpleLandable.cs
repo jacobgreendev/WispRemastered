@@ -8,13 +8,6 @@ public class SimpleLandable : Interactable
 
     public override void DoInteraction(PlayerController player)
     {
-        PlayerController.Instance.OnLand += OnPlayerLand;
         player.Land(this, landPosition);  
-    }
-
-    void OnPlayerLand(Interactable interactable)
-    {
-        PlayerController.Instance.OnLand -= OnPlayerLand;
-        Destroy(this.gameObject);
     }
 }

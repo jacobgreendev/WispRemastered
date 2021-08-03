@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5370347855192562393}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5370347854083255891
 MeshFilter:
@@ -114,7 +114,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5370347855192562393}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5370347854237498377
 MeshFilter:
@@ -230,7 +230,7 @@ Transform:
   - {fileID: 5370347855839493347}
   - {fileID: 5370347854510256748}
   m_Father: {fileID: 5370347855192562393}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 41.854, y: 0, z: 0}
 --- !u!33 &5370347854988523188
 MeshFilter:
@@ -291,10 +291,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5370347855192562393}
-  - component: {fileID: 3792064661647514801}
+  - component: {fileID: 3960912892585666839}
+  - component: {fileID: 4246991318721852380}
   m_Layer: 0
   m_Name: Interactable_Firework
-  m_TagString: Untagged
+  m_TagString: InteractableTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -311,14 +312,13 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5370347855425483477}
   - {fileID: 5370347854083255893}
   - {fileID: 5370347854988523190}
   - {fileID: 5370347854237498379}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 52.687, y: 0, z: 0}
---- !u!114 &3792064661647514801
+--- !u!114 &3960912892585666839
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -337,56 +337,23 @@ MonoBehaviour:
   fuseTime: 0.5
   travelTime: 1
   explosionForce: 15
-  parentTransform: {fileID: 5370347855192562393}
   fuseStart: {fileID: 5370347855839493347}
   fuseEnd: {fileID: 5370347854510256748}
   slowMoTime: 0.5
   targetTimeScale: 0.3
---- !u!1 &5370347855425483476
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5370347855425483477}
-  - component: {fileID: 5370347855425483475}
-  m_Layer: 0
-  m_Name: Trigger
-  m_TagString: InteractableTrigger
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5370347855425483477
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5370347855425483476}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.632, z: -0.278}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5370347855192562393}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &5370347855425483475
+--- !u!135 &4246991318721852380
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5370347855425483476}
+  m_GameObject: {fileID: 5370347855192562392}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.62, z: -0.25}
 --- !u!1 &5370347855839493346
 GameObject:
   m_ObjectHideFlags: 0

@@ -107,6 +107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1797312092299868218}
   - component: {fileID: 4628670127607080101}
+  - component: {fileID: 9218290643502459542}
   m_Layer: 0
   m_Name: Interactable_SimpleLandable
   m_TagString: InteractableTrigger
@@ -147,6 +148,19 @@ MonoBehaviour:
   usableByList: 0000000001000000
   type: 0
   landPosition: {fileID: 1797312093061580601}
+--- !u!135 &9218290643502459542
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797312092299868219}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.12
+  m_Center: {x: 0, y: 3.18, z: 0}
 --- !u!1 &1797312092753947242
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,7 +269,7 @@ GameObject:
   - component: {fileID: 1797312093061580601}
   - component: {fileID: 1797312093061580583}
   m_Layer: 0
-  m_Name: Trigger
+  m_Name: LandPos
   m_TagString: InteractableTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
