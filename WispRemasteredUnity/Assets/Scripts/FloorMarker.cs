@@ -24,9 +24,6 @@ public class FloorMarker : MonoBehaviour
 
         markerMaterial = marker.GetComponent<Renderer>().material;
         maxAlpha = markerMaterial.GetFloat("_Alpha");
-
-        //markerMaterial = new Material(marker.GetComponent<Renderer>().material);
-        //projector.material = decalMaterial; //Changing projector.material will change the asset, so make a copy instead
     }
 
     private void Update()
