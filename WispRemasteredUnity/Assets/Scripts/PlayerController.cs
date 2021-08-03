@@ -146,6 +146,7 @@ public class PlayerController : MonoBehaviour
     public void Land(Transform landedOn, bool inPlace = false)
     {
         currentlyLandedOn = landedOn;
+        ResetJourney();
 
         if (!inPlace)
         {
