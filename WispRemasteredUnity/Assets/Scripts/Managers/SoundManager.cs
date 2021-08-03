@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
@@ -36,7 +35,8 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySound(AudioClip clip, Vector3 position)
     {
-        AudioSource.PlayClipAtPoint(clip, position, masterVolumePercent * sfxVolumePercent);
+        if(!sfxMuted)
+            AudioSource.PlayClipAtPoint(clip, position, masterVolumePercent * sfxVolumePercent);
     }
 
     IEnumerator FadeMusic(float duration)
@@ -61,5 +61,12 @@ public class SoundManager : MonoBehaviour
         {
             StartCoroutine(FadeMusic(1));
         }
+
+        musicMuted = muted;
+    }
+
+    public void SetSfxMute(bool muted)
+    {
+        sfxMuted = muted;
     }
 }
