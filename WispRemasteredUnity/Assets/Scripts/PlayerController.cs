@@ -97,16 +97,16 @@ public class PlayerController : MonoBehaviour
         var isTouching = Input.touchCount > 0 || Input.GetMouseButton(0);
         if (isTouching)
         {
-            TouchDetectedWhileNotInFlight(true);
+            TouchDetectedWhileNotInFlight?.Invoke(true);
             touchPosition = Input.touchCount > 0 ? Input.GetTouch(0).position : (Vector2)Input.mousePosition;
-            DragPositionUpdated(touchPosition);
+            DragPositionUpdated?.Invoke(touchPosition);
             wasTouchingLastFrame = true;
 
             UpdateForceVector();
         }
         else
         {
-            TouchDetectedWhileNotInFlight(false);
+            TouchDetectedWhileNotInFlight?.Invoke(false);
             if (wasTouchingLastFrame)
             {
                 wasTouchingLastFrame = false;
@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
 
     private void Fire()
     {
-        OnFire();
+        OnFire?.Invoke();
         playerRigidbody.velocity = Vector3.zero;
         playerRigidbody.isKinematic = false;
         inFlight = true;
@@ -156,13 +156,13 @@ public class PlayerController : MonoBehaviour
         else
         {
             inFlight = false;
-            OnLand(lastInteracted);
+            OnLand?.Invoke(lastInteracted);
         }
     }
 
     public void ResetJourney()
     {
-        OnResetJourney(transform.position);
+        OnResetJourney?.Invoke(transform.position);
     }
 
     private void ChangeForm(WispFormType newForm)
@@ -179,7 +179,7 @@ public class PlayerController : MonoBehaviour
         
     private void Die()
     {
-        OnDeath();
+        OnDeath?.Invoke();
         bodyTransform.gameObject.SetActive(false);
         playerRigidbody.isKinematic = true;
         StartCoroutine(WaitAndReloadScene());
@@ -258,7 +258,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         inFlight = false;
-        OnLand(landedOn);
+        OnLand?.Invoke(landedOn);
     }
 }
 

@@ -64,7 +64,7 @@ public class CameraController : MonoBehaviour
         if (Vector3.Distance(currentPosition, targetPosition) > 0)
         {
             transform.position = Vector3.Lerp(currentPosition, targetPosition, followLerpSpeed * Time.deltaTime);
-            CameraPositionUpdated(transform.position);
+            CameraPositionUpdated?.Invoke(transform.position);
         }
 
         transform.LookAt(focal);
