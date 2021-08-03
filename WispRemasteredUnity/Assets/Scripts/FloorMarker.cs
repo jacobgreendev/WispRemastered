@@ -13,7 +13,7 @@ public class FloorMarker : MonoBehaviour
     [SerializeField] private float fadeTime;
     private float maxAlpha;
     private Coroutine currentFadeRoutine;
-    private Material markerMaterial;
+    private Material markerMaterial, lineMaterial;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +23,7 @@ public class FloorMarker : MonoBehaviour
         PlayerController.Instance.OnFire += FadeInFloorMarker;
 
         markerMaterial = marker.GetComponent<Renderer>().material;
+        lineMaterial = lineRenderer.material;
         maxAlpha = markerMaterial.GetFloat("_Alpha");
     }
 
@@ -95,6 +96,7 @@ public class FloorMarker : MonoBehaviour
             time += Time.deltaTime;
             newAlpha = Mathf.Lerp(initialAlpha, targetAlpha, Mathf.Clamp01(time / fadeTime));
             markerMaterial.SetFloat("_Alpha", newAlpha);
+            lineMaterial.SetFloat("_Alpha", newAlpha);
             yield return null;
         }
     }
