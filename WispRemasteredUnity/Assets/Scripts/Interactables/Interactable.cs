@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    [SerializeField] protected List<WispForm> usableByList;
-    private HashSet<WispForm> usableBy = new();
+    [SerializeField] protected List<WispFormType> usableByList;
+    private HashSet<WispFormType> usableBy = new HashSet<WispFormType>();
 
     [SerializeField] private InteractableType type;
 
@@ -17,7 +17,7 @@ public class Interactable : MonoBehaviour
         }
     }
 
-    public bool IsUsableBy(WispForm form)
+    public bool IsUsableBy(WispFormType form)
     {
         return usableBy.Contains(form);
     }

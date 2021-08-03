@@ -21,9 +21,9 @@ public class PlayerController : MonoBehaviour
     private bool wasTouchingLastFrame = false;
     private Vector2 touchPosition;
 
-    private WispForm currentForm;
+    private WispFormType currentForm;
 
-    public WispForm CurrentForm
+    public WispFormType CurrentForm
     {
         get => currentForm;
     }
@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        currentForm = WispForm.Flame;
+        currentForm = WispFormType.Flame;
     }
 
     // Update is called once per frame
@@ -75,12 +75,12 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.O))
         {
-            ChangeForm(WispForm.Spark);
+            ChangeForm(WispFormType.Spark);
         }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            ChangeForm(WispForm.Flame);
+            ChangeForm(WispFormType.Flame);
         }
     }
 
@@ -141,12 +141,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void ChangeForm(WispForm newForm)
+    private void ChangeForm(WispFormType newForm)
     {
         OnFormChange(currentForm, newForm);
         currentForm = newForm;
     }
-
+        
     private void Die()
     {
         OnDeath();
@@ -307,4 +307,4 @@ public delegate void VelocityUpdatedEventHandler(Vector3 velocity);
 public delegate void OnLandEventHandler(Transform landedOn);
 public delegate void OnFireEventHandler();
 public delegate void OnDeathEventHandler();
-public delegate void OnFormChangeEventHandler(WispForm oldForm, WispForm newForm);
+public delegate void OnFormChangeEventHandler(WispFormType oldForm, WispFormType newForm);

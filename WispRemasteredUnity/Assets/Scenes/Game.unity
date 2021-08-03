@@ -1135,6 +1135,7 @@ GameObject:
   m_Component:
   - component: {fileID: 606629891}
   - component: {fileID: 606629892}
+  - component: {fileID: 606629896}
   - component: {fileID: 606629895}
   - component: {fileID: 606629893}
   - component: {fileID: 606629894}
@@ -1224,13 +1225,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2578efa2214b8b84a8017eec13306536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formDetails:
-  - form: 0
-    particleSystem: {fileID: 1297765794}
-    landEffect: {fileID: 7691208167897313559}
-  - form: 1
-    particleSystem: {fileID: 1905255547919258950}
-    landEffect: {fileID: 6043013867051875971}
+--- !u!114 &606629896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606629887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2442ac1fac7e9af46aea899bdb170389, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wispFormList:
+  - wispFormType: 0
+    wispForm: {fileID: 11400000, guid: b169d5d4a12708740aa149abe6bc9e55, type: 2}
+    wispParticleDetails:
+      particleSystem: {fileID: 1297765794}
+      landEffect: {fileID: 7691208167897313559}
+  - wispFormType: 1
+    wispForm: {fileID: 11400000, guid: b43dd34e113bb3447bebc474f520c3fb, type: 2}
+    wispParticleDetails:
+      particleSystem: {fileID: 1905255547919258950}
+      landEffect: {fileID: 6043013867051875971}
 --- !u!1 &702970865
 GameObject:
   m_ObjectHideFlags: 0
