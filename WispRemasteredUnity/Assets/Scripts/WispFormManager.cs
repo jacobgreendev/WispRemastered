@@ -19,11 +19,21 @@ public class WispFormManager : MonoBehaviour
         }
     }
 
+    public WispForm GetWispForm(WispFormType wispFormType)
+    {
+        if(wispForms.TryGetValue(wispFormType, out WispFormDetails wispForm))
+        {
+            return wispForm.wispForm;
+        }
+
+        return null;
+    }
+
     public WispFormParticleDetails GetParticleDetails(WispFormType wispFormType)
     {
         wispForms.TryGetValue(wispFormType, out WispFormDetails wispForm);
 
-        WispFormParticleDetails wispParticleDetails = wispForm.wispParticleDetails;
+        WispFormParticleDetails wispParticleDetails = wispForm?.wispParticleDetails;
         return wispParticleDetails;
     }
 

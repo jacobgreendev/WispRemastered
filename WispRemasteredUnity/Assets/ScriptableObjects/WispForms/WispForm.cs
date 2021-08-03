@@ -13,5 +13,6 @@ public class WispForm : ScriptableObject
 public enum WispFormType
 {
     Flame,
-    Spark
+    Spark,
+    None = 99
 }

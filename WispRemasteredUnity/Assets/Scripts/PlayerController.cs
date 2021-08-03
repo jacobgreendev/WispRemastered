@@ -21,7 +21,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 touchPosition;
     private Vector3 currentForceVector;
 
-    private WispFormType currentForm;
+    private WispFormType currentForm = WispFormType.None;
+
     private Interactable lastInteracted;
 
     public WispFormType CurrentForm
@@ -41,7 +42,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Physics")]
     [SerializeField] private Rigidbody playerRigidbody;
-    [SerializeField] private float generalForceStrength, sidewaysForceMultiplier, forwardForceMultiplier, verticalForceMultiplier;
+    [SerializeField] private float generalForceStrength;
+    private float sidewaysForceMultiplier, forwardForceMultiplier, verticalForceMultiplier;
 
     [Header("Time Values")]
     [SerializeField] private float landLerpTime;
@@ -61,7 +63,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        currentForm = WispFormType.Flame;
+        ChangeForm(WispFormType.Flame);
     }
 
     // Update is called once per frame
@@ -165,8 +167,14 @@ public class PlayerController : MonoBehaviour
 
     private void ChangeForm(WispFormType newForm)
     {
-        OnFormChange(currentForm, newForm);
+        OnFormChange?.Invoke(currentForm, newForm);
         currentForm = newForm;
+
+        WispForm wispForm = WispFormManager.Instance.GetWispForm(newForm);
+
+        sidewaysForceMultiplier = wispForm.sidewaysForceMultiplier;
+        verticalForceMultiplier = wispForm.verticalForceMultiplier;
+        forwardForceMultiplier = wispForm.forwardForceMultiplier;
     }
         
     private void Die()
