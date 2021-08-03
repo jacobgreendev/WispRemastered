@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Physics")]
     [SerializeField] private Rigidbody playerRigidbody;
-    [SerializeField] private float sidewaysForceMultiplier, forwardForceMultiplier, verticalForceMultiplier;
+    [SerializeField] private float generalForceStrength, sidewaysForceMultiplier, forwardForceMultiplier, verticalForceMultiplier;
 
     private Transform currentlyLandedOn;
 
@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour
         Vector3 yForce = transform.up * dragVector.normalized.y * verticalForceMultiplier;
         if (zForce.z < 0) zForce = Vector3.zero; //Do not allow player to travel backwards
 
-        currentForceVector = (xForce + yForce + zForce) * 1000 * (dragVector.magnitude / DragManager.Instance.MaxDragDistance);
+        currentForceVector = (xForce + yForce + zForce) * generalForceStrength * (dragVector.magnitude / DragManager.Instance.MaxDragDistance);
         TrajectoryRenderer.Instance.DisplayPath(transform.position, currentForceVector, playerRigidbody.mass, playerRigidbody.drag, 1);
     }
 
