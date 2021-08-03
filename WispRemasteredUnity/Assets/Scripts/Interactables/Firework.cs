@@ -20,32 +20,40 @@ public class Firework : Interactable
 
     private IEnumerator RideFirework()
     {
-        player.ResetJourney();
+        //Reset last landed height of player and disable birdseye view
+        player.ResetJourney(); 
         CameraController.Instance.DisableBirdseye();
 
+        //Disable wisp physics and enable interacting state
         var playerTransform = player.transform;
         player.Rigidbody.isKinematic = true;
         player.IsInteracting = true;
 
+        //Lerp to the start of the fuse
         yield return StartCoroutine(player.LerpToPosition(playerTransform, landLerpTime, transform.position, fuseStart.position));
 
-        player.Rigidbody.velocity = (fuseEnd.position - fuseStart.position).normalized;
+        //Update velocity and facing direction so wisp is facing in the direction of movement
+        player.Rigidbody.velocity = (fuseEnd.position - fuseStart.position).normalized; 
         player.UpdateBodyFacingDirection();
 
+        //Lerp from the start of the fuse to the end of the fuse
         yield return StartCoroutine(player.LerpToPosition(playerTransform, fuseTime, fuseStart.position, fuseEnd.position));
 
+        //Calculate the final position of the firework
         var endPosition = parentTransform.position + parentTransform.up * distance;
 
+        //Parent the wisp to the firework, smooth lerp the firework to the end position, and unparent
         player.transform.parent = parentTransform;
         yield return StartCoroutine(player.SmoothLerpToPosition(parentTransform, travelTime, parentTransform.position, endPosition));
         player.transform.parent = null;
 
+        //Re-enable wisp physics, "land" in place (i.e enable controls), and give the wisp some velocity
         player.Rigidbody.isKinematic = false;
         player.Land(transform, inPlace: true);
         player.Rigidbody.velocity = parentTransform.up * explosionForce;
-        player.IsInteracting = false;       
 
-        //Slow Down time
+        //Disable interacting state and smoothly slow time until the player fires again
+        player.IsInteracting = false;       
         yield return StartCoroutine(SmoothSlowDownTime());
         PlayerController.Instance.OnFire += OnPlayerFired;
     }
