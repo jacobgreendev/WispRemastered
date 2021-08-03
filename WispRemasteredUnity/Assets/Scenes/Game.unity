@@ -1325,8 +1325,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRigidbody: {fileID: 606629894}
-  forwardForceMultiplier: 2
   sidewaysForceMultiplier: 2
+  forwardForceMultiplier: 2
   verticalForceMultiplier: 2
   landLerpTime: 0.1
   deathLoadDelay: 0

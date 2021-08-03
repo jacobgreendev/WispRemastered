@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Physics")]
     [SerializeField] private Rigidbody playerRigidbody;
-    [SerializeField] private float forwardForce, maxSidewaysForce;
+    [SerializeField] private float sidewaysForceMultiplier, forwardForceMultiplier, verticalForceMultiplier;
 
     private Transform currentlyLandedOn;
 
@@ -118,12 +118,12 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 dragVector = DragManager.Instance.DragVector;
 
-        var sidewaysDirection = (Vector3)DragManager.Instance.DragVector.normalized;
-        var sidewaysPower = maxSidewaysForce * (DragManager.Instance.DragVector.magnitude / DragManager.Instance.MaxDragDistance); //Max power * Percentage of max drag length
-        var totalSidewaysForce = sidewaysDirection * sidewaysPower;
-        var totalForwardForce = forwardForce * transform.forward;
+        Vector3 xForce = transform.right * dragVector.normalized.x * sidewaysForceMultiplier;
+        Vector3 zForce = transform.forward * dragVector.normalized.y * forwardForceMultiplier;
+        Vector3 yForce = transform.up * dragVector.normalized.y * verticalForceMultiplier;
+        if (zForce.z < 0) zForce = Vector3.zero; //Do not allow player to travel backwards
 
-        currentForceVector = totalForwardForce + totalSidewaysForce;
+        currentForceVector = (xForce + yForce + zForce) * 1000 * (dragVector.magnitude / DragManager.Instance.MaxDragDistance);
         TrajectoryRenderer.Instance.DisplayPath(transform.position, currentForceVector, playerRigidbody.mass, playerRigidbody.drag, 1);
     }
 
