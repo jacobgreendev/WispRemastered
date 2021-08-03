@@ -114,6 +114,7 @@ public class PlayerController : MonoBehaviour
     private void Fire()
     {
         OnFire();
+        playerRigidbody.velocity = Vector3.zero;
         playerRigidbody.isKinematic = false;
         inFlight = true;
         var sidewaysDirection = (Vector3) DragManager.Instance.DragVector.normalized;
@@ -123,12 +124,21 @@ public class PlayerController : MonoBehaviour
         playerRigidbody.AddForce(totalForwardForce + totalSidewaysForce);
     }
 
-    private void Land(Transform landedOn)
+    private void Land(Transform landedOn, bool inPlace = false)
     {
-        playerRigidbody.isKinematic = true;
         currentlyLandedOn = landedOn;
-        VelocityUpdated(Vector3.zero);
-        StartCoroutine(LandingLerp(transform.position, landedOn.position, landedOn));
+
+        if (!inPlace)
+        {
+            playerRigidbody.isKinematic = true;
+            VelocityUpdated(Vector3.zero);
+            StartCoroutine(LandingLerp(transform.position, landedOn.position, landedOn));
+        }
+        else
+        {
+            inFlight = false;
+            OnLand(currentlyLandedOn);
+        }
     }
 
     private void ChangeForm(WispForm newForm)
@@ -171,6 +181,7 @@ public class PlayerController : MonoBehaviour
     private void TryInteractWith(Transform interactableTransform)
     {
         Interactable interactable = interactableTransform.GetComponent<Interactable>();
+        Debug.Log($"Trying to interact with {interactable.Type}");
 
         if (interactable.IsUsableBy(currentForm))
         {
@@ -180,18 +191,34 @@ public class PlayerController : MonoBehaviour
                 case InteractableType.Powerline:
                     InteractPowerline(interactableTransform, (Powerline) interactable);
                     break;
+
+                case InteractableType.Firework:
+                    InteractFirework(interactableTransform, (Firework)interactable);
+                    break;
             }
         }
     }
 
-    private IEnumerator LerpToPosition(float lerpTime, Vector3 initialPosition, Vector3 endPosition, bool isPlayer = true)
+    private IEnumerator LerpToPosition(Transform lerpingTransform, float lerpTime, Vector3 initialPosition, Vector3 endPosition, bool isPlayer = true)
     {
         float time = 0;
         while (time < lerpTime)
         {
             time += Time.deltaTime;
-            transform.position = Vector3.Lerp(initialPosition, endPosition, time / landLerpTime);
+            lerpingTransform.position = Vector3.Lerp(initialPosition, endPosition, time / lerpTime);
             if(isPlayer) PlayerPositionUpdated(transform.position);
+            yield return null;
+        }
+    }
+
+    private IEnumerator SmoothLerpToPosition(Transform lerpingTransform, float lerpTime, Vector3 initialPosition, Vector3 endPosition, bool isPlayer = true)
+    {
+        float time = 0;
+        while (time < lerpTime)
+        {
+            time += Time.deltaTime;
+            lerpingTransform.position = Vector3.Lerp(initialPosition, endPosition, Mathf.SmoothStep(0, 1, time / lerpTime));
+            if (isPlayer) PlayerPositionUpdated(transform.position);
             yield return null;
         }
     }
@@ -205,20 +232,52 @@ public class PlayerController : MonoBehaviour
     {
         var currentSpeed = playerRigidbody.velocity.magnitude;
         playerRigidbody.isKinematic = true;
-
         isInteracting = true;
 
-        yield return StartCoroutine(LerpToPosition(landLerpTime, initialPlayerPosition, powerlineStartPosition));
+        yield return StartCoroutine(LerpToPosition(transform, landLerpTime, initialPlayerPosition, powerlineStartPosition));
 
         var endPosition = powerlineEndTransform.position;
         playerRigidbody.velocity = (endPosition - powerlineStartPosition).normalized * currentSpeed;
         VelocityUpdated(playerRigidbody.velocity);
         UpdateBodyFacingDirection();
 
-        yield return StartCoroutine(LerpToPosition(powerlineTravelTime, powerlineStartPosition, powerlineEndTransform.position));
+        yield return StartCoroutine(LerpToPosition(transform, powerlineTravelTime, powerlineStartPosition, powerlineEndTransform.position));
 
         Land(powerlineEndTransform);
         isInteracting = false;
+    }
+
+    private void InteractFirework(Transform fireworkTransform, Firework firework)
+    {
+        StartCoroutine(RideFirework(fireworkTransform, firework));
+    }
+
+    private IEnumerator RideFirework(Transform fireworkTransform, Firework firework)
+    {
+        OnLand(fireworkTransform);
+        playerRigidbody.isKinematic = true;
+        isInteracting = true;
+
+        yield return StartCoroutine(LerpToPosition(transform, landLerpTime, transform.position, firework.FuseStart.position));
+
+        playerRigidbody.velocity = (firework.FuseEnd.position - firework.FuseStart.position).normalized;
+        VelocityUpdated(playerRigidbody.velocity);
+        UpdateBodyFacingDirection();
+
+        yield return StartCoroutine(LerpToPosition(transform, firework.FuseTime, firework.FuseStart.position, firework.FuseEnd.position));
+
+        var endPosition = firework.ParentTransform.position + firework.ParentTransform.up * firework.Distance;
+
+
+        transform.parent = firework.ParentTransform;
+        yield return StartCoroutine(SmoothLerpToPosition(firework.ParentTransform, firework.TravelTime, firework.ParentTransform.position, endPosition));
+        transform.parent = null;
+
+        playerRigidbody.isKinematic = false;
+        Land(fireworkTransform, inPlace : true);
+        playerRigidbody.velocity = fireworkTransform.up * firework.ExplosionForce;
+        isInteracting = false;
+        Destroy(firework.ParentTransform.gameObject);
     }
 
     //Probably temporary until a proper death handler is created

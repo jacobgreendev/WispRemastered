@@ -16,6 +16,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float birdseyeViewHeight, heightForFullBirdseyeView;
     private float previousLandedHeight;
     private Vector3 birdseyeViewOffset;
+    private bool birdseyeViewEnabled = false;
 
     [Header("Lerp Speeds")]
     [SerializeField] private float followLerpSpeed;
@@ -38,6 +39,7 @@ public class CameraController : MonoBehaviour
         offset = transform.position - following.position;
         PlayerController.Instance.VelocityUpdated += OnPlayerVelocityUpdate;
         PlayerController.Instance.OnLand += UpdatePreviousLandedHeight;
+        PlayerController.Instance.OnFire += EnableBirdseye;
         focal = CameraFocal.TransformInstance;
         birdseyeViewOffset = birdseyeViewHeight * Vector3.up;
         previousLandedHeight = following.position.y;
@@ -47,7 +49,12 @@ public class CameraController : MonoBehaviour
     void FixedUpdate()
     {
         var followingHeightAbovePrevious = following.position.y - previousLandedHeight;
-        var birdseyeAmount = Mathf.Clamp(followingHeightAbovePrevious / heightForFullBirdseyeView, 0, 1);
+
+        float birdseyeAmount = 0;
+        if (birdseyeViewEnabled)
+        {
+            birdseyeAmount = Mathf.Clamp(followingHeightAbovePrevious / heightForFullBirdseyeView, 0, 1);
+        }
 
         var currentPosition = transform.position;
         var targetPosition = Vector3.Lerp(following.position + offset, following.position + birdseyeViewOffset, birdseyeAmount);
@@ -61,9 +68,20 @@ public class CameraController : MonoBehaviour
         transform.LookAt(focal);
     }
 
+    private void EnableBirdseye()
+    {
+        birdseyeViewEnabled = true;
+    }
+
+    private void DisableBirdseye()
+    {
+        birdseyeViewEnabled = false;
+    }
+
     private void UpdatePreviousLandedHeight(Transform landedOn)
     {
         previousLandedHeight = landedOn.position.y;
+        DisableBirdseye();
     }
 
     private void OnPlayerVelocityUpdate(Vector3 velocity)

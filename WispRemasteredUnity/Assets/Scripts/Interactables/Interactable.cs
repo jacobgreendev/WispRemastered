@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Interactable : MonoBehaviour
+public class Interactable : MonoBehaviour
 {
     [SerializeField] protected List<WispForm> usableByList;
     private HashSet<WispForm> usableBy = new();
@@ -30,5 +30,6 @@ public abstract class Interactable : MonoBehaviour
 
 public enum InteractableType
 {
-    Powerline
+    Powerline,
+    Firework
 }
