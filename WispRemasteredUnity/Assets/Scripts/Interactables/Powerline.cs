@@ -5,7 +5,7 @@ using UnityEngine;
 public class Powerline : Interactable
 {
     [SerializeField] private Transform startTransform, endTransform;
-    [SerializeField] private float landLerpTime, travelTime;
+    [SerializeField] private float landLerpTimePerUnitDistance, travelTimePerUnitDistance;
     [SerializeField] private LineRenderer lineRenderer;
 
     public Transform EndTransform
@@ -36,7 +36,7 @@ public class Powerline : Interactable
         player.IsInteracting = true;
 
         //Lerp the wisp to the start of the powerline, then reset the journey to avoid birdseye view
-        yield return StartCoroutine(player.LerpToPosition(playerTransform, landLerpTime, initialPlayerPosition, powerlineStartPosition));
+        yield return StartCoroutine(player.LerpToPosition(playerTransform, landLerpTimePerUnitDistance * Vector3.Distance(initialPlayerPosition, powerlineStartPosition), initialPlayerPosition, powerlineStartPosition));
         player.ResetJourney();
 
         //Update velocity and facing direction to face along the powerline
@@ -45,7 +45,7 @@ public class Powerline : Interactable
         player.UpdateBodyFacingDirection();
 
         //Lerp the wisp along the powerline, make it land at the end and disable interacting state
-        yield return StartCoroutine(player.LerpToPosition(playerTransform, travelTime, powerlineStartPosition, endTransform.position));
+        yield return StartCoroutine(player.LerpToPosition(playerTransform, travelTimePerUnitDistance * Vector3.Distance(powerlineStartPosition, endTransform.position), powerlineStartPosition, endTransform.position));
         player.Land(this, endTransform);
         player.IsInteracting = false;
     }
