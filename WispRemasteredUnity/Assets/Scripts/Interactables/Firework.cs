@@ -7,7 +7,8 @@ public class Firework : Interactable
     [SerializeField] private Transform parentTransform, fuseStart, fuseEnd;
 
     [Header("Slow-motion")]
-    [SerializeField] private float slowMoTime = 0.5f, targetTimeScale = 0.3f;
+    [SerializeField] private float slowMoTime = 0.5f;
+    [SerializeField] private float targetTimeScale = 0.3f;
 
     private PlayerController player;
 
@@ -64,7 +65,7 @@ public class Firework : Interactable
         PlayerController.Instance.OnFire -= OnPlayerFired;
 
         Time.timeScale = 1;
-        Destroy(parentTransform.gameObject);
+        Destroy(gameObject);
     }
 
     IEnumerator SmoothSlowDownTime()
