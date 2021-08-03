@@ -20,6 +20,8 @@ public class TrajectoryRenderer : MonoBehaviour
     private void Start()
     {
         fixedDeltaTime = Time.fixedDeltaTime;
+
+        PlayerController.Instance.OnFire += () => SetVisible(false); 
     }
 
     public void SetVisible(bool visible)
