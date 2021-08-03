@@ -41,11 +41,9 @@ public class DragManager : MonoBehaviour
     private void Start()
     {
         PlayerController.Instance.DragPositionUpdated += OnDragPositionUpdate;
-        //PlayerController.Instance.PlayerPositionUpdated += OnPlayerPositionUpdate;
         PlayerController.Instance.TouchDetectedWhileNotInFlight += DragEnabled;
         CameraController.Instance.CameraPositionUpdated += OnCameraPositionUpdate;
         mainCamera = Camera.main;
-        OnPlayerPositionUpdate(PlayerController.Instance.transform.position); //Initialise player position on first frame
         dragLineRenderer.SetPosition(0, playerScreenPosition); //SetPosition is relative to line renderer position, which in this case is the bottom left
     }
 
@@ -61,12 +59,6 @@ public class DragManager : MonoBehaviour
         }
 
         dragLineRenderer.SetPosition(1, (Vector2) newDragPos);
-    }
-
-    private void OnPlayerPositionUpdate(Vector3 position)
-    {
-        //playerScreenPosition = mainCamera.WorldToScreenPoint(position);
-         
     }
 
     private void OnCameraPositionUpdate(Vector3 position)
