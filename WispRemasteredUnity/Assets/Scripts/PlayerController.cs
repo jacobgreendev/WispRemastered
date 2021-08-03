@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 currentForceVector;
 
     private WispFormType currentForm;
+    private Interactable lastInteracted;
 
     public WispFormType CurrentForm
     {
@@ -41,8 +42,6 @@ public class PlayerController : MonoBehaviour
     [Header("Physics")]
     [SerializeField] private Rigidbody playerRigidbody;
     [SerializeField] private float generalForceStrength, sidewaysForceMultiplier, forwardForceMultiplier, verticalForceMultiplier;
-
-    private Interactable currentlyLandedOn;
 
     [Header("Time Values")]
     [SerializeField] private float landLerpTime;
@@ -155,7 +154,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             inFlight = false;
-            OnLand(currentlyLandedOn);
+            OnLand(lastInteracted);
         }
     }
 
@@ -184,9 +183,9 @@ public class PlayerController : MonoBehaviour
         {
             Interactable interactableHit = other.GetComponent<Interactable>();
 
-            if(other.CompareTag(GameConstants.Tag_InteractableTrigger) && interactableHit != currentlyLandedOn)
+            if(other.CompareTag(GameConstants.Tag_InteractableTrigger) && interactableHit != lastInteracted)
             {
-                currentlyLandedOn = interactableHit;
+                lastInteracted = interactableHit;
                 TryInteractWith(interactableHit);
             }
         }
@@ -207,7 +206,7 @@ public class PlayerController : MonoBehaviour
 
         if (interactable.IsUsableBy(currentForm))
         {
-            currentlyLandedOn = interactable;
+            lastInteracted = interactable;
             interactable.DoInteraction(this);
         }
     }
