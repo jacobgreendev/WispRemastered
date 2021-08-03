@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public abstract class Interactable : MonoBehaviour
 {
     [SerializeField] protected List<WispFormType> usableByList;
@@ -28,6 +29,11 @@ public abstract class Interactable : MonoBehaviour
     }
 
     public abstract void DoInteraction(PlayerController player);
+
+    private void Reset()
+    {
+        GetComponent<Collider>().isTrigger = true; //Ensures collider is set to trigger when added
+    }
 }
 
 public enum InteractableType
