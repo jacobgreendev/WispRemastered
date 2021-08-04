@@ -624,6 +624,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1030057924228200535, guid: 01968584dc320a14f8e0c5bbf7ddf172, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7783830213541705456, guid: 01968584dc320a14f8e0c5bbf7ddf172, type: 3}
       propertyPath: m_Name
       value: Interactable_FormChanger_Spark
@@ -837,6 +841,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4896476150205296386, guid: 520570995fabd8748a6b1dfeb1f91e65, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7783830213541705456, guid: 520570995fabd8748a6b1dfeb1f91e65, type: 3}
       propertyPath: m_Name
       value: Interactable_FormChanger_Flame
@@ -942,6 +950,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7923644249885639300, guid: e4ec2b4381c537f49af87ec2b44f08ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4ec2b4381c537f49af87ec2b44f08ec, type: 3}
 --- !u!1 &1519045185
@@ -995,6 +1007,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1030057924228200535, guid: 01968584dc320a14f8e0c5bbf7ddf172, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7783830213541705456, guid: 01968584dc320a14f8e0c5bbf7ddf172, type: 3}
       propertyPath: m_Name
       value: Interactable_FormChanger_Spark (1)
@@ -1271,6 +1287,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7923644249885639300, guid: e4ec2b4381c537f49af87ec2b44f08ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4ec2b4381c537f49af87ec2b44f08ec, type: 3}
 --- !u!1001 &1815400764
@@ -1280,6 +1300,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4896476150205296386, guid: 520570995fabd8748a6b1dfeb1f91e65, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7783830213541705456, guid: 520570995fabd8748a6b1dfeb1f91e65, type: 3}
       propertyPath: m_Name
       value: Interactable_FormChanger_Flame (1)
