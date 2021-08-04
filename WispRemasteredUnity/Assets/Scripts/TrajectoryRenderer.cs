@@ -36,24 +36,27 @@ public class TrajectoryRenderer : MonoBehaviour
         int newSegCount = (int)(segmentCount * segmentMultiplier);
         if (newSegCount > 0)
         {
-            Vector3[] segments = new Vector3[newSegCount];
+            List<Vector3> segments = new List<Vector3>();
 
-            segments[0] = startPoint;
+            segments.Add(startPoint);
 
             Vector3 segVelocity = (force / mass) * fixedDeltaTime;
-
+            var last = false;
             for (int i = 1; i < newSegCount; i++)
             {
+                if (last) break;
                 float segTime = (segVelocity.sqrMagnitude != 0) ? segmentScale / segVelocity.magnitude : 0;
 
                 segVelocity += Physics.gravity * segTime;
                 segVelocity *= (1.0f - drag * segTime);
 
-                segments[i] = segments[i - 1] + segVelocity * segTime;
+                if (Physics.Raycast(segments[i - 1], segVelocity.normalized, segVelocity.magnitude * segTime)) last = true;
+
+                segments.Add(segments[i-1] + segVelocity * segTime);
             }
 
-            trajectoryLine.positionCount = newSegCount;
-            for (int i = 0; i < newSegCount; i++)
+            trajectoryLine.positionCount = segments.Count;
+            for (int i = 0; i < segments.Count; i++)
             {
                 trajectoryLine.SetPosition(i, segments[i]);
             }
