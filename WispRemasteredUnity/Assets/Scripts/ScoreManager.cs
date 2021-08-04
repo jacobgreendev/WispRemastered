@@ -23,8 +23,11 @@ public class ScoreManager : MonoBehaviour
 
     private void AddScore(Interactable landedOn)
     {
-        score += landedOn.ScoreValue;
-        OnScoreUpdate?.Invoke(score);
+        if (landedOn.ScoreValue > 0)
+        {
+            score += landedOn.ScoreValue;
+            OnScoreUpdate?.Invoke(score);
+        }
     }
 
     private void CheckForHiScore()
