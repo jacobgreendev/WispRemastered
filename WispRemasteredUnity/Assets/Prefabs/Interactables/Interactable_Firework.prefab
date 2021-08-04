@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5370347854083255892}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.46586, y: 0.46586, z: 0.46586}
+  m_LocalPosition: {x: 0, y: -0.475, z: 0.176}
+  m_LocalScale: {x: 0.20775028, y: 0.20775028, z: 0.20775028}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5370347855192562393}
@@ -109,8 +109,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5370347854237498378}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.913, z: 0.007}
-  m_LocalScale: {x: 0.1274127, y: 0.537516, z: 0.1274127}
+  m_LocalPosition: {x: 0, y: -0.882, z: 0.179}
+  m_LocalScale: {x: 0.056819696, y: 0.23970526, z: 0.056819696}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5370347855192562393}
@@ -224,8 +224,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5370347854988523193}
   m_LocalRotation: {x: 0.35718098, y: -0, z: -0, w: 0.93403524}
-  m_LocalPosition: {x: 0, y: -0.81, z: -0.43}
-  m_LocalScale: {x: 0.09203996, y: 0.5801952, z: 0.09203996}
+  m_LocalPosition: {x: 0, y: -0.836, z: -0.016}
+  m_LocalScale: {x: 0.04104522, y: 0.25873804, z: 0.04104522}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5370347855839493347}
@@ -335,10 +335,10 @@ MonoBehaviour:
   type: 2
   scoreValue: 1
   landLerpTime: 0.4
-  distance: 30
+  distance: 10
   fuseTime: 0.5
   travelTime: 1
-  explosionForce: 15
+  explosionForce: 10
   fuseStart: {fileID: 5370347855839493347}
   fuseEnd: {fileID: 5370347854510256748}
   slowMoTime: 0.5
@@ -354,8 +354,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: -0.62, z: -0.25}
+  m_Radius: 0.58
+  m_Center: {x: 0, y: -0.89, z: -0.25}
 --- !u!1 &5370347855839493346
 GameObject:
   m_ObjectHideFlags: 0

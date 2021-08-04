@@ -136,6 +136,39 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
+      value: 0.70754623
+      inSlope: 1.2736043
+      outSlope: 1.2736043
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.50877357
+    - serializedVersion: 3
+      time: 0.038212955
+      value: 0.9914781
+      inSlope: -2.7709687
+      outSlope: -2.4481876
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.5918582
+      outWeight: 0.051699933
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.026258348
+      outSlope: 0
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.2350527
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scoreAnimationAlphaCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
       value: 1
       inSlope: -3.5379422
       outSlope: -3.5379422
@@ -164,49 +197,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  scoreAnimationAlphaCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 16.212566
-      outSlope: 16.212566
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.056976438
-      value: 0.9237343
-      inSlope: 2.0285397
-      outSlope: 2.0285397
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.32255295
-    - serializedVersion: 3
-      time: 0.4811648
-      value: 0.26295912
-      inSlope: -1.702016
-      outSlope: -1.702016
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -0.33133915
-      outSlope: -0.33133915
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.32926324
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  scoreAnimationLength: 1
+  scoreAnimationLength: 0.4
   scoreAnimationScaleMultiplier: 0.4
 --- !u!1 &5601398496883578225
 GameObject:
@@ -386,10 +377,10 @@ RectTransform:
   m_Father: {fileID: 5601398496772973226}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.30140743, y: 0.642}
-  m_AnchorMax: {x: 0.69611114, y: 0.8646459}
-  m_AnchoredPosition: {x: 1.3399963, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.30140743, y: 0.72210467}
+  m_AnchorMax: {x: 0.6958149, y: 0.9475418}
+  m_AnchoredPosition: {x: 1.4998932, y: 0}
+  m_SizeDelta: {x: 0.00000047683716, y: 0.0000076293945}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5601398497098896555
 CanvasRenderer:
