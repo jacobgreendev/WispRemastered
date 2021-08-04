@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        scoreText.enabled = false;
+        //scoreText.enabled = false;
         ScoreManager.Instance.OnScoreUpdate += UpdateScore;
         scoreTextInitialScale = scoreText.transform.localScale;
     }
@@ -39,10 +39,10 @@ public class UIManager : MonoBehaviour
             time += Time.unscaledDeltaTime;
             var animationTime = time / scoreAnimationLength;
             scoreText.transform.localScale = scoreTextInitialScale * (1 + (scoreAnimationScaleMultiplier * scoreAnimationScaleCurve.Evaluate(animationTime)));
-            scoreText.alpha = scoreAnimationAlphaCurve.Evaluate(animationTime);
+            //scoreText.alpha = scoreAnimationAlphaCurve.Evaluate(animationTime);
             yield return null;
         }
 
-        scoreText.enabled = false;
+        //scoreText.enabled = false;
     }
 }
