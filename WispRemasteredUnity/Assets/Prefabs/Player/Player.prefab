@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRigidbody: {fileID: 2021734775934464291}
-  generalForceStrength: 600
+  generalForceStrength: 400
   landLerpTime: 0.1
   deathLoadDelay: 0
   bodyTransform: {fileID: 2021734775686804883}
