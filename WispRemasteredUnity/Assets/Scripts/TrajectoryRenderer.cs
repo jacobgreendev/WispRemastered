@@ -9,8 +9,9 @@ public class TrajectoryRenderer : MonoBehaviour
 
     [SerializeField] private LineRenderer trajectoryLine;
     [SerializeField] private int segmentCount;
-    [SerializeField] private float segmentScale;
+    [SerializeField] private float segmentScale, minimumLengthMultiplier, scoreForMinimumLength;
     private float fixedDeltaTime;
+    private float length = 1;
 
     private void Awake()
     {
@@ -21,7 +22,13 @@ public class TrajectoryRenderer : MonoBehaviour
     {
         fixedDeltaTime = Time.fixedDeltaTime;
 
+        ScoreManager.Instance.OnScoreUpdate += UpdateLengthByScore;
         PlayerController.Instance.OnFire += () => SetVisible(false); 
+    }
+
+    private void UpdateLengthByScore(int score)
+    {
+        length = Mathf.Lerp(1, minimumLengthMultiplier, score / scoreForMinimumLength);
     }
 
     public void SetVisible(bool visible)
@@ -29,11 +36,11 @@ public class TrajectoryRenderer : MonoBehaviour
         trajectoryLine.enabled = visible;
     }
 
-    public void DisplayPath(Vector3 startPoint, Vector3 force, float mass, float drag, float segmentMultiplier)
+    public void DisplayPath(Vector3 startPoint, Vector3 force, float mass, float drag)
     {
         if (!trajectoryLine.enabled) trajectoryLine.enabled = true;
 
-        int newSegCount = (int)(segmentCount * segmentMultiplier);
+        int newSegCount = (int)(segmentCount * length);
         if (newSegCount > 0)
         {
             List<Vector3> segments = new List<Vector3>();
@@ -45,10 +52,11 @@ public class TrajectoryRenderer : MonoBehaviour
             for (int i = 1; i < newSegCount; i++)
             {
                 if (last) break;
+
                 float segTime = (segVelocity.sqrMagnitude != 0) ? segmentScale / segVelocity.magnitude : 0;
 
                 segVelocity += Physics.gravity * segTime;
-                segVelocity *= (1.0f - drag * segTime);
+                segVelocity *= Mathf.Clamp01(1.0f - drag * segTime);
 
                 if (Physics.Raycast(segments[i - 1], segVelocity.normalized, segVelocity.magnitude * segTime)) last = true;
 

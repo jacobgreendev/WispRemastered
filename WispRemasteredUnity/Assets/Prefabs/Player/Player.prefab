@@ -48,6 +48,8 @@ MonoBehaviour:
   trajectoryLine: {fileID: 2021734775204722905}
   segmentCount: 50
   segmentScale: 0.3
+  minimumLengthMultiplier: 0.2
+  scoreForMinimumLength: 5
 --- !u!120 &2021734775204722905
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -129,7 +131,7 @@ LineRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 52814
+      atime1: 8288
       atime2: 65535
       atime3: 65535
       atime4: 0

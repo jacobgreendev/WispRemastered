@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: WispForm_Spark
   m_EditorClassIdentifier: 
   wispFormType: 1
-  forwardForceMultiplier: 6
+  forwardForceMultiplier: 4
   verticalForceMultiplier: 1
   sidewaysForceMultiplier: 3
+  gravityMultiplier: 0
+  drag: 0.9

@@ -16,3 +16,4 @@ MonoBehaviour:
   forwardForceMultiplier: 2
   verticalForceMultiplier: 2
   sidewaysForceMultiplier: 2
+  gravityMultiplier: 1

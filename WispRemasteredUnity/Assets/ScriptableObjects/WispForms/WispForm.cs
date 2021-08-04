@@ -8,6 +8,9 @@ public class WispForm : ScriptableObject
     public float forwardForceMultiplier;
     public float verticalForceMultiplier;
     public float sidewaysForceMultiplier;
+
+    public float gravityMultiplier;
+    public float drag;
 }
 
 public enum WispFormType

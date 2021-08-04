@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
         if (zForce.z < 0) zForce = Vector3.zero; //Do not allow player to travel backwards
 
         currentForceVector = (xForce + yForce + zForce) * generalForceStrength * (dragVector.magnitude / DragManager.Instance.MaxDragDistance);
-        TrajectoryRenderer.Instance.DisplayPath(transform.position, currentForceVector, playerRigidbody.mass, playerRigidbody.drag, 1);
+        TrajectoryRenderer.Instance.DisplayPath(transform.position, currentForceVector, playerRigidbody.mass, playerRigidbody.drag);
     }
 
     private void Fire()
@@ -175,6 +175,9 @@ public class PlayerController : MonoBehaviour
         sidewaysForceMultiplier = wispForm.sidewaysForceMultiplier;
         verticalForceMultiplier = wispForm.verticalForceMultiplier;
         forwardForceMultiplier = wispForm.forwardForceMultiplier;
+
+        Physics.gravity = 9.81f * wispForm.gravityMultiplier * Vector3.down;
+        playerRigidbody.drag = wispForm.drag;
     }
         
     private void Die()
