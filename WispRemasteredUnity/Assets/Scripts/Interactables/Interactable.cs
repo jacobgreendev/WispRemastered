@@ -8,7 +8,6 @@ public abstract class Interactable : MonoBehaviour
     [SerializeField] protected List<WispFormType> usableByList;
     private HashSet<WispFormType> usableBy = new HashSet<WispFormType>();
 
-    [SerializeField] private InteractableType type;
     [SerializeField] private int scoreValue;
 
     public int ScoreValue
@@ -27,11 +26,6 @@ public abstract class Interactable : MonoBehaviour
     public bool IsUsableBy(WispFormType form)
     {
         return usableBy.Contains(form);
-    }
-
-    public InteractableType Type
-    {
-        get => type;
     }
 
     public abstract void DoInteraction(PlayerController player);

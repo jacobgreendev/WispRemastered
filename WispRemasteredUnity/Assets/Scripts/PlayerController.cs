@@ -165,7 +165,7 @@ public class PlayerController : MonoBehaviour
         OnResetJourney?.Invoke(transform.position);
     }
 
-    private void ChangeForm(WispFormType newForm)
+    public void ChangeForm(WispFormType newForm)
     {
         OnFormChange?.Invoke(currentForm, newForm);
         currentForm = newForm;
@@ -210,7 +210,6 @@ public class PlayerController : MonoBehaviour
     private void TryInteractWith(Interactable interactable)
     {
         Transform interactableTransform = interactable.transform;
-        Debug.Log($"Trying to interact with {interactable.Type}");
 
         if (interactable.IsUsableBy(currentForm))
         {
