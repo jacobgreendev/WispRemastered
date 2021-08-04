@@ -6,6 +6,7 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
     private int score;
+    public event OnScoreUpdateEventHandler OnScoreUpdate;
 
     private void Awake()
     {
@@ -22,7 +23,8 @@ public class ScoreManager : MonoBehaviour
 
     private void AddScore(Interactable landedOn)
     {
-        score++;
+        score += landedOn.ScoreValue;
+        OnScoreUpdate?.Invoke(score);
     }
 
     private void CheckForHiScore()
@@ -35,4 +37,6 @@ public class ScoreManager : MonoBehaviour
         }
         PlayerSaveManager.SaveFile();
     }
+
+    public delegate void OnScoreUpdateEventHandler(int newScore);
 }

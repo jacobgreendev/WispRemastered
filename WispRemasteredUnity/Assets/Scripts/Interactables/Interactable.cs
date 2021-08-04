@@ -9,6 +9,12 @@ public abstract class Interactable : MonoBehaviour
     private HashSet<WispFormType> usableBy = new HashSet<WispFormType>();
 
     [SerializeField] private InteractableType type;
+    [SerializeField] private int scoreValue;
+
+    public int ScoreValue
+    {
+        get => scoreValue;
+    }
 
     private void Awake()
     {

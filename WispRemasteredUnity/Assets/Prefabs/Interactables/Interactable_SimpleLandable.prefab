@@ -147,6 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   usableByList: 0000000001000000
   type: 0
+  scoreValue: 1
   landPosition: {fileID: 1797312093061580601}
 --- !u!135 &9218290643502459542
 SphereCollider:
@@ -304,4 +305,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   usableByList: 0000000001000000
   type: 0
+  scoreValue: 0
   landPosition: {fileID: 1797312093061580601}

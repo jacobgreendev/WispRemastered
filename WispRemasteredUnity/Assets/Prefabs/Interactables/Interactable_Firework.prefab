@@ -333,6 +333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   usableByList: 00000000
   type: 2
+  scoreValue: 1
   landLerpTime: 0.4
   distance: 30
   fuseTime: 0.5
