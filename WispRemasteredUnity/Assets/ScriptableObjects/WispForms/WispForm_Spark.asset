@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wispFormType: 1
   forwardForceMultiplier: 4
-  verticalForceMultiplier: 1
-  sidewaysForceMultiplier: 3
+  verticalForceMultiplier: 2
+  sidewaysForceMultiplier: 2
   gravityMultiplier: 0
   drag: 0.9

@@ -17,3 +17,4 @@ MonoBehaviour:
   verticalForceMultiplier: 2
   sidewaysForceMultiplier: 2
   gravityMultiplier: 1
+  drag: 0
