@@ -97,7 +97,7 @@ CapsuleCollider:
   m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Center: {x: 0.000000059604645, y: -0.11, z: -0.00000008940697}
 --- !u!1 &5146347127682849485
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,7 +149,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   usableByList: 01000000
-  type: 1
   scoreValue: 1
   startTransform: {fileID: 4284141253807378099}
   endTransform: {fileID: 1989805187540167259}
@@ -366,7 +365,7 @@ CapsuleCollider:
   m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Center: {x: 0.000000059604645, y: -0.11, z: -0.00000008940697}
 --- !u!1 &5551522887301244687
 GameObject:
   m_ObjectHideFlags: 0
