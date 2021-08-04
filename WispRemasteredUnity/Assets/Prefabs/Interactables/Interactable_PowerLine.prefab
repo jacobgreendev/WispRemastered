@@ -151,6 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   usableByList: 01000000
   type: 1
+  scoreValue: 1
   startTransform: {fileID: 4284141253807378099}
   endTransform: {fileID: 1989805187540167259}
   landLerpTimePerUnitDistance: 0.05
