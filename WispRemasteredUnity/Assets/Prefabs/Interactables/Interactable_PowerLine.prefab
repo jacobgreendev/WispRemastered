@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5146347127206931459}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.4814, z: 0}
-  m_LocalScale: {x: 0.3, y: 7.3986216, z: 0.3}
+  m_LocalPosition: {x: -0.03579992, y: 3.0317001, z: 0.0013003349}
+  m_LocalScale: {x: 0.14027101, y: 3.4593735, z: 0.14027101}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5146347127682849486}
@@ -109,7 +109,6 @@ GameObject:
   - component: {fileID: 5146347127682849486}
   - component: {fileID: 6241019350882347002}
   - component: {fileID: 7613702632427415791}
-  - component: {fileID: 1273829902743414844}
   - component: {fileID: 844619008820896749}
   m_Layer: 0
   m_Name: Interactable_PowerLine
@@ -154,8 +153,8 @@ MonoBehaviour:
   scoreValue: 1
   startTransform: {fileID: 4284141253807378099}
   endTransform: {fileID: 1989805187540167259}
-  landLerpTimePerUnitDistance: 0.05
-  travelTimePerUnitDistance: 0.05
+  landLerpTimePerUnitDistance: 0.1
+  travelTimePerUnitDistance: 0.1
   lineRenderer: {fileID: 844619008820896749}
 --- !u!136 &7613702632427415791
 CapsuleCollider:
@@ -168,22 +167,9 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.62
-  m_Height: 17.88
+  m_Height: 7.75
   m_Direction: 1
-  m_Center: {x: 0, y: 3.77, z: 0}
---- !u!135 &1273829902743414844
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5146347127682849485}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2
-  m_Center: {x: 0, y: 12.45, z: 0}
+  m_Center: {x: 0, y: 3.22, z: 0}
 --- !u!120 &844619008820896749
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -230,7 +216,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.2
+    widthMultiplier: 0.06666667
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -310,8 +296,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5146347128097094299}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.8, y: 4.4814, z: 19.29}
-  m_LocalScale: {x: 0.3, y: 7.3986216, z: 0.3}
+  m_LocalPosition: {x: 1.2734001, y: 3.0317001, z: 9.021}
+  m_LocalScale: {x: 0.14027101, y: 3.4593735, z: 0.14027101}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5146347127682849486}
@@ -405,8 +391,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5551522887301244687}
   m_LocalRotation: {x: -1, y: -0, z: -0, w: 0}
-  m_LocalPosition: {x: 2.75, y: 11.45, z: 19.309}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 1.25, y: 6.29, z: 9.03}
+  m_LocalScale: {x: 0.46757, y: 0.46757, z: 0.46757}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5146347127682849486}
@@ -438,8 +424,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7918346448164094951}
   m_LocalRotation: {x: -1, y: -0, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 11.45, z: 0.03}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.03579992, y: 6.29, z: 0.015300274}
+  m_LocalScale: {x: 0.46757, y: 0.46757, z: 0.46757}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5146347127682849486}

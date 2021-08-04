@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trajectoryLine: {fileID: 2021734775204722905}
   segmentCount: 50
-  segmentScale: 1
+  segmentScale: 0.3
 --- !u!120 &2021734775204722905
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -55,7 +55,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2021734775204722911}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -90,11 +90,11 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: 0, y: 3.05, z: -4.7}
+  - {x: 0, y: 1, z: -4.7}
   - {x: 0, y: 0.12, z: -4.7}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.5
+    widthMultiplier: 0.16666667
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -211,7 +211,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2021734775934463706}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.01, z: -4.68}
+  m_LocalPosition: {x: 0, y: 1, z: -4.68}
   m_LocalScale: {x: 0.72, y: 0.72, z: 0.72}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRigidbody: {fileID: 2021734775934464291}
-  generalForceStrength: 600
+  generalForceStrength: 400
   landLerpTime: 0.1
   deathLoadDelay: 0
   bodyTransform: {fileID: 2021734775686804883}
@@ -329,7 +329,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2021734776372980274}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.6249995, z: -0.03}
+  m_LocalPosition: {x: 0, y: 0.45, z: -0.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -395,8 +395,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   marker: {fileID: 1982740987071082117}
-  minSize: 1
-  maxSize: 1
+  minSize: 0.33333334
+  maxSize: 0.33333334
   maxDistance: 80
   fadeTime: 0.3
 --- !u!120 &2021734776940242222
@@ -441,11 +441,11 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: 0, y: 3.05, z: -4.7}
+  - {x: 0, y: 0, z: -4.7}
   - {x: 0, y: 0.12, z: -4.7}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.5
+    widthMultiplier: 0.16666667
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -510,16 +510,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3aed53dde93c5974d9f3e0898fc2e88a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3aed53dde93c5974d9f3e0898fc2e88a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3aed53dde93c5974d9f3e0898fc2e88a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3aed53dde93c5974d9f3e0898fc2e88a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3aed53dde93c5974d9f3e0898fc2e88a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.029999256
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3aed53dde93c5974d9f3e0898fc2e88a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.115
+      value: 1.24
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3aed53dde93c5974d9f3e0898fc2e88a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -623,6 +635,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlameLandEffect
       objectReference: {fileID: 0}
+    - target: {fileID: 6160740973327153261, guid: 0d6e81e28802c0a4c8255c46525b0774, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.08
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d6e81e28802c0a4c8255c46525b0774, type: 3}
 --- !u!198 &8552911858960625714 stripped
@@ -642,6 +658,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2021734775686804883}
     m_Modifications:
+    - target: {fileID: 58651383590550583, guid: 1091a09008ed0d34081655232f064c6a, type: 3}
+      propertyPath: InitialModule.rotation3D
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 58651383590550583, guid: 1091a09008ed0d34081655232f064c6a, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.086666666
+      objectReference: {fileID: 0}
+    - target: {fileID: 58651383590550583, guid: 1091a09008ed0d34081655232f064c6a, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 58651383590550583, guid: 1091a09008ed0d34081655232f064c6a, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 2.3333333
+      objectReference: {fileID: 0}
+    - target: {fileID: 58651383590550583, guid: 1091a09008ed0d34081655232f064c6a, type: 3}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 1.6666666
+      objectReference: {fileID: 0}
     - target: {fileID: 2230181112991346232, guid: 1091a09008ed0d34081655232f064c6a, type: 3}
       propertyPath: m_Name
       value: SparkLandEffect
@@ -823,6 +859,18 @@ PrefabInstance:
     - target: {fileID: 1138545758617473222, guid: ea46d7222ddbfa24dbc544b4cbbdadf3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5149952224536072093, guid: ea46d7222ddbfa24dbc544b4cbbdadf3, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.06666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 5149952224536072093, guid: ea46d7222ddbfa24dbc544b4cbbdadf3, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 1.3333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 5149952224536072093, guid: ea46d7222ddbfa24dbc544b4cbbdadf3, type: 3}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6438776051289628050, guid: ea46d7222ddbfa24dbc544b4cbbdadf3, type: 3}
       propertyPath: m_Name
