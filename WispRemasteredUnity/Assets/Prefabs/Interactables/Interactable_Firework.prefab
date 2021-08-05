@@ -332,9 +332,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   usableByList: 00000000
-  type: 2
   scoreValue: 1
-  landLerpTime: 0.4
+  landLerpTime: 0.2
   distance: 10
   fuseTime: 0.5
   travelTime: 1
@@ -342,7 +341,7 @@ MonoBehaviour:
   fuseStart: {fileID: 5370347855839493347}
   fuseEnd: {fileID: 5370347854510256748}
   slowMoTime: 0.5
-  targetTimeScale: 0.3
+  targetSlowTimeScale: 0.3
 --- !u!135 &4246991318721852380
 SphereCollider:
   m_ObjectHideFlags: 0

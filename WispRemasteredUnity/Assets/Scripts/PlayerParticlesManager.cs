@@ -14,6 +14,7 @@ public class PlayerParticlesManager : MonoBehaviour
         PlayerController.Instance.OnFormChange += ChangeActiveSystem;
         PlayerController.Instance.OnLand += PlayLandEffect;
         PlayerController.Instance.OnFire += PlayFireEffect;
+        PlayerController.Instance.OnDeath += DeathParticles;
     }
 
     // Start is called before the first frame update
@@ -28,6 +29,13 @@ public class PlayerParticlesManager : MonoBehaviour
         PlayerController.Instance.OnFormChange -= ChangeActiveSystem;
         PlayerController.Instance.OnLand -= PlayLandEffect;
         PlayerController.Instance.OnFire -= PlayFireEffect;
+        PlayerController.Instance.OnDeath -= DeathParticles;
+    }
+
+    private void DeathParticles()
+    {
+        currentFormDetails.particleSystem.SetActive(false);
+        currentFormDetails.landEffect.Play();
     }
 
     private void ChangeActiveSystem(WispFormType oldForm, WispFormType newForm)
@@ -44,6 +52,7 @@ public class PlayerParticlesManager : MonoBehaviour
 
     private void PlayLandEffect(Interactable landedOn)
     {
+        //Effect transform is temporarily moved to the landing position for more seamless effect
         var effectTransform = currentFormDetails.particleSystem.transform;
         var oldPos = effectTransform.position;
         effectTransform.position = landedOn.transform.position;

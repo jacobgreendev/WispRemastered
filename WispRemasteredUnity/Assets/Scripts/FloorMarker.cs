@@ -25,15 +25,17 @@ public class FloorMarker : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerController.Instance.OnLand += FadeOutFloorMarker;
+        PlayerController.Instance.OnLand += LandFade;
         PlayerController.Instance.OnFire += FadeInFloorMarker;
+        PlayerController.Instance.OnDeath += DeathFade;
     }
 
     private void OnDisable()
     {
         //Unsubscribe from all events
-        PlayerController.Instance.OnLand -= FadeOutFloorMarker;
+        PlayerController.Instance.OnLand -= LandFade;
         PlayerController.Instance.OnFire -= FadeInFloorMarker;
+        PlayerController.Instance.OnDeath -= DeathFade;
     }
 
     private void Update()
@@ -78,7 +80,17 @@ public class FloorMarker : MonoBehaviour
         lineRenderer.SetPositions(positions);
     }
 
-    private void FadeOutFloorMarker(Interactable landedOn)
+    private void LandFade(Interactable landedOn)
+    {
+        FadeOutFloorMarker();
+    }
+
+    private void DeathFade()
+    {
+        FadeOutFloorMarker();
+    }
+
+    private void FadeOutFloorMarker()
     {
         if (currentFadeRoutine != null)
         {

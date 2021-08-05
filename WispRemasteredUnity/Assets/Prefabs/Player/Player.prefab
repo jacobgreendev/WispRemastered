@@ -239,8 +239,8 @@ MonoBehaviour:
   playerRigidbody: {fileID: 2021734775934464291}
   generalForceStrength: 400
   landLerpTime: 0.1
-  deathLoadDelay: 0
-  deathTimeout: 7
+  deathLoadDelay: 1
+  deathTimeout: 5
   bodyTransform: {fileID: 2021734775686804883}
   bodyDirectionLerpSpeed: 10
 --- !u!114 &2021734775934464301

@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public event OnFireEventHandler OnFire;
     public event OnDeathEventHandler OnDeath;
     public event OnFormChangeEventHandler OnFormChange;
+    public event OnTimeoutTimerUpdateEventHandler OnTimeoutTimerUpdate;
 
     private bool inFlight = false;
     private bool isInteracting = false;
@@ -193,7 +194,6 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
         OnDeath?.Invoke();
-        bodyTransform.gameObject.SetActive(false);
         playerRigidbody.isKinematic = true;
         StartCoroutine(WaitAndReloadScene());
     }
@@ -207,6 +207,7 @@ public class PlayerController : MonoBehaviour
     private void StopDeathTimer()
     {
         if (deathTimeoutRoutine != null) StopCoroutine(deathTimeoutRoutine);
+        OnTimeoutTimerUpdate(0); //Timer is effectively 0
     }
 
     private IEnumerator DeathTimer()
@@ -217,9 +218,11 @@ public class PlayerController : MonoBehaviour
             if (!isInteracting)
             {
                 time += Time.deltaTime;
+                OnTimeoutTimerUpdate(time / deathTimeout);
             }
             yield return null;
         }
+        OnTimeoutTimerUpdate(1);
         Die();
     }
 
@@ -306,3 +309,4 @@ public delegate void OnFireEventHandler();
 public delegate void OnDeathEventHandler();
 public delegate void OnFormChangeEventHandler(WispFormType oldForm, WispFormType newForm);
 public delegate void OnResetJourneyEventHandler(Vector3 position);
+public delegate void OnTimeoutTimerUpdateEventHandler(float proportionOfTotalTime);
