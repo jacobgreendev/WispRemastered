@@ -9,13 +9,25 @@ public class PlayerParticlesManager : MonoBehaviour
 
     private WispFormParticleDetails currentFormDetails;
 
-    // Start is called before the first frame update
-    private void Start()
+    private void OnEnable()
     {
-        currentFormDetails = WispFormManager.Instance.GetParticleDetails(PlayerController.Instance.CurrentForm);
         PlayerController.Instance.OnFormChange += ChangeActiveSystem;
         PlayerController.Instance.OnLand += PlayLandEffect;
         PlayerController.Instance.OnFire += PlayFireEffect;
+    }
+
+    // Start is called before the first frame update
+    private void Start()
+    {
+        //currentFormDetails = WispFormManager.Instance.GetParticleDetails(PlayerController.Instance.CurrentForm);
+    }
+
+    private void OnDisable()
+    {
+        //Unsubscribe from all events
+        PlayerController.Instance.OnFormChange -= ChangeActiveSystem;
+        PlayerController.Instance.OnLand -= PlayLandEffect;
+        PlayerController.Instance.OnFire -= PlayFireEffect;
     }
 
     private void ChangeActiveSystem(WispFormType oldForm, WispFormType newForm)

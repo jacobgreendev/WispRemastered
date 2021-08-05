@@ -34,21 +34,42 @@ public class CameraController : MonoBehaviour
         camera = GetComponent<Camera>();
     }
 
+    private void OnEnable()
+    {
+        PlayerController.Instance.OnResetJourney += UpdatePreviousLandedHeight;
+        PlayerController.Instance.OnFire += EnableBirdseye;
+        PlayerController.Instance.OnLand += DisableBirdseye;
+    }
+
     private void Start()
     {
         following = PlayerController.Instance.transform;
         followingRigidbody = following.GetComponent<Rigidbody>();
         offset = transform.position - following.position;
-        PlayerController.Instance.OnResetJourney += UpdatePreviousLandedHeight;
-        PlayerController.Instance.OnFire += EnableBirdseye;
-        PlayerController.Instance.OnLand += DisableBirdseye;
         focal = CameraFocal.TransformInstance;
         birdseyeViewOffset = birdseyeViewHeight * Vector3.up;
         previousLandedHeight = following.position.y;
     }
 
-    // Update is called once per Physics Update
+    private void OnDisable()
+    {
+        //Unsubscribe from all events
+        PlayerController.Instance.OnResetJourney -= UpdatePreviousLandedHeight;
+        PlayerController.Instance.OnFire -= EnableBirdseye;
+        PlayerController.Instance.OnLand -= DisableBirdseye;
+    }
+
+    private void Update()
+    {
+        UpdateCamera();
+    }
+
     void FixedUpdate()
+    {
+        UpdateCamera();
+    }
+
+    private void UpdateCamera()
     {
         var followingHeightAbovePrevious = following.position.y - previousLandedHeight;
 

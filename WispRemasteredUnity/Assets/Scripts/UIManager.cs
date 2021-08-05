@@ -24,13 +24,20 @@ public class UIManager : MonoBehaviour
     {
         scoreTextInitialScale = scoreText.transform.localScale;
         popupTextInitialScale = popupText.transform.localScale;
+        popupText.enabled = false;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
         ScoreManager.Instance.OnScoreUpdate += UpdateScore;
         PlayerController.Instance.OnFormChange += ShowFormPopup;
+    }
+
+    private void OnDisable()
+    {
+        //Unsubscribe from all events
+        ScoreManager.Instance.OnScoreUpdate -= UpdateScore;
+        PlayerController.Instance.OnFormChange -= ShowFormPopup;
     }
 
     void UpdateScore(int newScore)

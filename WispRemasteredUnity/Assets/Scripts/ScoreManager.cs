@@ -13,12 +13,23 @@ public class ScoreManager : MonoBehaviour
         Instance = this;
     }
 
+    private void OnEnable()
+    {
+        PlayerController.Instance.OnLand += AddScore;
+        PlayerController.Instance.OnDeath += CheckForHiScore;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         score = 0;
-        PlayerController.Instance.OnLand += AddScore;
-        PlayerController.Instance.OnDeath += CheckForHiScore;
+    }
+
+    private void OnDisable()
+    {
+        //Unsubscribe from all events
+        PlayerController.Instance.OnLand -= AddScore;
+        PlayerController.Instance.OnDeath -= CheckForHiScore;
     }
 
     private void AddScore(Interactable landedOn)

@@ -15,16 +15,25 @@ public class FloorMarker : MonoBehaviour
     private Coroutine currentFadeRoutine;
     private Material markerMaterial, lineMaterial;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        PlayerController.Instance.OnLand += FadeOutFloorMarker;
-        PlayerController.Instance.OnFire += FadeInFloorMarker;
-
         markerMaterial = marker.GetComponent<Renderer>().material;
         lineMaterial = lineRenderer.material;
         maxAlpha = markerMaterial.GetFloat("_Alpha");
+    }
+
+    private void OnEnable()
+    {
+        PlayerController.Instance.OnLand += FadeOutFloorMarker;
+        PlayerController.Instance.OnFire += FadeInFloorMarker;
+    }
+
+    private void OnDisable()
+    {
+        //Unsubscribe from all events
+        PlayerController.Instance.OnLand -= FadeOutFloorMarker;
+        PlayerController.Instance.OnFire -= FadeInFloorMarker;
     }
 
     private void Update()

@@ -37,14 +37,26 @@ public class DragManager : MonoBehaviour
         Instance = this;
     }
 
-    // Start is called before the first frame update
-    private void Start()
+    private void OnEnable()
     {
         PlayerController.Instance.DragPositionUpdated += OnDragPositionUpdate;
         PlayerController.Instance.TouchDetectedWhileNotInFlight += DragEnabled;
         CameraController.Instance.CameraPositionUpdated += OnCameraPositionUpdate;
+    }
+
+    // Start is called before the first frame update
+    private void Start()
+    {
         mainCamera = Camera.main;
         dragLineRenderer.SetPosition(0, playerScreenPosition); //SetPosition is relative to line renderer position, which in this case is the bottom left
+    }
+
+    private void OnDisable()
+    {
+        //Unsubscribe from all events
+        PlayerController.Instance.DragPositionUpdated -= OnDragPositionUpdate;
+        PlayerController.Instance.TouchDetectedWhileNotInFlight -= DragEnabled;
+        CameraController.Instance.CameraPositionUpdated -= OnCameraPositionUpdate;
     }
 
     private void OnDragPositionUpdate(Vector3 position)

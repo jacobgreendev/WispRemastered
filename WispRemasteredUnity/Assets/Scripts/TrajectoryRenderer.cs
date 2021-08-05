@@ -18,22 +18,31 @@ public class TrajectoryRenderer : MonoBehaviour
         Instance = this;
     }
 
+    private void OnEnable()
+    {
+        ScoreManager.Instance.OnScoreUpdate += UpdateLengthByScore;
+        PlayerController.Instance.OnFire += SetInvisible;
+    }
+
     private void Start()
     {
         fixedDeltaTime = Time.fixedDeltaTime;
-
-        ScoreManager.Instance.OnScoreUpdate += UpdateLengthByScore;
-        PlayerController.Instance.OnFire += () => SetVisible(false); 
     }
 
+    private void OnDisable()
+    {
+        //Unsubscribe from all events
+        ScoreManager.Instance.OnScoreUpdate -= UpdateLengthByScore;
+        PlayerController.Instance.OnFire -= SetInvisible;
+    }
     private void UpdateLengthByScore(int score)
     {
         length = Mathf.Lerp(1, minimumLengthMultiplier, score / scoreForMinimumLength);
     }
 
-    public void SetVisible(bool visible)
+    public void SetInvisible()
     {
-        trajectoryLine.enabled = visible;
+        trajectoryLine.enabled = false;
     }
 
     public void DisplayPath(Vector3 startPoint, Vector3 force, float mass, float drag)
