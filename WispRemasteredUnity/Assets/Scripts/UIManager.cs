@@ -7,42 +7,72 @@ public class UIManager : MonoBehaviour
 {
     [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI popupText;
 
     [Header("Score Text Fields")]
     [SerializeField] private AnimationCurve scoreAnimationScaleCurve, scoreAnimationAlphaCurve;
-    [SerializeField] private float scoreAnimationLength, scoreAnimationScaleMultiplier;
+    [SerializeField] private float scoreAnimationDuration, scoreAnimationScaleMultiplier;
 
-    private Coroutine scoreTextAnimationRoutine;
-    private Vector3 scoreTextInitialScale;
+    [Header("Popup Text Fields")]
+    [SerializeField] private AnimationCurve popupAnimationScaleCurve, popupAnimationAlphaCurve;
+    [SerializeField] private float popupAnimationDuration, popupAnimationScaleMultiplier;
+
+    private Coroutine scoreTextAnimationRoutine, popupTextAnimationRoutine;
+    private Vector3 scoreTextInitialScale, popupTextInitialScale;
+
+    private void Awake()
+    {
+        scoreTextInitialScale = scoreText.transform.localScale;
+        popupTextInitialScale = popupText.transform.localScale;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        //scoreText.enabled = false;
         ScoreManager.Instance.OnScoreUpdate += UpdateScore;
-        scoreTextInitialScale = scoreText.transform.localScale;
+        PlayerController.Instance.OnFormChange += ShowFormPopup;
     }
+
     void UpdateScore(int newScore)
     {
         if (scoreTextAnimationRoutine != null) StopCoroutine(scoreTextAnimationRoutine);
-        scoreTextAnimationRoutine = StartCoroutine(ScoreTextAnimation());
+
+        scoreTextAnimationRoutine = StartCoroutine(TextAnimation(scoreText, scoreAnimationScaleCurve, scoreAnimationAlphaCurve, 
+            scoreTextInitialScale, scoreAnimationDuration, scoreAnimationScaleMultiplier, false));
+
         scoreText.text = newScore.ToString();
     }
 
-    private IEnumerator ScoreTextAnimation()
+    void ShowFormPopup(WispFormType oldForm, WispFormType newForm)
     {
-        scoreText.enabled = true;
+        ShowPopup(newForm.ToString().ToUpper() + "!");
+    }
+
+    void ShowPopup(string text)
+    {
+        popupText.text = text;
+
+        if (popupTextAnimationRoutine != null) StopCoroutine(popupTextAnimationRoutine);
+
+        popupTextAnimationRoutine = StartCoroutine(TextAnimation(popupText, popupAnimationScaleCurve, popupAnimationAlphaCurve,
+            popupTextInitialScale, popupAnimationDuration, popupAnimationScaleMultiplier, true));
+    }
+
+    private IEnumerator TextAnimation(TextMeshProUGUI text, AnimationCurve scaleCurve, AnimationCurve alphaCurve, 
+        Vector3 initialScale, float duration, float scaleMultiplier, bool disableAfter)
+    {
+        text.enabled = true;
 
         var time = 0f;
-        while(time < scoreAnimationLength)
+        while(time < duration)
         {
             time += Time.unscaledDeltaTime;
-            var animationTime = time / scoreAnimationLength;
-            scoreText.transform.localScale = scoreTextInitialScale * (1 + (scoreAnimationScaleMultiplier * scoreAnimationScaleCurve.Evaluate(animationTime)));
-            //scoreText.alpha = scoreAnimationAlphaCurve.Evaluate(animationTime);
+            var animationTime = time / duration;
+            text.transform.localScale = initialScale * (1 + (scaleMultiplier * scaleCurve.Evaluate(animationTime)));
+            text.alpha = alphaCurve.Evaluate(animationTime);
             yield return null;
         }
 
-        //scoreText.enabled = false;
+        if (disableAfter) text.enabled = false;
     }
 }

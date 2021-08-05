@@ -58,7 +58,7 @@ public class TrajectoryRenderer : MonoBehaviour
                 segVelocity += Physics.gravity * segTime;
                 segVelocity *= Mathf.Clamp01(1.0f - drag * segTime);
 
-                if (Physics.Raycast(segments[i - 1], segVelocity.normalized, segVelocity.magnitude * segTime)) last = true;
+                //if (Physics.Raycast(segments[i - 1], segVelocity.normalized, segVelocity.magnitude * segTime)) last = true;
 
                 segments.Add(segments[i-1] + segVelocity * segTime);
             }

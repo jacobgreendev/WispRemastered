@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
 
     private Interactable lastInteracted;
 
+    private Coroutine deathTimeoutRoutine;
+
     public WispFormType CurrentForm
     {
         get => currentForm;
@@ -47,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Time Values")]
     [SerializeField] private float landLerpTime;
-    [SerializeField] private float deathLoadDelay;
+    [SerializeField] private float deathLoadDelay, deathTimeout;
 
     [Header("Visuals")]
     [SerializeField] private Transform bodyTransform;
@@ -64,6 +66,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         ChangeForm(WispFormType.Flame);
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -142,11 +145,14 @@ public class PlayerController : MonoBehaviour
         inFlight = true;
         
         playerRigidbody.AddForce(currentForceVector);
+
+        ResetDeathTimer();
     }
 
     public void Land(Interactable landedOn, Transform landTransform, bool inPlace = false)
     {      
         ResetJourney();
+        StopDeathTimer();
 
         if (!inPlace)
         {
@@ -163,6 +169,7 @@ public class PlayerController : MonoBehaviour
     public void ResetJourney()
     {
         OnResetJourney?.Invoke(transform.position);
+        ResetDeathTimer();
     }
 
     public void ChangeForm(WispFormType newForm)
@@ -186,6 +193,31 @@ public class PlayerController : MonoBehaviour
         bodyTransform.gameObject.SetActive(false);
         playerRigidbody.isKinematic = true;
         StartCoroutine(WaitAndReloadScene());
+    }
+
+    private void ResetDeathTimer()
+    {
+        StopDeathTimer();
+        deathTimeoutRoutine = StartCoroutine(DeathTimer());
+    }
+
+    private void StopDeathTimer()
+    {
+        if (deathTimeoutRoutine != null) StopCoroutine(deathTimeoutRoutine);
+    }
+
+    private IEnumerator DeathTimer()
+    {
+        float time = 0;
+        while(time < deathTimeout)
+        {
+            if (!isInteracting)
+            {
+                time += Time.deltaTime;
+            }
+            yield return null;
+        }
+        Die();
     }
 
     private void OnTriggerEnter(Collider other)
