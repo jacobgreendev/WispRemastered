@@ -174,17 +174,20 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeForm(WispFormType newForm)
     {
-        OnFormChange?.Invoke(currentForm, newForm);
-        currentForm = newForm;
+        if (currentForm != newForm)
+        {
+            OnFormChange?.Invoke(currentForm, newForm);
+            currentForm = newForm;
 
-        WispForm wispForm = WispFormManager.Instance.GetWispForm(newForm);
+            WispForm wispForm = WispFormManager.Instance.GetWispForm(newForm);
 
-        sidewaysForceMultiplier = wispForm.sidewaysForceMultiplier;
-        verticalForceMultiplier = wispForm.verticalForceMultiplier;
-        forwardForceMultiplier = wispForm.forwardForceMultiplier;
+            sidewaysForceMultiplier = wispForm.sidewaysForceMultiplier;
+            verticalForceMultiplier = wispForm.verticalForceMultiplier;
+            forwardForceMultiplier = wispForm.forwardForceMultiplier;
 
-        Physics.gravity = 9.81f * wispForm.gravityMultiplier * Vector3.down;
-        playerRigidbody.drag = wispForm.drag;
+            Physics.gravity = 9.81f * wispForm.gravityMultiplier * Vector3.down;
+            playerRigidbody.drag = wispForm.drag;
+        }   
     }
         
     private void Die()
