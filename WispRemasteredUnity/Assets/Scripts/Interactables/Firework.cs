@@ -8,7 +8,7 @@ public class Firework : Interactable
 
     [Header("Slow-motion")]
     [SerializeField] private float slowMoTime = 0.5f;
-    [SerializeField] private float targetTimeScale = 0.3f;
+    [SerializeField] private float targetSlowTimeScale = 0.3f;
 
     private PlayerController player;
 
@@ -55,31 +55,15 @@ public class Firework : Interactable
 
         //Disable interacting state and smoothly slow time until the player fires again
         player.IsInteracting = false;       
-        yield return StartCoroutine(SmoothSlowDownTime());
+        TimeUtilities.Instance.LerpTime(targetSlowTimeScale, slowMoTime);
         PlayerController.Instance.OnFire += OnPlayerFired;
     }
-
 
     void OnPlayerFired()
     {
         PlayerController.Instance.OnFire -= OnPlayerFired;
 
-        Time.timeScale = 1;
+        TimeUtilities.Instance.SetTimescale(1);
         Destroy(gameObject);
-    }
-
-    IEnumerator SmoothSlowDownTime()
-    {
-        float time = 0f;
-        float initialTimeScale = Time.timeScale;
-
-        while(time < landLerpTime)
-        {
-            time += Time.deltaTime;
-            Time.timeScale = Mathf.Lerp(initialTimeScale, targetTimeScale, time / slowMoTime);
-            yield return null;
-        }
-
-        Time.timeScale = targetTimeScale;
     }
 }

@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         ChangeForm(WispFormType.Flame);
-        Time.timeScale = 1;
+        TimeUtilities.Instance.SetTimescale(1);
     }
 
     // Update is called once per frame

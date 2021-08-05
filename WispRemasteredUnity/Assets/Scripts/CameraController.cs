@@ -59,11 +59,6 @@ public class CameraController : MonoBehaviour
         PlayerController.Instance.OnLand -= DisableBirdseye;
     }
 
-    private void Update()
-    {
-        UpdateCamera();
-    }
-
     void FixedUpdate()
     {
         UpdateCamera();

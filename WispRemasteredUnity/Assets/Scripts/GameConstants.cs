@@ -4,6 +4,9 @@ using UnityEngine;
 
 public static class GameConstants
 {
+    ///Time
+    public const int FixedUpdatesPerSecond = 60;
+
     ///Tags
     public const string Tag_LandingTrigger = "LandingTrigger";
     public const string Tag_Ground = "Ground";
