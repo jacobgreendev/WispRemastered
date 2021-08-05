@@ -15,6 +15,11 @@ public class TimeUtilities : MonoBehaviour
     public void SetTimescale(float timescale)
     {
         if (currentTimeLerpRoutine != null) StopCoroutine(currentTimeLerpRoutine);
+        SetTimeScaleAndFixedDeltaTime(timescale);
+    }
+
+    private void SetTimeScaleAndFixedDeltaTime(float timescale)
+    {
         Time.timeScale = timescale;
         Time.fixedDeltaTime = timescale / GameConstants.FixedUpdatesPerSecond;
     }
@@ -34,10 +39,10 @@ public class TimeUtilities : MonoBehaviour
         while (time < lerpTime)
         {
             time += Time.deltaTime;
-            Time.timeScale = Mathf.Lerp(initialTimeScale, targetTimeScale, time / lerpTime);
+            SetTimeScaleAndFixedDeltaTime(Mathf.Lerp(initialTimeScale, targetTimeScale, time / lerpTime));
             yield return null;
         }
 
-        Time.timeScale = targetTimeScale;
+        SetTimeScaleAndFixedDeltaTime(targetTimeScale);
     }
 }
