@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WispForm_Flame
   m_EditorClassIdentifier: 
   wispFormType: 0
-  forwardForceMultiplier: 2
+  forwardForceMultiplier: 1
   verticalForceMultiplier: 2
   sidewaysForceMultiplier: 2
   gravityMultiplier: 1

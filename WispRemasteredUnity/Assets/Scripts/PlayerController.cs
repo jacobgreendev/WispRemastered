@@ -266,7 +266,7 @@ public class PlayerController : MonoBehaviour
         {
             time += Time.deltaTime;
             lerpingTransform.position = Vector3.Lerp(initialPosition, endPosition, time / lerpTime);
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
     }
 
@@ -277,7 +277,7 @@ public class PlayerController : MonoBehaviour
         {
             time += Time.deltaTime;
             lerpingTransform.position = Vector3.Lerp(initialPosition, endPosition, Mathf.SmoothStep(0, 1, time / lerpTime));
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
     }
 
@@ -295,7 +295,7 @@ public class PlayerController : MonoBehaviour
         {
             time += Time.deltaTime;
             transform.position = Vector3.Lerp(initialPosition, targetPosition, time / landLerpTime);
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
         inFlight = false;
         OnLand?.Invoke(landedOn);
