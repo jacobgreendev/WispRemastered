@@ -30,7 +30,6 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         var scoreTextFontSize = scoreText.fontSize;
-        Debug.Log(scoreTextFontSize);
         scoreText.enableAutoSizing = false;
         scoreText.fontSize = scoreTextFontSize;
 
