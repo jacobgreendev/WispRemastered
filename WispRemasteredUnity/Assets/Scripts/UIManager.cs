@@ -29,10 +29,12 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
+        scoreText.ForceMeshUpdate();
         var scoreTextFontSize = scoreText.fontSize;
         scoreText.enableAutoSizing = false;
         scoreText.fontSize = scoreTextFontSize;
 
+        popupText.ForceMeshUpdate();
         var popupTextFontSize = popupText.fontSize;
         popupText.enableAutoSizing = false;
         popupText.fontSize = popupTextFontSize;
