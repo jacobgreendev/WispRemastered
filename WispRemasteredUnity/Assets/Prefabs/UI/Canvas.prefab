@@ -98,7 +98,7 @@ MonoBehaviour:
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 1000
+  m_fontSizeMax: 100
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -406,14 +406,23 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.50877357
     - serializedVersion: 3
-      time: 0.038212955
-      value: 0.9914781
-      inSlope: -2.7709687
-      outSlope: -2.4481876
+      time: 0.23019674
+      value: 0.8821162
+      inSlope: -0.07531173
+      outSlope: 0.032794297
       tangentMode: 1
       weightedMode: 0
-      inWeight: 0.5918582
-      outWeight: 0.051699933
+      inWeight: 0.7203578
+      outWeight: 0.53724843
+    - serializedVersion: 3
+      time: 0.5489318
+      value: 0.45243165
+      inSlope: -1.9943724
+      outSlope: -1.9943724
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 0
@@ -430,7 +439,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.57750005
       value: 1
       inSlope: -3.5379422
       outSlope: -3.5379422
@@ -438,15 +447,6 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.039057568
-    - serializedVersion: 3
-      time: 0.10071677
-      value: 0.6591493
-      inSlope: -2.7709687
-      outSlope: -2.4481876
-      tangentMode: 1
-      weightedMode: 0
-      inWeight: 0.5918582
-      outWeight: 0.051699933
     - serializedVersion: 3
       time: 1
       value: 0
@@ -460,7 +460,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   popupAnimationDuration: 1
-  popupAnimationScaleMultiplier: 1.4
+  popupAnimationScaleMultiplier: 1.1
   timeoutSliderThreshold: 0.5
 --- !u!1 &5601398496883578225
 GameObject:
