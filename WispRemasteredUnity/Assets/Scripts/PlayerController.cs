@@ -129,12 +129,12 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 dragVector = DragManager.Instance.DragVector;
 
-        Vector3 xForce = transform.right * dragVector.normalized.x * sidewaysForceMultiplier;
-        Vector3 zForce = transform.forward * dragVector.normalized.y * forwardForceMultiplier;
-        Vector3 yForce = transform.up * dragVector.normalized.y * verticalForceMultiplier;
-        if (zForce.z < 0) zForce = Vector3.zero; //Do not allow player to travel backwards
+        float dragPercentage = dragVector.magnitude / DragManager.Instance.MaxDragDistance;
 
-        currentForceVector = (xForce + yForce + zForce) * generalForceStrength * (dragVector.magnitude / DragManager.Instance.MaxDragDistance);
+        Vector3 XYForce = dragVector.normalized * dragPercentage * sidewaysForceMultiplier * generalForceStrength;
+        Vector3 ZForce = forwardForceMultiplier * generalForceStrength * transform.forward;
+
+        currentForceVector = XYForce + ZForce;
         TrajectoryRenderer.Instance.DisplayPath(transform.position, currentForceVector, playerRigidbody.mass, playerRigidbody.drag);
     }
 
