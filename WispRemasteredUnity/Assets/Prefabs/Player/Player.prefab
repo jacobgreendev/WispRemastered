@@ -306,7 +306,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!1 &2021734776372980274
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,6 +639,14 @@ PrefabInstance:
       value: FlameLandEffect
       objectReference: {fileID: 0}
     - target: {fileID: 6160740973327153261, guid: 0d6e81e28802c0a4c8255c46525b0774, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6160740973327153261, guid: 0d6e81e28802c0a4c8255c46525b0774, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6160740973327153261, guid: 0d6e81e28802c0a4c8255c46525b0774, type: 3}
       propertyPath: InitialModule.startSize.scalar
       value: 0.08
       objectReference: {fileID: 0}
@@ -755,6 +763,22 @@ PrefabInstance:
     - target: {fileID: 464692974074934313, guid: 20ba9cfe5e2adda45bdaed6dd4beba18, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1752328219102979622, guid: 20ba9cfe5e2adda45bdaed6dd4beba18, type: 3}
+      propertyPath: NoiseModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1752328219102979622, guid: 20ba9cfe5e2adda45bdaed6dd4beba18, type: 3}
+      propertyPath: NoiseModule.frequency
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1752328219102979622, guid: 20ba9cfe5e2adda45bdaed6dd4beba18, type: 3}
+      propertyPath: NoiseModule.strength.scalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1752328219102979622, guid: 20ba9cfe5e2adda45bdaed6dd4beba18, type: 3}
+      propertyPath: NoiseModule.scrollSpeed.scalar
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5829107270954137981, guid: 20ba9cfe5e2adda45bdaed6dd4beba18, type: 3}
       propertyPath: m_RootOrder

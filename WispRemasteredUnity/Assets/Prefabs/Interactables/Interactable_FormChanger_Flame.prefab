@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: formChange
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1797312091568363965, guid: 57508705fb737e149aa5659b9f3b4914, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: aa7f9c1050ac03c41898db4136ff8e67, type: 2}
     - target: {fileID: 1797312092299868218, guid: 57508705fb737e149aa5659b9f3b4914, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -116,6 +120,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Interactable_FormChanger_Flame
       objectReference: {fileID: 0}
+    - target: {fileID: 1797312092753947159, guid: 57508705fb737e149aa5659b9f3b4914, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: aa7f9c1050ac03c41898db4136ff8e67, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57508705fb737e149aa5659b9f3b4914, type: 3}
 --- !u!4 &7783830212690840050 stripped

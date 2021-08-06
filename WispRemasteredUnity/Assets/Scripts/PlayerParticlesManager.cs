@@ -34,7 +34,9 @@ public class PlayerParticlesManager : MonoBehaviour
 
     private void DeathParticles()
     {
-        currentFormDetails.particleSystem.SetActive(false);
+        var emission = currentFormDetails.particleSystem.GetComponent<ParticleSystem>().emission;
+        emission.rateOverTime = 0;
+
         currentFormDetails.landEffect.Play();
     }
 
