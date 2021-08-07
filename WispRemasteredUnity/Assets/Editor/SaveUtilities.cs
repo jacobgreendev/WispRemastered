@@ -13,6 +13,9 @@ public class SaveUtilities : MonoBehaviour
             PlayerSaveManager.CreateSaveFile();
 
         LocalSaveData.Instance.hiScore = 10;
+        LocalSaveData.Instance.levelScores = new Dictionary<int, int>();
+        LocalSaveData.Instance.levelScores[1] = 100;
+        LocalSaveData.Instance.levelScores[2] = 200;
         PlayerSaveManager.SaveFile();
     }
 
@@ -21,7 +24,7 @@ public class SaveUtilities : MonoBehaviour
     {
         if (PlayerSaveManager.LoadSaveFile())
         {
-            Debug.Log("Saved file had a Max Score of " + LocalSaveData.Instance.hiScore);
+            Debug.Log($"Saved file had a Max Score of {LocalSaveData.Instance.hiScore} and had a score of {LocalSaveData.Instance.levelScores[2]} for level 2");
         }
     }
 
