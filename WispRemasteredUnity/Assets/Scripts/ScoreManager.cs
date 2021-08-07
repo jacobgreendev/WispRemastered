@@ -49,6 +49,10 @@ public class ScoreManager : MonoBehaviour
         //Unsubscribe from all events
         PlayerController.Instance.OnLand -= AddScore;
         PlayerController.Instance.OnDeath -= CheckForHiScore;
+        LootLockerSDKManager.EndSession("TestDevice", (response) =>
+        {
+            Debug.Log("Session end successful");
+        });
     }
 
     private void AddScore(Interactable landedOn)
