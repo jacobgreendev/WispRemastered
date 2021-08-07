@@ -65,9 +65,9 @@ public class DragManager : MonoBehaviour
         dragLineRenderer.SetPosition(0, playerScreenPosition); //Sets centre of line renderer to the player's position on screen
 
         var newDragPos = (Vector2) position;
-        if(Vector3.Distance(playerScreenPosition, newDragPos) > maxDragDistanceAsScreenSizeRatio * Screen.width)
+        if(Vector3.Distance(playerScreenPosition, newDragPos) > maxDragDistanceAsScreenSizeRatio * Mathf.Min(Screen.width, Screen.height))
         {
-            newDragPos = playerScreenPosition + (newDragPos - playerScreenPosition).normalized * maxDragDistanceAsScreenSizeRatio * Screen.width;
+            newDragPos = playerScreenPosition + (newDragPos - playerScreenPosition).normalized * maxDragDistanceAsScreenSizeRatio * Mathf.Min(Screen.width, Screen.height);
         }
 
         dragLineRenderer.SetPosition(1, (Vector2) newDragPos);
