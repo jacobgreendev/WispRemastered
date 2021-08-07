@@ -330,7 +330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragLineRenderer: {fileID: 5601398496883578227}
-  maxDragDistanceAsScreenSizeRatio: 0.45
+  maxDragDistanceAsRatioOfDistanceToScreenEdge: 0.9
 --- !u!114 &5601398496772973204
 MonoBehaviour:
   m_ObjectHideFlags: 0

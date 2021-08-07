@@ -13,7 +13,7 @@ public class DragManager : MonoBehaviour
     [SerializeField] private LineRenderer dragLineRenderer;
 
     [Range(0f, 1f)]
-    [SerializeField] private float maxDragDistanceAsScreenSizeRatio;
+    [SerializeField] private float maxDragDistanceAsRatioOfDistanceToScreenEdge;
 
 
     public Vector2 DragVector
@@ -28,7 +28,9 @@ public class DragManager : MonoBehaviour
     {
         get
         {
-            return maxDragDistanceAsScreenSizeRatio * Mathf.Min(Screen.width, Screen.height);
+            var xDistanceToClosestEdge = Mathf.Min(playerScreenPosition.x, Screen.width - playerScreenPosition.x);
+            var yDistanceToClosestEdge = Mathf.Min(playerScreenPosition.y, Screen.height - playerScreenPosition.y);
+            return Mathf.Min(xDistanceToClosestEdge, yDistanceToClosestEdge) * maxDragDistanceAsRatioOfDistanceToScreenEdge;
         }
     }
 
@@ -65,9 +67,9 @@ public class DragManager : MonoBehaviour
         dragLineRenderer.SetPosition(0, playerScreenPosition); //Sets centre of line renderer to the player's position on screen
 
         var newDragPos = (Vector2) position;
-        if(Vector3.Distance(playerScreenPosition, newDragPos) > maxDragDistanceAsScreenSizeRatio * Mathf.Min(Screen.width, Screen.height))
+        if(Vector3.Distance(playerScreenPosition, newDragPos) > MaxDragDistance)
         {
-            newDragPos = playerScreenPosition + (newDragPos - playerScreenPosition).normalized * maxDragDistanceAsScreenSizeRatio * Mathf.Min(Screen.width, Screen.height);
+            newDragPos = playerScreenPosition + (newDragPos - playerScreenPosition).normalized * MaxDragDistance;
         }
 
         dragLineRenderer.SetPosition(1, (Vector2) newDragPos);
