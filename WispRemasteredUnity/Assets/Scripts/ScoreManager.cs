@@ -15,7 +15,7 @@ public class ScoreManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerController.Instance.OnLand += AddScore;
+        PlayerController.Instance.OnLand += AddScoreOnLand;
         PlayerController.Instance.OnDeath += CheckForHiScore;
     }
 
@@ -28,17 +28,23 @@ public class ScoreManager : MonoBehaviour
     private void OnDisable()
     {
         //Unsubscribe from all events
-        PlayerController.Instance.OnLand -= AddScore;
+        PlayerController.Instance.OnLand -= AddScoreOnLand;
         PlayerController.Instance.OnDeath -= CheckForHiScore;
     }
 
-    private void AddScore(Interactable landedOn)
+    private void AddScoreOnLand(Interactable landedOn)
     {
         if (landedOn.ScoreValue > 0)
         {
             score += landedOn.ScoreValue;
             OnScoreUpdate?.Invoke(score);
         }
+    }
+
+    public void AddScoreWithMessage(int added, string message)
+    {
+        score += added;
+        UIManager.Instance.ShowPopup($"{message} (+{added})");
     }
 
     private void CheckForHiScore()

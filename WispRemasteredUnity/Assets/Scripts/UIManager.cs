@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance;
+
     [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI popupText;
@@ -29,6 +31,8 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
+
         scoreText.ForceMeshUpdate();
         var scoreTextFontSize = scoreText.fontSize;
         scoreText.enableAutoSizing = false;
@@ -93,7 +97,7 @@ public class UIManager : MonoBehaviour
         ShowPopup(newForm.ToString().ToUpper());
     }
 
-    void ShowPopup(string text)
+    public void ShowPopup(string text)
     {
         popupText.text = text;
 

@@ -52,6 +52,7 @@ public class Firework : Interactable
         player.Rigidbody.isKinematic = false;
         player.Land(this, transform, inPlace: true);
         player.Rigidbody.velocity = transform.up * explosionForce;
+        ScoreManager.Instance.AddScoreWithMessage(1, "BOOM!");
 
         //Disable interacting state and smoothly slow time until the player fires again
         player.IsInteracting = false;       

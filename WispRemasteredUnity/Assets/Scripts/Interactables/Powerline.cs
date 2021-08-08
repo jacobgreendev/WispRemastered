@@ -25,6 +25,8 @@ public class Powerline : Interactable
     }
     private IEnumerator RidePowerline(PlayerController player)
     {
+        ScoreManager.Instance.AddScoreWithMessage(1, "ZAP!");
+
         //Get some initial values
         var currentSpeed = player.Rigidbody.velocity.magnitude;
         var playerTransform = player.transform;
