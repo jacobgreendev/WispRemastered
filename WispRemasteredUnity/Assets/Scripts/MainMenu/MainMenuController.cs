@@ -12,7 +12,15 @@ public class MainMenuController : MonoBehaviour
     {
         playButton.onClick.AddListener(ShowLevelSelect);
         levelSelectBackButton.onClick.AddListener(ShowMainMenu);
-        ShowMainMenu();
+        if (SceneData.levelJustCompleted == null)
+        {
+            ShowMainMenu();
+        }
+        else
+        {
+            ShowLevelSelect();
+        }
+        PlayerSaveManager.LoadSaveFile();
     }
 
     private void ShowMainMenu()

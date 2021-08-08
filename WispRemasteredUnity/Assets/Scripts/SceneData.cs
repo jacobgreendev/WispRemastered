@@ -5,5 +5,5 @@ using UnityEngine;
 public static class SceneData
 {
     public static List<LevelInfo> levelList;
-    public static LevelInfo levelToLoad;
+    public static LevelInfo levelToLoad, levelJustCompleted;
 }

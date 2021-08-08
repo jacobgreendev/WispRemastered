@@ -268,7 +268,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1797312093061580601}
-  - component: {fileID: 1797312093061580583}
   m_Layer: 0
   m_Name: LandPos
   m_TagString: InteractableTrigger
@@ -291,18 +290,3 @@ Transform:
   m_Father: {fileID: 1797312092299868218}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1797312093061580583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1797312093061580602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd0f181fd32174042b414d420027d908, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  usableByList: 0000000001000000
-  scoreValue: 0
-  landPosition: {fileID: 1797312093061580601}

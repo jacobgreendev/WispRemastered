@@ -5,6 +5,6 @@ public class LocalSaveData
 {
     public static LocalSaveData Instance;
 
-    public int hiScore = 0;
-    public Dictionary<int, int> levelScores = new Dictionary<int, int>();
+    public int endlessHiScore = 0;
+    public Dictionary<int, Dictionary<int, int>> levelScores = new Dictionary<int, Dictionary<int, int>>();
 }
