@@ -14,14 +14,9 @@ public class SaveUtilities : MonoBehaviour
             PlayerSaveManager.CreateSaveFile();
 
         LocalSaveData.Instance.endlessHiScore = 10;
-        LocalSaveData.Instance.levelScores = new Dictionary<int, Dictionary<int, int>>();
+        LocalSaveData.Instance.levelScores = new Dictionary<string, int>();
 
-        if (!LocalSaveData.Instance.levelScores.ContainsKey(1))
-        {
-            LocalSaveData.Instance.levelScores[1] = new Dictionary<int, int>();
-        }
-
-        LocalSaveData.Instance.levelScores[1][2] = 200;
+        LocalSaveData.Instance.levelScores["1-2"] = 200;
 
         PlayerSaveManager.SaveFile();
     }
@@ -34,14 +29,9 @@ public class SaveUtilities : MonoBehaviour
             var saveData = LocalSaveData.Instance;
             Debug.Log($"Endless HiScore: {LocalSaveData.Instance.endlessHiScore}");
             Debug.Log("Chapter-Level Scores:");
-            foreach(var chapterPair in saveData.levelScores)
+            foreach(var levelScore in saveData.levelScores)
             {
-                var chapter = chapterPair.Key;
-                var scores = chapterPair.Value;
-                foreach(var level in scores)
-                {
-                    Debug.Log($"Level {chapter}-{level.Key}: {level.Value}");
-                }
+                Debug.Log($"Level {levelScore.Key}: {levelScore.Value}");
             }
         }
         else

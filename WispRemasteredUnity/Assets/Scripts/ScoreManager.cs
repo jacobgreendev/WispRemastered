@@ -66,35 +66,30 @@ public class ScoreManager : MonoBehaviour
     {
         var saveData = LocalSaveData.Instance;
         var levelScores = saveData.levelScores;
-        UpdateRecord<int>(levelScores, SceneData.levelToLoad.chapterNumber, SceneData.levelToLoad.levelNumber, score, true);
+        UpdateNumericRecord<int>(levelScores, SceneData.levelToLoad.chapterNumber, SceneData.levelToLoad.levelNumber, score, true);
 
         var levelTimes = saveData.levelTimesSeconds;
-        UpdateRecord<float>(levelTimes, SceneData.levelToLoad.chapterNumber, SceneData.levelToLoad.levelNumber, timeElapsed, false);
+        UpdateNumericRecord<float>(levelTimes, SceneData.levelToLoad.chapterNumber, SceneData.levelToLoad.levelNumber, timeElapsed, false);
 
         PlayerSaveManager.SaveFile();
     }
 
-    public void UpdateRecord<T>(Dictionary<int, Dictionary<int,T>> recordDict, int chapterNumber, int levelNumber, T newRecord, bool higherWins = true) where T : IConvertible
+    public void UpdateNumericRecord<T>(Dictionary<string, T> recordDict, int chapterNumber, int levelNumber, T newRecord, bool higherWins = true) where T : IConvertible
     {
-        if (!recordDict.ContainsKey(chapterNumber))
+        var levelID = $"{chapterNumber}-{levelNumber}";
+        if (recordDict.ContainsKey(levelID))
         {
-            recordDict.Add(chapterNumber, new());
-        }
-
-        var currentChapterRecords = recordDict[chapterNumber];
-        if (currentChapterRecords.ContainsKey(levelNumber))
-        {
-            T currentRecord = currentChapterRecords[levelNumber];
+            T currentRecord = recordDict[levelID];
             float newRecordFloat = Convert.ToSingle(newRecord);
             float currentRecordFloat = Convert.ToSingle(currentRecord);
             if (CompareRecord(currentRecordFloat, newRecordFloat, higherWins))
             {
-                currentChapterRecords[levelNumber] = newRecord;
+                recordDict[levelID] = newRecord;
             }
         }
         else
         {
-            currentChapterRecords[levelNumber] = newRecord;
+            recordDict[levelID] = newRecord;
         }
     }
 

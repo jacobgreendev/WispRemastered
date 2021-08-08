@@ -9,11 +9,11 @@ public class LocalSaveData
     [OptionalField(VersionAdded = 2)]
     public int endlessHiScore = 0;
 
-    [OptionalField(VersionAdded = 2)] 
-    public Dictionary<int, Dictionary<int, int>> levelScores = new Dictionary<int, Dictionary<int, int>>();
+    [OptionalField(VersionAdded = 4)]
+    public Dictionary<string, int> levelScores = new();
 
-    [OptionalField(VersionAdded = 3)]
-    public Dictionary<int, Dictionary<int, float>> levelTimesSeconds = new Dictionary<int, Dictionary<int, float>>();
+    [OptionalField(VersionAdded = 4)]
+    public Dictionary<string, float> levelTimesSeconds = new();
 
     [OnDeserialized]
     void OnDeserialized(StreamingContext context)

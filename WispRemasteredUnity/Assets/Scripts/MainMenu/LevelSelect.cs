@@ -80,20 +80,16 @@ public class LevelSelect : MonoBehaviour
             var levelTimes = LocalSaveData.Instance.levelTimesSeconds;
 
             //Check if level has a score attached already, and set the hiscore text to that
-            bool chapterHasScores = levelScores.ContainsKey(chapterNumber);
-            bool levelHasScore = false;
+            var levelID = $"{levelInfo.chapterNumber}-{levelInfo.levelNumber}";
+            bool levelHasScore = levelScores.ContainsKey(levelID);
             newButtonInfo.HiScoreText.text = GameConstants.LevelLockedText;  //set hiscore text to locked text is level is locked
             newButtonInfo.BestTimeText.enabled = false;
-            if (chapterHasScores)
+            if (levelHasScore)
             {
-                levelHasScore = levelScores[chapterNumber].ContainsKey(levelInfo.levelNumber);
-                if (levelHasScore)
-                {
-                    newButtonInfo.HiScoreText.text = GameConstants.LevelHiScorePrefix + levelScores[chapterNumber][levelInfo.levelNumber].ToString();
-                    newButtonInfo.BestTimeText.enabled = true;
-                    hiscoreTextList.Add(newButtonInfo.BestTimeText);
-                    newButtonInfo.BestTimeText.text = TimeUtilities.GetMinuteSecondRepresentation(Mathf.Floor(levelTimes[chapterNumber][levelInfo.levelNumber]));
-                }
+                newButtonInfo.HiScoreText.text = GameConstants.LevelHiScorePrefix + levelScores[levelID].ToString();
+                newButtonInfo.BestTimeText.enabled = true;
+                hiscoreTextList.Add(newButtonInfo.BestTimeText);
+                newButtonInfo.BestTimeText.text = TimeUtilities.GetMinuteSecondRepresentation(Mathf.Floor(levelTimes[levelID]));
             }
 
             bool levelUnlocked = false;
@@ -108,13 +104,18 @@ public class LevelSelect : MonoBehaviour
                 {
                     levelUnlocked = true;
                 }
-                else if (levelInfo.levelNumber == 1 && levelScores.ContainsKey(chapterNumber - 1)) //if first level of a chapter and previous chapter has scores
+                else
                 {
-                    levelUnlocked = levelScores[chapterNumber - 1].ContainsKey(levelScores[chapterNumber - 1].Count - 1); //if final level of previous chapter is beaten
-                }
-                else if (levelScores.ContainsKey(chapterNumber)) //if current chapter has scores
-                {
-                    levelUnlocked = levelScores[chapterNumber].ContainsKey(levelInfo.levelNumber - 1); //if previous level in this chapter is beaten
+                    var previousChapterLastLevelID = $"{chapterNumber - 1}-{levelLists[chapterNumber - 2].levels.Count - 1}";
+                    if (levelInfo.levelNumber == 1 && levelScores.ContainsKey(previousChapterLastLevelID)) //if first level of a chapter and previous chapter is beaten
+                    {
+                        levelUnlocked = true;
+                    }
+                    else
+                    {
+                        var previousLevelID = $"{levelInfo.chapterNumber}-{levelInfo.levelNumber - 1}";
+                        levelUnlocked = levelScores.ContainsKey(previousLevelID); //if previous level in this chapter is beaten
+                    }
                 }
             }
             
