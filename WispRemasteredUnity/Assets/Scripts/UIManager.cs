@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,6 +10,7 @@ public class UIManager : MonoBehaviour
     [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI popupText;
+    [SerializeField] private TextMeshProUGUI timeElapsedText;
     [SerializeField] private Slider timeoutSlider; 
 
     [Header("Score Text Values")]
@@ -39,6 +41,11 @@ public class UIManager : MonoBehaviour
         popupText.enableAutoSizing = false;
         popupText.fontSize = popupTextFontSize;
 
+        timeElapsedText.ForceMeshUpdate();
+        var timeElapsedTextFontSize = timeElapsedText.fontSize;
+        timeElapsedText.enableAutoSizing = false;
+        timeElapsedText.fontSize = timeElapsedTextFontSize;
+
         scoreTextInitialScale = scoreText.transform.localScale;
         popupTextInitialScale = popupText.transform.localScale;
         //popupText.enabled = false;
@@ -47,6 +54,7 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         ScoreManager.Instance.OnScoreUpdate += UpdateScore;
+        ScoreManager.Instance.OnTimeElapsedUpdate += UpdateTimeElapsed;
         PlayerController.Instance.OnFormChange += ShowFormPopup;
         PlayerController.Instance.OnTimeoutTimerUpdate += UpdateTimeoutSlider;
         PlayerController.Instance.OnDeath += DisableTimeoutSlider;
@@ -56,8 +64,11 @@ public class UIManager : MonoBehaviour
     {
         //Unsubscribe from all events
         ScoreManager.Instance.OnScoreUpdate -= UpdateScore;
+        ScoreManager.Instance.OnTimeElapsedUpdate -= UpdateTimeElapsed;
         PlayerController.Instance.OnFormChange -= ShowFormPopup;
         PlayerController.Instance.OnTimeoutTimerUpdate -= UpdateTimeoutSlider;
+        PlayerController.Instance.OnDeath -= DisableTimeoutSlider;
+
     }
 
     void DisableTimeoutSlider()
@@ -73,6 +84,11 @@ public class UIManager : MonoBehaviour
             scoreTextInitialScale, scoreAnimationDuration, scoreAnimationScaleMultiplier, false));
 
         scoreText.text = newScore.ToString();
+    }
+
+    void UpdateTimeElapsed(float timeElapsed)
+    {
+        timeElapsedText.text = TimeUtilities.GetMinuteSecondRepresentation(Mathf.Floor(timeElapsed));
     }
 
     void UpdateTimeoutSlider(float amount)

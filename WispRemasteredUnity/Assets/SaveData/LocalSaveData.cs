@@ -12,12 +12,20 @@ public class LocalSaveData
     [OptionalField(VersionAdded = 2)] 
     public Dictionary<int, Dictionary<int, int>> levelScores = new Dictionary<int, Dictionary<int, int>>();
 
+    [OptionalField(VersionAdded = 3)]
+    public Dictionary<int, Dictionary<int, float>> levelTimesSeconds = new Dictionary<int, Dictionary<int, float>>();
+
     [OnDeserialized]
     void OnDeserialized(StreamingContext context)
     {
         if(levelScores == null)
         {
             levelScores = new();
+        }
+
+        if(levelTimesSeconds == null)
+        {
+            levelTimesSeconds = new();
         }
     }
 }

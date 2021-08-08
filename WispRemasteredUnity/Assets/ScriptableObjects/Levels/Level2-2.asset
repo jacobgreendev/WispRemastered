@@ -15,3 +15,11 @@ MonoBehaviour:
   chapterNumber: 2
   levelNumber: 2
   levelPrefab: {fileID: 7646407741062631488, guid: 626e6940a216ac347bab19f1f9552b0e, type: 3}
+  scoreStarInfo:
+    star1Theshold: 4
+    star2Threshold: 8
+    star3Threshold: 12
+  timeSecondsStarInfo:
+    star1Theshold: 60
+    star2Threshold: 40
+    star3Threshold: 20

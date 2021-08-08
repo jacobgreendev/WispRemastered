@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +6,9 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
     private int score;
+    private float timeElapsed;
     public event OnScoreUpdateEventHandler OnScoreUpdate;
+    public event OnTimeElapsedUpdateEventHandler OnTimeElapsedUpdate;
 
     private void Awake()
     {
@@ -32,6 +34,15 @@ public class ScoreManager : MonoBehaviour
         PlayerController.Instance.OnDeath -= UpdateEndlessHiScore;
     }
 
+    private void Update()
+    {
+        if(SceneData.levelJustCompleted == null)
+        {
+            timeElapsed += Time.deltaTime;
+            OnTimeElapsedUpdate(timeElapsed);
+        }
+    }
+
     private void AddScore(Interactable landedOn)
     {
         if (landedOn.ScoreValue > 0)
@@ -51,33 +62,49 @@ public class ScoreManager : MonoBehaviour
         PlayerSaveManager.SaveFile();
     }
 
-    public void UpdateLevelHiScore()
+    public void UpdateHiScoreAndRecord()
     {
         var saveData = LocalSaveData.Instance;
-        var currentChapter = SceneData.levelToLoad.chapterNumber;
-        var currentLevelNumber = SceneData.levelToLoad.levelNumber;
+        var levelScores = saveData.levelScores;
+        UpdateRecord<int>(levelScores, SceneData.levelToLoad.chapterNumber, SceneData.levelToLoad.levelNumber, score, true);
 
-        if (!saveData.levelScores.ContainsKey(currentChapter))
-        {
-            saveData.levelScores.Add(currentChapter, new());
-        }
+        var levelTimes = saveData.levelTimesSeconds;
+        UpdateRecord<float>(levelTimes, SceneData.levelToLoad.chapterNumber, SceneData.levelToLoad.levelNumber, timeElapsed, false);
 
-        var currentChapterScores = saveData.levelScores[currentChapter];
-
-        var currentHiScore = 0;
-
-        if (currentChapterScores.ContainsKey(currentLevelNumber))
-        {
-            currentHiScore = currentChapterScores[currentLevelNumber];
-        }
-
-        if (score > currentHiScore)
-        {
-            currentChapterScores[currentLevelNumber] = score;
-            PlayerSaveManager.SaveFile();
-        }
-
+        PlayerSaveManager.SaveFile();
     }
 
+    public void UpdateRecord<T>(Dictionary<int, Dictionary<int,T>> recordDict, int chapterNumber, int levelNumber, T newRecord, bool higherWins = true) where T : IConvertible
+    {
+        if (!recordDict.ContainsKey(chapterNumber))
+        {
+            recordDict.Add(chapterNumber, new());
+        }
+
+        var currentChapterRecords = recordDict[chapterNumber];
+        if (currentChapterRecords.ContainsKey(levelNumber))
+        {
+            T currentRecord = currentChapterRecords[levelNumber];
+            float newRecordFloat = Convert.ToSingle(newRecord);
+            float currentRecordFloat = Convert.ToSingle(currentRecord);
+            if (CompareRecord(currentRecordFloat, newRecordFloat, higherWins))
+            {
+                currentChapterRecords[levelNumber] = newRecord;
+            }
+        }
+        else
+        {
+            currentChapterRecords[levelNumber] = newRecord;
+        }
+    }
+
+    private bool CompareRecord(float currentRecord, float newRecord, bool higherWins = true)
+    {
+        if (higherWins) return newRecord > currentRecord;
+        else return newRecord < currentRecord;
+    }
+
+
     public delegate void OnScoreUpdateEventHandler(int newScore);
+    public delegate void OnTimeElapsedUpdateEventHandler(float newTime);
 }

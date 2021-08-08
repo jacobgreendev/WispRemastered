@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LevelButton : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI chapterLevelNumberText, hiScoreText;
+    [SerializeField] private TextMeshProUGUI chapterLevelNumberText, hiScoreText, bestTimeText;
 
     public TextMeshProUGUI ChapterLevelNumberText
     {
@@ -15,5 +15,10 @@ public class LevelButton : MonoBehaviour
     public TextMeshProUGUI HiScoreText
     {
         get => hiScoreText;
+    }
+
+    public TextMeshProUGUI BestTimeText
+    {
+        get => bestTimeText;
     }
 }

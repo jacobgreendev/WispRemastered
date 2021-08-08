@@ -14,7 +14,7 @@ public class LevelEnd : SimpleLandable
 
     private IEnumerator WaitAndEndLevel()
     {
-        ScoreManager.Instance.UpdateLevelHiScore();
+        ScoreManager.Instance.UpdateHiScoreAndRecord();
         yield return new WaitForSeconds(2);
         SceneData.levelJustCompleted = SceneData.levelToLoad;
         SceneData.levelToLoad = null;

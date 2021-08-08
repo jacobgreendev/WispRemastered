@@ -77,17 +77,22 @@ public class LevelSelect : MonoBehaviour
             hiscoreTextList.Add(newButtonInfo.HiScoreText);
 
             var levelScores = LocalSaveData.Instance.levelScores;
+            var levelTimes = LocalSaveData.Instance.levelTimesSeconds;
 
             //Check if level has a score attached already, and set the hiscore text to that
             bool chapterHasScores = levelScores.ContainsKey(chapterNumber);
             bool levelHasScore = false;
             newButtonInfo.HiScoreText.text = GameConstants.LevelLockedText;  //set hiscore text to locked text is level is locked
+            newButtonInfo.BestTimeText.enabled = false;
             if (chapterHasScores)
             {
                 levelHasScore = levelScores[chapterNumber].ContainsKey(levelInfo.levelNumber);
                 if (levelHasScore)
                 {
                     newButtonInfo.HiScoreText.text = GameConstants.LevelHiScorePrefix + levelScores[chapterNumber][levelInfo.levelNumber].ToString();
+                    newButtonInfo.BestTimeText.enabled = true;
+                    hiscoreTextList.Add(newButtonInfo.BestTimeText);
+                    newButtonInfo.BestTimeText.text = TimeUtilities.GetMinuteSecondRepresentation(Mathf.Floor(levelTimes[chapterNumber][levelInfo.levelNumber]));
                 }
             }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +19,15 @@ public class TimeUtilities : MonoBehaviour
         SetTimeScaleAndFixedDeltaTime(timescale);
     }
 
-    private void SetTimeScaleAndFixedDeltaTime(float timescale)
+    public static string GetMinuteSecondRepresentation(float totalSeconds)
+    {
+        var seconds = totalSeconds % 60;
+        var minutes = Mathf.FloorToInt(totalSeconds / 60);
+        var representation = $"{minutes.ToString().PadLeft(2, '0')}:{seconds.ToString().PadLeft(2, '0')}";
+        return representation;
+    }
+
+    private static void SetTimeScaleAndFixedDeltaTime(float timescale)
     {
         Time.timeScale = timescale;
         Time.fixedDeltaTime = timescale / GameConstants.FixedUpdatesPerSecond;
