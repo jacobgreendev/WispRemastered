@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4917ce249d68c0746a981fef0fdc4379, type: 3}
-  m_Name: Level2-3
+  m_Name: Level3-3
   m_EditorClassIdentifier: 
-  levelID: 2-3
+  levelID: 3-3
   levelPrefab: {fileID: 7646407741062631488, guid: 626e6940a216ac347bab19f1f9552b0e, type: 3}
   scoreStarInfo:
     star1Theshold: 4

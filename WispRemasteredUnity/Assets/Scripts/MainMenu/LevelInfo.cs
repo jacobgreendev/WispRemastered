@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewLevelInfo", menuName = "Levels/New LevelInfo")]
 public class LevelInfo : ScriptableObject
 {
-    public int chapterNumber, levelNumber;
+    public string levelID;
     public GameObject levelPrefab;
     public StarInfo scoreStarInfo, timeSecondsStarInfo;
 }

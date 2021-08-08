@@ -13,7 +13,7 @@ public class LevelSelect : MonoBehaviour
     [SerializeField] private Button nextChapterButton, previousChapterButton;
     [SerializeField] private List<TextMeshProUGUI> buttonTexts;
 
-    private int currentChapter = 1;
+    private int currentChapter;
 
     private void Awake()
     {
@@ -27,19 +27,19 @@ public class LevelSelect : MonoBehaviour
         RefreshFontSize(buttonTexts);
         if(SceneData.levelJustCompleted != null)
         {
-            currentChapter = SceneData.levelJustCompleted.chapterNumber;
+            currentChapter = SceneData.chapterLoaded;
             SceneData.levelJustCompleted = null;
         }
         else
         {
-            currentChapter = 1;
+            currentChapter = 0;
         }
         LoadChapter(currentChapter);
     }
 
     void NextChapter()
     {
-        if (currentChapter - 1 < levelLists.Length)
+        if (currentChapter < levelLists.Length - 1)
         {
             currentChapter++;
             LoadChapter(currentChapter);
@@ -48,28 +48,31 @@ public class LevelSelect : MonoBehaviour
 
     void PreviousChapter()
     {
-        if (currentChapter - 1 > 0)
+        if (currentChapter> 0)
         {
             currentChapter--;
             LoadChapter(currentChapter);
         }
     }
 
-    void LoadChapter(int chapterNumber)
+    void LoadChapter(int chapterIndex)
     {
-        previousChapterButton.interactable = (currentChapter - 1 > 0);
-        nextChapterButton.interactable = (currentChapter - 1 < levelLists.Length - 1);
+        previousChapterButton.interactable = (currentChapter > 0);
+        nextChapterButton.interactable = (currentChapter < levelLists.Length - 1);
 
         DestroyAllLevelButtons();
 
         var numberTextList = new List<TextMeshProUGUI>();
         var hiscoreTextList = new List<TextMeshProUGUI>();
 
-        foreach (var levelInfo in levelLists[chapterNumber - 1].levels)
+        var levels = levelLists[chapterIndex].levels;
+        for (int levelIndex = 0; levelIndex < levels.Count; levelIndex++)
         {
+            var levelInfo = levels[levelIndex];
+
             var newButtonGameObject = Instantiate(buttonPrefab, gridTransform);
             var newButtonInfo = newButtonGameObject.GetComponent<LevelButton>();
-            newButtonInfo.ChapterLevelNumberText.text = $"{chapterNumber}-{levelInfo.levelNumber}";
+            newButtonInfo.ChapterLevelNumberText.text = $"{chapterIndex + 1}-{levelIndex + 1}";
             var newButton = newButtonGameObject.GetComponent<Button>();
 
             //Lists to be used in font size calculations
@@ -79,7 +82,7 @@ public class LevelSelect : MonoBehaviour
             var levelRecords = LocalSaveData.Instance.levelRecords;
 
             //Check if level has a score attached already, and set the hiscore text to that
-            var levelID = $"{levelInfo.chapterNumber}-{levelInfo.levelNumber}";
+            var levelID = levelInfo.levelID;
             bool levelHasRecord = levelRecords.ContainsKey(levelID);
             newButtonInfo.HiScoreText.text = GameConstants.LevelLockedText;  //set hiscore text to locked text is level is locked
             newButtonInfo.BestTimeText.enabled = false;
@@ -99,22 +102,21 @@ public class LevelSelect : MonoBehaviour
             }
             else
             {
-                var isFirstLevel = chapterNumber == 1 && levelInfo.levelNumber == 1; //Unlock first level by default
+                var isFirstLevel = chapterIndex == 0 && levelIndex == 0 ; //Unlock first level by default
                 if (isFirstLevel)
                 {
                     levelUnlocked = true;
                 }
-                else
+                else 
                 {
-                    var previousLevelID = $"{levelInfo.chapterNumber}-{levelInfo.levelNumber - 1}";
-                    if (levelRecords.ContainsKey(previousLevelID))
+                    if (levelIndex > 0 && levelRecords.ContainsKey(levels[levelIndex - 1].levelID))
                     {
                         levelUnlocked = true;//if previous level in this chapter is beaten
                     }
-                    else if (chapterNumber > 1)
+                    else if (chapterIndex > 0)
                     {
-                        var previousChapterLastLevelID = $"{chapterNumber - 1}-{levelLists[chapterNumber - 2].levels.Count - 1}";
-                        if (levelInfo.levelNumber == 1 && levelRecords.ContainsKey(previousChapterLastLevelID)) //if first level of a chapter and previous chapter is beaten
+                        var previousChapterLastLevelID = levelLists[chapterIndex - 1].levels[levelLists[chapterIndex - 1].levels.Count - 1].levelID;
+                        if (levelIndex == 0 && levelRecords.ContainsKey(previousChapterLastLevelID)) //if first level of a chapter and previous chapter is beaten
                         {
                             levelUnlocked = true;
                         }
@@ -125,7 +127,7 @@ public class LevelSelect : MonoBehaviour
             
             if (levelUnlocked)
             {
-                newButton.onClick.AddListener(delegate { LoadLevel(levelInfo); });
+                newButton.onClick.AddListener(delegate { LoadLevel(levelInfo, chapterIndex); });
                 if (!levelHasRecord)
                 {
                     newButtonInfo.HiScoreText.text = GameConstants.LevelUnlockedAndUnplayedText; //most recent unlocked level
@@ -174,9 +176,10 @@ public class LevelSelect : MonoBehaviour
         }
     }
 
-    void LoadLevel(LevelInfo levelInfo)
+    void LoadLevel(LevelInfo levelInfo, int chapterIndexOfLoaded)
     {
         SceneData.levelToLoad = levelInfo;
+        SceneData.chapterLoaded = chapterIndexOfLoaded;
         SceneManager.LoadScene("LevelLoader");
     }
 }

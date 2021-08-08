@@ -66,7 +66,7 @@ public class ScoreManager : MonoBehaviour
     {
         var saveData = LocalSaveData.Instance;
         var levelRecords = saveData.levelRecords;
-        var levelID = $"{SceneData.levelToLoad.chapterNumber}-{SceneData.levelToLoad.levelNumber}";
+        var levelID = SceneData.levelToLoad.levelID;
 
         if (levelRecords.ContainsKey(levelID))
         {

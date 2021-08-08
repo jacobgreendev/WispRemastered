@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4917ce249d68c0746a981fef0fdc4379, type: 3}
   m_Name: Level1-1
   m_EditorClassIdentifier: 
-  chapterNumber: 1
-  levelNumber: 1
+  levelID: 1-1
   levelPrefab: {fileID: 7646407741062631488, guid: 646379b2154d30647b8a1b49ce844600, type: 3}
   scoreStarInfo:
     star1Theshold: 4
