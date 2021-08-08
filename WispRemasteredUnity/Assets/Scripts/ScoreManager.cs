@@ -65,38 +65,36 @@ public class ScoreManager : MonoBehaviour
     public void UpdateHiScoreAndRecord()
     {
         var saveData = LocalSaveData.Instance;
-        var levelScores = saveData.levelScores;
-        UpdateNumericRecord<int>(levelScores, SceneData.levelToLoad.chapterNumber, SceneData.levelToLoad.levelNumber, score, true);
+        var levelRecords = saveData.levelRecords;
+        var levelID = $"{SceneData.levelToLoad.chapterNumber}-{SceneData.levelToLoad.levelNumber}";
 
-        var levelTimes = saveData.levelTimesSeconds;
-        UpdateNumericRecord<float>(levelTimes, SceneData.levelToLoad.chapterNumber, SceneData.levelToLoad.levelNumber, timeElapsed, false);
-
-        PlayerSaveManager.SaveFile();
-    }
-
-    public void UpdateNumericRecord<T>(Dictionary<string, T> recordDict, int chapterNumber, int levelNumber, T newRecord, bool higherWins = true) where T : IConvertible
-    {
-        var levelID = $"{chapterNumber}-{levelNumber}";
-        if (recordDict.ContainsKey(levelID))
+        if (levelRecords.ContainsKey(levelID))
         {
-            T currentRecord = recordDict[levelID];
-            float newRecordFloat = Convert.ToSingle(newRecord);
-            float currentRecordFloat = Convert.ToSingle(currentRecord);
-            if (CompareRecord(currentRecordFloat, newRecordFloat, higherWins))
+            var records = levelRecords[levelID];
+
+            //Update Score Record
+            var currentScoreRecord = records.hiScore;
+            if (score > currentScoreRecord)
             {
-                recordDict[levelID] = newRecord;
+                records.hiScore = score;
+            }
+
+            //Update Time Record
+            var currentTimeRecord = records.timeRecord;
+            if (timeElapsed < currentTimeRecord)
+            {
+                records.timeRecord = timeElapsed;
             }
         }
         else
         {
-            recordDict[levelID] = newRecord;
+            //If no LevelRecordInfo present, create a new one and set both records
+            levelRecords[levelID] = new();
+            levelRecords[levelID].hiScore = score;
+            levelRecords[levelID].timeRecord = timeElapsed;
         }
-    }
 
-    private bool CompareRecord(float currentRecord, float newRecord, bool higherWins = true)
-    {
-        if (higherWins) return newRecord > currentRecord;
-        else return newRecord < currentRecord;
+        PlayerSaveManager.SaveFile();
     }
 
 

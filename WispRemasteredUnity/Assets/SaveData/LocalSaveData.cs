@@ -9,23 +9,15 @@ public class LocalSaveData
     [OptionalField(VersionAdded = 2)]
     public int endlessHiScore = 0;
 
-    [OptionalField(VersionAdded = 4)]
-    public Dictionary<string, int> levelScores = new();
-
-    [OptionalField(VersionAdded = 4)]
-    public Dictionary<string, float> levelTimesSeconds = new();
+    [OptionalField(VersionAdded = 5)]
+    public Dictionary<string, LevelRecordInfo> levelRecords = new();
 
     [OnDeserialized]
     void OnDeserialized(StreamingContext context)
     {
-        if(levelScores == null)
+        if(levelRecords == null)
         {
-            levelScores = new();
-        }
-
-        if(levelTimesSeconds == null)
-        {
-            levelTimesSeconds = new();
+            levelRecords = new();
         }
     }
 }
