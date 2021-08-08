@@ -59,16 +59,12 @@ public class LevelSelect : MonoBehaviour
     {
         previousChapterButton.interactable = (currentChapter - 1 > 0);
         nextChapterButton.interactable = (currentChapter - 1 < levelLists.Length - 1);
-        
+
+        DestroyAllLevelButtons();
+
         var numberTextList = new List<TextMeshProUGUI>();
         var hiscoreTextList = new List<TextMeshProUGUI>();
 
-        foreach (Transform child in gridTransform)
-        {
-            Destroy(child.gameObject);
-        }
-
-        Debug.Log(currentChapter);
         foreach (var levelInfo in levelLists[chapterNumber - 1].levels)
         {
             var newButtonGameObject = Instantiate(buttonPrefab, gridTransform);
@@ -134,6 +130,14 @@ public class LevelSelect : MonoBehaviour
 
         RefreshFontSize(numberTextList);
         RefreshFontSize(hiscoreTextList);
+    }
+
+    void DestroyAllLevelButtons()
+    {
+        foreach (Transform child in gridTransform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 
     void RefreshFontSize(List<TextMeshProUGUI> tmpList)
