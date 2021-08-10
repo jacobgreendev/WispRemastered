@@ -6,18 +6,18 @@ public class UIPanelAnimator : MonoBehaviour
 {
     [SerializeField] private float animationLength = 0.3f;
     [SerializeField] private AnimationCurve animationCurve;
-    [SerializeField] private float rotationAmount = 90f;
+    //[SerializeField] private float rotationAmount = 90f;
 
     private Vector3 initialScale;
-    private Quaternion initialRotation, rotatedRotation;
+    //private Quaternion initialRotation, rotatedRotation;
     private Coroutine currentAnimation;
 
     private void Awake()
     {
         initialScale = transform.localScale;
-        initialRotation = transform.localRotation;
-        var initialEulers = initialRotation.eulerAngles;
-        rotatedRotation = Quaternion.Euler(initialEulers.x, initialEulers.y, initialEulers.z + rotationAmount);
+        //initialRotation = transform.localRotation;
+        //var initialEulers = initialRotation.eulerAngles;
+        //rotatedRotation = Quaternion.Euler(initialEulers.x, initialEulers.y, initialEulers.z + rotationAmount);
     }
 
     void OnEnable()
@@ -36,10 +36,10 @@ public class UIPanelAnimator : MonoBehaviour
         {
             time += Time.deltaTime;
             transform.localScale = initialScale * animationCurve.Evaluate(time / animationLength);
-            transform.localRotation = Quaternion.Lerp(rotatedRotation, initialRotation, animationCurve.Evaluate(time / animationLength));
+            //transform.localRotation = Quaternion.Lerp(rotatedRotation, initialRotation, animationCurve.Evaluate(time / animationLength));
             yield return null;
         }
         transform.localScale = initialScale;
-        transform.localRotation = initialRotation;
+        //transform.localRotation = initialRotation;
     }
 }
