@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,9 +8,8 @@ using UnityEngine.UI;
 public class LevelButton : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI chapterLevelNumberText, hiScoreText, bestTimeText, newlyUnlockedText, lockedText;
-    [SerializeField] private Image[] scoreStars, timeStars;
-    [SerializeField] private Color scoreStarEarnedColor, timeStarEarnedColor, starUnearnedColor;
     [SerializeField] private GameObject completedDisplay, lockedDisplay, newlyUnlockedDisplay;
+    [SerializeField] private StarCounter scoreStars, timeStars;
 
     public TextMeshProUGUI ChapterLevelNumberText
     {
@@ -43,22 +43,14 @@ public class LevelButton : MonoBehaviour
         newlyUnlockedDisplay.SetActive(lockState == LevelButtonLockState.NewlyUnlocked);
     }
 
-    public void SetScoreStars(int amount)
+    public int SetScoreStars<T>(float[] thresholds, T score, bool higherWins) where T : IConvertible
     {
-        SetStars(scoreStars, amount, scoreStarEarnedColor, starUnearnedColor);
+        return scoreStars.SetStarAmount(thresholds, score, higherWins);
     }
 
-    public void SetTimeStars(int amount)
+    public int SetTimeStars<T>(float[] thresholds, T score, bool higherWins) where T : IConvertible
     {
-        SetStars(timeStars, amount, timeStarEarnedColor, starUnearnedColor);
-    }
-
-    private void SetStars(Image[] stars, int amount, Color earnedColor, Color unearnedColor)
-    {
-        for (int i = 0; i < stars.Length; i++)
-        {
-            stars[i].color = i < amount ? earnedColor : unearnedColor;
-        }
+        return timeStars.SetStarAmount(thresholds, score, higherWins);
     }
 }
 

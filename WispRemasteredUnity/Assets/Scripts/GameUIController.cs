@@ -3,17 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class GameUIController : UIBase
 {
-    public static UIManager Instance;
+    public static GameUIController Instance;
 
     [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI popupText;
     [SerializeField] private TextMeshProUGUI timeElapsedText;
-    [SerializeField] private Slider timeoutSlider; 
+    [SerializeField] private Slider timeoutSlider;
+
+    [Header("Level Complete Elements")]
+    [SerializeField] private GameObject levelCompleteScreen;
+    [SerializeField] private StarCounter levelCompleteScoreStars, levelCompleteTimeStars;
+    [SerializeField] private TextMeshProUGUI levelCompleteScoreText, levelCompleteTimeText;
+    [SerializeField] private Button levelCompleteReturnToMenuButton;
 
     [Header("Score Text Values")]
     [SerializeField] private AnimationCurve scoreAnimationScaleCurve, scoreAnimationAlphaCurve;
@@ -26,6 +33,7 @@ public class UIManager : MonoBehaviour
     [Header("Timeout Slider Values")]
     [Range(0f, 1f)]
     [SerializeField] private float timeoutSliderThreshold;
+
 
     private Coroutine scoreTextAnimationRoutine, popupTextAnimationRoutine;
     private Vector3 scoreTextInitialScale, popupTextInitialScale;
@@ -52,7 +60,8 @@ public class UIManager : MonoBehaviour
 
         scoreTextInitialScale = scoreText.transform.localScale;
         popupTextInitialScale = popupText.transform.localScale;
-        //popupText.enabled = false;
+
+        levelCompleteScreen.SetActive(false);
     }
 
     private void OnEnable()
@@ -121,6 +130,19 @@ public class UIManager : MonoBehaviour
 
         popupTextAnimationRoutine = StartCoroutine(TextAnimation(popupText, popupAnimationScaleCurve, popupAnimationAlphaCurve,
             popupTextInitialScale, popupAnimationDuration, popupAnimationScaleMultiplier, true));
+    }
+
+    public void ShowLevelCompleteStats(int score, float time)
+    {
+        scoreText.enabled = false;
+        timeElapsedText.enabled = false;
+        levelCompleteScreen.SetActive(true);
+        levelCompleteScoreText.text = score.ToString();
+        levelCompleteTimeText.text = TimeUtilities.GetMinuteSecondRepresentation(Mathf.Floor(time));
+        levelCompleteScoreStars.SetStarAmount<int>(SceneData.levelToLoad.scoreStarInfo.starThresholds, score, true);
+        levelCompleteTimeStars.SetStarAmount<float>(SceneData.levelToLoad.timeSecondsStarInfo.starThresholds, time, false, true);
+        RefreshFontSize(new() { levelCompleteScoreText, levelCompleteTimeText });
+        levelCompleteReturnToMenuButton.onClick.AddListener(delegate { SceneManager.LoadScene("MainMenu"); });
     }
 
     private IEnumerator TextAnimation(TextMeshProUGUI text, AnimationCurve scaleCurve, AnimationCurve alphaCurve, 

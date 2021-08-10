@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LevelSelect : MonoBehaviour
+public class LevelSelect : UIBase
 {
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private Transform gridTransform;
@@ -87,8 +87,6 @@ public class LevelSelect : MonoBehaviour
             //Check if level has a score attached already, and set the hiscore text to that
             var levelID = levelInfo.levelID;
             bool levelHasRecord = levelRecords.ContainsKey(levelID);
-            newButtonInfo.HiScoreText.text = GameConstants.LevelLockedText;  //set hiscore text to locked text is level is locked
-            newButtonInfo.BestTimeText.enabled = false;
             var levelUnlocked = false;
             if (levelHasRecord)
             {
@@ -170,64 +168,23 @@ public class LevelSelect : MonoBehaviour
 
     void SetLevelButtonCompleted(LevelButton buttonInfo, LevelRecordInfo records, LevelInfo levelInfo)
     {
-        buttonInfo.HiScoreText.text = records.hiScore.ToString();
-        var scoreStars = GetStarAmount<int>(levelInfo.scoreStarInfo.starThresholds, records.hiScore, true);
-        currentChapterStars += scoreStars;
-        buttonInfo.SetScoreStars(scoreStars);
+        buttonInfo.SetDisplayType(LevelButtonLockState.Completed);
 
+        //Set hiscore text and hi score star amount
+        buttonInfo.HiScoreText.text = records.hiScore.ToString();
+        var scoreStarAmount = buttonInfo.SetScoreStars(levelInfo.scoreStarInfo.starThresholds, records.hiScore, true);
+        currentChapterStars += scoreStarAmount;
+
+        //Enable and set best time text 
         buttonInfo.BestTimeText.enabled = true;
         buttonInfo.BestTimeText.text = TimeUtilities.GetMinuteSecondRepresentation(Mathf.Floor(records.timeRecord));
-        var timeStars = GetStarAmount<float>(levelInfo.timeSecondsStarInfo.starThresholds, records.timeRecord, false);
-        buttonInfo.SetTimeStars(timeStars);
-        currentChapterStars += timeStars;
-        buttonInfo.SetDisplayType(LevelButtonLockState.Completed);
+        var timeStarAmount = buttonInfo.SetTimeStars(levelInfo.timeSecondsStarInfo.starThresholds, records.timeRecord, false);
+        currentChapterStars += timeStarAmount;
     }
 
     void SetLevelButtonNewlyUnlocked(LevelButton buttonInfo)
     {
         buttonInfo.SetDisplayType(LevelButtonLockState.NewlyUnlocked);
-    }
-
-    int GetStarAmount<T>(float[] thresholds, T score, bool higherWins) where T : IConvertible
-    {
-        var value = Convert.ToSingle(score);
-        for (int i = 0; i < thresholds.Length; i++)
-        {
-            if(higherWins && value < thresholds[i])
-            {
-                return i; //If threshold not met, return index (one less than current amount as indexed from 0)
-            }
-            else if (!higherWins && value > thresholds[i])
-            {
-                return i;
-            }
-        }
-        return thresholds.Length; //If all thresholds passed, return that amount
-    }
-
-    void RefreshFontSize(List<TextMeshProUGUI> tmpList)
-    {
-        StartCoroutine(RefreshFontSizeRoutine(tmpList));
-    }
-
-    private IEnumerator RefreshFontSizeRoutine(List<TextMeshProUGUI> tmpList)
-    {
-        float smallest = Mathf.Infinity;
-        yield return new WaitForEndOfFrame();
-        foreach (var text in tmpList)
-        {
-            text.ForceMeshUpdate();
-            if (text.fontSize < smallest)
-            {
-                smallest = text.fontSize;
-            }
-        }
-
-        foreach (var text in tmpList)
-        {
-            text.fontSize = smallest;
-            text.enableAutoSizing = false;
-        }
     }
 
     void LoadLevel(LevelInfo levelInfo, int chapterIndexOfLoaded)

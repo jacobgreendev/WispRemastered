@@ -6,16 +6,6 @@
       "source": "builtin",
       "dependencies": {}
     },
-    "com.unity.adaptiveperformance": {
-      "version": "3.0.0-pre.2",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.subsystemregistration": "1.1.0",
-        "com.unity.profiling.core": "1.0.0-pre.1"
-      },
-      "url": "https://packages.unity.com"
-    },
     "com.unity.burst": {
       "version": "1.6.0-pre.2",
       "depth": 1,
@@ -87,11 +77,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.unity.profiling.core": {
-      "version": "1.0.0-pre.1",
-      "depth": 1,
+    "com.unity.recorder": {
+      "version": "3.0.1",
+      "depth": 0,
       "source": "registry",
-      "dependencies": {},
+      "dependencies": {
+        "com.unity.timeline": "1.0.0"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.core": {
@@ -129,15 +121,6 @@
         "com.unity.render-pipelines.core": "12.0.0",
         "com.unity.searcher": "4.3.1"
       }
-    },
-    "com.unity.subsystemregistration": {
-      "version": "1.1.0",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.modules.subsystems": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
       "version": "1.1.27",

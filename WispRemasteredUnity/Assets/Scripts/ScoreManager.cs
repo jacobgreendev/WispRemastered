@@ -17,7 +17,7 @@ public class ScoreManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerController.Instance.OnLand += AddScore;
+        PlayerController.Instance.OnLand += AddScoreOnLand;
         PlayerController.Instance.OnDeath += UpdateEndlessHiScore;
     }
 
@@ -30,7 +30,7 @@ public class ScoreManager : MonoBehaviour
     private void OnDisable()
     {
         //Unsubscribe from all events
-        PlayerController.Instance.OnLand -= AddScore;
+        PlayerController.Instance.OnLand -= AddScoreOnLand;
         PlayerController.Instance.OnDeath -= UpdateEndlessHiScore;
     }
 
@@ -43,7 +43,7 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    private void AddScore(Interactable landedOn)
+    private void AddScoreOnLand(Interactable landedOn)
     {
         if (landedOn.ScoreValue > 0)
         {
@@ -52,17 +52,24 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+    public void AddScoreWithMessage(int addedScore, string message)
+    {
+        score += addedScore;
+        GameUIController.Instance.ShowPopup($"{message} (+{addedScore})");
+    }
+
     private void UpdateEndlessHiScore()
     {
         var saveData = LocalSaveData.Instance;
         if(score > saveData.endlessHiScore)
         {
             saveData.endlessHiScore = score;
+            OnScoreUpdate?.Invoke(score);
         }
         PlayerSaveManager.SaveFile();
     }
 
-    public void UpdateHiScoreAndRecord()
+    public void FinishLevel()
     {
         var saveData = LocalSaveData.Instance;
         var levelRecords = saveData.levelRecords;
@@ -94,6 +101,7 @@ public class ScoreManager : MonoBehaviour
             levelRecords[levelID].timeRecord = timeElapsed;
         }
 
+        GameUIController.Instance.ShowLevelCompleteStats(score, timeElapsed);
         PlayerSaveManager.SaveFile();
     }
 

@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 XYForce = dragVector.normalized * dragPercentage * sidewaysForceMultiplier * generalForceStrength;
         Vector3 ZForce = forwardForceMultiplier * generalForceStrength * transform.forward;
-
+        
         currentForceVector = XYForce + ZForce;
         TrajectoryRenderer.Instance.DisplayPath(transform.position, currentForceVector, playerRigidbody.mass, playerRigidbody.drag);
     }
@@ -244,7 +244,10 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.collider.CompareTag(GameConstants.Tag_Ground))
         {
-            Die();
+            if (!isInteracting)
+            {
+                Die();
+            }
         }
     }
 

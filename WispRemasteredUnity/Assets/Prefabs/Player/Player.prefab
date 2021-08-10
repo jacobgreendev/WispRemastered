@@ -49,7 +49,7 @@ MonoBehaviour:
   segmentCount: 50
   segmentScale: 0.3
   minimumLengthMultiplier: 0.2
-  scoreForMinimumLength: 5
+  scoreForMinimumLength: 15
 --- !u!120 &2021734775204722905
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -755,26 +755,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2021734775934464294}
     m_Modifications:
-    - target: {fileID: 58651383590550583, guid: 1091a09008ed0d34081655232f064c6a, type: 3}
-      propertyPath: InitialModule.rotation3D
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 58651383590550583, guid: 1091a09008ed0d34081655232f064c6a, type: 3}
-      propertyPath: ShapeModule.radius.value
-      value: 0.086666666
-      objectReference: {fileID: 0}
-    - target: {fileID: 58651383590550583, guid: 1091a09008ed0d34081655232f064c6a, type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 58651383590550583, guid: 1091a09008ed0d34081655232f064c6a, type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 2.3333333
-      objectReference: {fileID: 0}
-    - target: {fileID: 58651383590550583, guid: 1091a09008ed0d34081655232f064c6a, type: 3}
-      propertyPath: InitialModule.startSpeed.minScalar
-      value: 1.6666666
-      objectReference: {fileID: 0}
     - target: {fileID: 2230181112991346232, guid: 1091a09008ed0d34081655232f064c6a, type: 3}
       propertyPath: m_Name
       value: SparkLandEffect

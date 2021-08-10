@@ -57,17 +57,13 @@ public class TrajectoryRenderer : MonoBehaviour
             segments.Add(startPoint);
 
             Vector3 segVelocity = (force / mass) * fixedDeltaTime;
-            var last = false;
             for (int i = 1; i < newSegCount; i++)
             {
-                if (last) break;
-
                 float segTime = (segVelocity.sqrMagnitude != 0) ? segmentScale / segVelocity.magnitude : 0;
 
                 segVelocity += Physics.gravity * segTime;
                 segVelocity *= Mathf.Clamp01(1.0f - drag * segTime);
 
-                //if (Physics.Raycast(segments[i - 1], segVelocity.normalized, segVelocity.magnitude * segTime)) last = true;
 
                 segments.Add(segments[i-1] + segVelocity * segTime);
             }
