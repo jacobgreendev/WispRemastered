@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,9 +12,10 @@ public class LevelSelect : MonoBehaviour
     [SerializeField] private Transform gridTransform;
     [SerializeField] private LevelList[] levelLists;
     [SerializeField] private Button nextChapterButton, previousChapterButton;
+    [SerializeField] private TextMeshProUGUI chapterStarsText;
     [SerializeField] private List<TextMeshProUGUI> buttonTexts;
 
-    private int currentChapter;
+    private int currentChapter, currentChapterStars;
 
     private void Awake()
     {
@@ -58,12 +60,14 @@ public class LevelSelect : MonoBehaviour
     void LoadChapter(int chapterIndex)
     {
         previousChapterButton.interactable = (currentChapter > 0);
-        nextChapterButton.interactable = (currentChapter < levelLists.Length - 1);
 
         DestroyAllLevelButtons();
 
         var numberTextList = new List<TextMeshProUGUI>();
         var hiscoreTextList = new List<TextMeshProUGUI>();
+        var newLockedTextList = new List<TextMeshProUGUI>();
+
+        currentChapterStars = 0;
 
         var levels = levelLists[chapterIndex].levels;
         for (int levelIndex = 0; levelIndex < levels.Count; levelIndex++)
@@ -77,7 +81,6 @@ public class LevelSelect : MonoBehaviour
 
             //Lists to be used in font size calculations
             numberTextList.Add(newButtonInfo.ChapterLevelNumberText);
-            hiscoreTextList.Add(newButtonInfo.HiScoreText);
 
             var levelRecords = LocalSaveData.Instance.levelRecords;
 
@@ -86,19 +89,13 @@ public class LevelSelect : MonoBehaviour
             bool levelHasRecord = levelRecords.ContainsKey(levelID);
             newButtonInfo.HiScoreText.text = GameConstants.LevelLockedText;  //set hiscore text to locked text is level is locked
             newButtonInfo.BestTimeText.enabled = false;
+            var levelUnlocked = false;
             if (levelHasRecord)
             {
-                var records = levelRecords[levelID];
-                newButtonInfo.HiScoreText.text = GameConstants.LevelHiScorePrefix + records.hiScore;
-                newButtonInfo.BestTimeText.enabled = true;
+                SetLevelButtonCompleted(newButtonInfo, levelRecords[levelID], levelInfo);
+                hiscoreTextList.Add(newButtonInfo.HiScoreText);
                 hiscoreTextList.Add(newButtonInfo.BestTimeText);
-                newButtonInfo.BestTimeText.text = TimeUtilities.GetMinuteSecondRepresentation(Mathf.Floor(records.timeRecord));
-            }
-
-            bool levelUnlocked = false;
-            if (levelHasRecord)
-            {
-                levelUnlocked = true; //If level has score it must be unlocked, so checks can be skipped
+                levelUnlocked = true;
             }
             else
             {
@@ -130,17 +127,31 @@ public class LevelSelect : MonoBehaviour
                 newButton.onClick.AddListener(delegate { LoadLevel(levelInfo, chapterIndex); });
                 if (!levelHasRecord)
                 {
-                    newButtonInfo.HiScoreText.text = GameConstants.LevelUnlockedAndUnplayedText; //most recent unlocked level
+                    SetLevelButtonNewlyUnlocked(newButtonInfo);
+                    newLockedTextList.Add(newButtonInfo.NewlyUnlockedText);
                 }
             }
             else
             {
-                newButton.interactable = false;
+                SetLevelButtonLocked(newButtonInfo, newButton);
+                newLockedTextList.Add(newButtonInfo.LockedText);
             }
         }
 
+        var nextChapterAvailable = (currentChapter < levelLists.Length - 1) && (currentChapterStars >= levels.Count * GameConstants.AverageLevelStarsForChapterUnlock);
+        if (!nextChapterAvailable)
+        {
+            chapterStarsText.text = $"{currentChapterStars}/{levels.Count * GameConstants.AverageLevelStarsForChapterUnlock}";
+        }
+        else
+        {
+            chapterStarsText.text = currentChapterStars.ToString();
+        }
+        nextChapterButton.interactable = nextChapterAvailable;
+        RefreshFontSize(buttonTexts);
         RefreshFontSize(numberTextList);
         RefreshFontSize(hiscoreTextList);
+        RefreshFontSize(newLockedTextList);
     }
 
     void DestroyAllLevelButtons()
@@ -149,6 +160,49 @@ public class LevelSelect : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+    }
+
+    void SetLevelButtonLocked(LevelButton buttonInfo, Button button)
+    {
+        button.interactable = false;
+        buttonInfo.SetDisplayType(LevelButtonLockState.Locked);
+    }
+
+    void SetLevelButtonCompleted(LevelButton buttonInfo, LevelRecordInfo records, LevelInfo levelInfo)
+    {
+        buttonInfo.HiScoreText.text = records.hiScore.ToString();
+        var scoreStars = GetStarAmount<int>(levelInfo.scoreStarInfo.starThresholds, records.hiScore, true);
+        currentChapterStars += scoreStars;
+        buttonInfo.SetScoreStars(scoreStars);
+
+        buttonInfo.BestTimeText.enabled = true;
+        buttonInfo.BestTimeText.text = TimeUtilities.GetMinuteSecondRepresentation(Mathf.Floor(records.timeRecord));
+        var timeStars = GetStarAmount<float>(levelInfo.timeSecondsStarInfo.starThresholds, records.timeRecord, false);
+        buttonInfo.SetTimeStars(timeStars);
+        currentChapterStars += timeStars;
+        buttonInfo.SetDisplayType(LevelButtonLockState.Completed);
+    }
+
+    void SetLevelButtonNewlyUnlocked(LevelButton buttonInfo)
+    {
+        buttonInfo.SetDisplayType(LevelButtonLockState.NewlyUnlocked);
+    }
+
+    int GetStarAmount<T>(float[] thresholds, T score, bool higherWins) where T : IConvertible
+    {
+        var value = Convert.ToSingle(score);
+        for (int i = 0; i < thresholds.Length; i++)
+        {
+            if(higherWins && value < thresholds[i])
+            {
+                return i; //If threshold not met, return index (one less than current amount as indexed from 0)
+            }
+            else if (!higherWins && value > thresholds[i])
+            {
+                return i;
+            }
+        }
+        return thresholds.Length; //If all thresholds passed, return that amount
     }
 
     void RefreshFontSize(List<TextMeshProUGUI> tmpList)

@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: Level3-5
   m_EditorClassIdentifier: 
   levelID: 3-5
-  levelPrefab: {fileID: 7646407741062631488, guid: 626e6940a216ac347bab19f1f9552b0e, type: 3}
+  levelPrefab: {fileID: 7646407741062631488, guid: 646379b2154d30647b8a1b49ce844600, type: 3}
   scoreStarInfo:
-    star1Theshold: 4
-    star2Threshold: 8
-    star3Threshold: 12
+    starThresholds:
+    - 3
+    - 6
+    - 9
   timeSecondsStarInfo:
-    star1Theshold: 60
-    star2Threshold: 40
-    star3Threshold: 20
+    starThresholds:
+    - 20
+    - 12
+    - 8

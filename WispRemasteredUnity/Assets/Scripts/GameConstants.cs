@@ -24,4 +24,8 @@ public static class GameConstants
     public const string LevelLockedText = "Locked";
     public const string LevelUnlockedAndUnplayedText = "New!";
     public const string LevelHiScorePrefix = "High Score: ";
+
+    //Values
+    public const int AverageLevelStarsForChapterUnlock = 4;
+    public const float ScreenWidthFor1PixelPerUnitSliced = 1080;
 }

@@ -13,5 +13,5 @@ public class LevelInfo : ScriptableObject
 [System.Serializable]
 public class StarInfo
 {
-    public int star1Theshold, star2Threshold, star3Threshold;
+    public float[] starThresholds;
 }
