@@ -1,0 +1,239 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public class LevelSelect : MonoBehaviour
+{
+    [SerializeField] private GameObject buttonPrefab;
+    [SerializeField] private Transform gridTransform;
+    [SerializeField] private LevelList[] levelLists;
+    [SerializeField] private Button nextChapterButton, previousChapterButton;
+    [SerializeField] private TextMeshProUGUI chapterStarsText;
+    [SerializeField] private List<TextMeshProUGUI> buttonTexts;
+
+    private int currentChapter, currentChapterStars;
+
+    private void Awake()
+    {
+        nextChapterButton.onClick.AddListener(NextChapter);
+        previousChapterButton.onClick.AddListener(PreviousChapter);
+    }
+
+    // Start is called before the first frame update
+    void OnEnable()
+    {
+        RefreshFontSize(buttonTexts);
+        if(SceneData.levelJustCompleted != null)
+        {
+            currentChapter = SceneData.chapterLoaded;
+            SceneData.levelJustCompleted = null;
+        }
+        else
+        {
+            currentChapter = 0;
+        }
+        LoadChapter(currentChapter);
+    }
+
+    void NextChapter()
+    {
+        if (currentChapter < levelLists.Length - 1)
+        {
+            currentChapter++;
+            LoadChapter(currentChapter);
+        }
+    }
+
+    void PreviousChapter()
+    {
+        if (currentChapter> 0)
+        {
+            currentChapter--;
+            LoadChapter(currentChapter);
+        }
+    }
+
+    void LoadChapter(int chapterIndex)
+    {
+        previousChapterButton.interactable = (currentChapter > 0);
+
+        DestroyAllLevelButtons();
+
+        var numberTextList = new List<TextMeshProUGUI>();
+        var hiscoreTextList = new List<TextMeshProUGUI>();
+        var newLockedTextList = new List<TextMeshProUGUI>();
+
+        currentChapterStars = 0;
+
+        var levels = levelLists[chapterIndex].levels;
+        for (int levelIndex = 0; levelIndex < levels.Count; levelIndex++)
+        {
+            var levelInfo = levels[levelIndex];
+
+            var newButtonGameObject = Instantiate(buttonPrefab, gridTransform);
+            var newButtonInfo = newButtonGameObject.GetComponent<LevelButton>();
+            newButtonInfo.ChapterLevelNumberText.text = $"{chapterIndex + 1}-{levelIndex + 1}";
+            var newButton = newButtonGameObject.GetComponent<Button>();
+
+            //Lists to be used in font size calculations
+            numberTextList.Add(newButtonInfo.ChapterLevelNumberText);
+
+            var levelRecords = LocalSaveData.Instance.levelRecords;
+
+            //Check if level has a score attached already, and set the hiscore text to that
+            var levelID = levelInfo.levelID;
+            bool levelHasRecord = levelRecords.ContainsKey(levelID);
+            newButtonInfo.HiScoreText.text = GameConstants.LevelLockedText;  //set hiscore text to locked text is level is locked
+            newButtonInfo.BestTimeText.enabled = false;
+            var levelUnlocked = false;
+            if (levelHasRecord)
+            {
+                SetLevelButtonCompleted(newButtonInfo, levelRecords[levelID], levelInfo);
+                hiscoreTextList.Add(newButtonInfo.HiScoreText);
+                hiscoreTextList.Add(newButtonInfo.BestTimeText);
+                levelUnlocked = true;
+            }
+            else
+            {
+                var isFirstLevel = chapterIndex == 0 && levelIndex == 0 ; //Unlock first level by default
+                if (isFirstLevel)
+                {
+                    levelUnlocked = true;
+                }
+                else 
+                {
+                    if (levelIndex > 0 && levelRecords.ContainsKey(levels[levelIndex - 1].levelID))
+                    {
+                        levelUnlocked = true;//if previous level in this chapter is beaten
+                    }
+                    else if (chapterIndex > 0)
+                    {
+                        var previousChapterLastLevelID = levelLists[chapterIndex - 1].levels[levelLists[chapterIndex - 1].levels.Count - 1].levelID;
+                        if (levelIndex == 0 && levelRecords.ContainsKey(previousChapterLastLevelID)) //if first level of a chapter and previous chapter is beaten
+                        {
+                            levelUnlocked = true;
+                        }
+                    }
+                }
+            }
+            
+            
+            if (levelUnlocked)
+            {
+                newButton.onClick.AddListener(delegate { LoadLevel(levelInfo, chapterIndex); });
+                if (!levelHasRecord)
+                {
+                    SetLevelButtonNewlyUnlocked(newButtonInfo);
+                    newLockedTextList.Add(newButtonInfo.NewlyUnlockedText);
+                }
+            }
+            else
+            {
+                SetLevelButtonLocked(newButtonInfo, newButton);
+                newLockedTextList.Add(newButtonInfo.LockedText);
+            }
+        }
+
+        var nextChapterAvailable = (currentChapter < levelLists.Length - 1) && (currentChapterStars >= levels.Count * GameConstants.AverageLevelStarsForChapterUnlock);
+        if (!nextChapterAvailable)
+        {
+            chapterStarsText.text = $"{currentChapterStars}/{levels.Count * GameConstants.AverageLevelStarsForChapterUnlock}";
+        }
+        else
+        {
+            chapterStarsText.text = currentChapterStars.ToString();
+        }
+        nextChapterButton.interactable = nextChapterAvailable;
+        RefreshFontSize(buttonTexts);
+        RefreshFontSize(numberTextList);
+        RefreshFontSize(hiscoreTextList);
+        RefreshFontSize(newLockedTextList);
+    }
+
+    void DestroyAllLevelButtons()
+    {
+        foreach (Transform child in gridTransform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    void SetLevelButtonLocked(LevelButton buttonInfo, Button button)
+    {
+        button.interactable = false;
+        buttonInfo.SetDisplayType(LevelButtonLockState.Locked);
+    }
+
+    void SetLevelButtonCompleted(LevelButton buttonInfo, LevelRecordInfo records, LevelInfo levelInfo)
+    {
+        buttonInfo.HiScoreText.text = records.hiScore.ToString();
+        var scoreStars = GetStarAmount<int>(levelInfo.scoreStarInfo.starThresholds, records.hiScore, true);
+        currentChapterStars += scoreStars;
+        buttonInfo.SetScoreStars(scoreStars);
+
+        buttonInfo.BestTimeText.enabled = true;
+        buttonInfo.BestTimeText.text = TimeUtilities.GetMinuteSecondRepresentation(Mathf.Floor(records.timeRecord));
+        var timeStars = GetStarAmount<float>(levelInfo.timeSecondsStarInfo.starThresholds, records.timeRecord, false);
+        buttonInfo.SetTimeStars(timeStars);
+        currentChapterStars += timeStars;
+        buttonInfo.SetDisplayType(LevelButtonLockState.Completed);
+    }
+
+    void SetLevelButtonNewlyUnlocked(LevelButton buttonInfo)
+    {
+        buttonInfo.SetDisplayType(LevelButtonLockState.NewlyUnlocked);
+    }
+
+    int GetStarAmount<T>(float[] thresholds, T score, bool higherWins) where T : IConvertible
+    {
+        var value = Convert.ToSingle(score);
+        for (int i = 0; i < thresholds.Length; i++)
+        {
+            if(higherWins && value < thresholds[i])
+            {
+                return i; //If threshold not met, return index (one less than current amount as indexed from 0)
+            }
+            else if (!higherWins && value > thresholds[i])
+            {
+                return i;
+            }
+        }
+        return thresholds.Length; //If all thresholds passed, return that amount
+    }
+
+    void RefreshFontSize(List<TextMeshProUGUI> tmpList)
+    {
+        StartCoroutine(RefreshFontSizeRoutine(tmpList));
+    }
+
+    private IEnumerator RefreshFontSizeRoutine(List<TextMeshProUGUI> tmpList)
+    {
+        float smallest = Mathf.Infinity;
+        yield return new WaitForEndOfFrame();
+        foreach (var text in tmpList)
+        {
+            text.ForceMeshUpdate();
+            if (text.fontSize < smallest)
+            {
+                smallest = text.fontSize;
+            }
+        }
+
+        foreach (var text in tmpList)
+        {
+            text.fontSize = smallest;
+            text.enableAutoSizing = false;
+        }
+    }
+
+    void LoadLevel(LevelInfo levelInfo, int chapterIndexOfLoaded)
+    {
+        SceneData.levelToLoad = levelInfo;
+        SceneData.chapterLoaded = chapterIndexOfLoaded;
+        SceneManager.LoadScene("LevelLoader");
+    }
+}

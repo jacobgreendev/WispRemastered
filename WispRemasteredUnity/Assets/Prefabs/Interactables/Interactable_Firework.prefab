@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5370347854083255892}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.475, z: 0.176}
+  m_LocalPosition: {x: 0, y: 0.238, z: 0.066}
   m_LocalScale: {x: 0.20775028, y: 0.20775028, z: 0.20775028}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 72c6cb0db0ae6ea46b39cb7c1e6c90b0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,7 +109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5370347854237498378}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.882, z: 0.179}
+  m_LocalPosition: {x: 0, y: -0.172, z: 0.066}
   m_LocalScale: {x: 0.056819696, y: 0.23970526, z: 0.056819696}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -144,7 +144,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 72c6cb0db0ae6ea46b39cb7c1e6c90b0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -224,7 +224,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5370347854988523193}
   m_LocalRotation: {x: 0.35718098, y: -0, z: -0, w: 0.93403524}
-  m_LocalPosition: {x: 0, y: -0.836, z: -0.016}
+  m_LocalPosition: {x: 0, y: -0.122, z: -0.124}
   m_LocalScale: {x: 0.04104522, y: 0.25873804, z: 0.04104522}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -261,7 +261,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 72c6cb0db0ae6ea46b39cb7c1e6c90b0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -309,7 +309,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5370347855192562392}
   m_LocalRotation: {x: 0.4437489, y: -0, z: -0, w: 0.8961512}
-  m_LocalPosition: {x: -1.98, y: 0.811, z: 8.949}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -334,7 +334,7 @@ MonoBehaviour:
   usableByList: 00000000
   scoreValue: 1
   landLerpTime: 0.2
-  distance: 10
+  distance: 5
   fuseTime: 0.5
   travelTime: 1
   explosionForce: 10
@@ -354,7 +354,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.58
-  m_Center: {x: 0, y: -0.89, z: -0.25}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5370347855839493346
 GameObject:
   m_ObjectHideFlags: 0

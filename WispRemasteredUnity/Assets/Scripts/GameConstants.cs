@@ -19,4 +19,13 @@ public static class GameConstants
     public const string SaveFolderPath = "/LocalData";
     public const string SaveDataFilePath = SaveFolderPath + "/" + SaveDataFileName + ".save";
     public const string SaveDataFileName = "saveFile";
+
+    //Display Strings
+    public const string LevelLockedText = "Locked";
+    public const string LevelUnlockedAndUnplayedText = "New!";
+    public const string LevelHiScorePrefix = "High Score: ";
+
+    //Values
+    public const int AverageLevelStarsForChapterUnlock = 4;
+    public const float ScreenWidthFor1PixelPerUnitSliced = 1080;
 }
