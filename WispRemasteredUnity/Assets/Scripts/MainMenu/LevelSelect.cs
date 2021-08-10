@@ -97,7 +97,7 @@ public class LevelSelect : UIBase
             }
             else
             {
-                var isFirstLevel = chapterIndex == 0 && levelIndex == 0 ; //Unlock first level by default
+                var isFirstLevel = levelIndex == 0 ; //Unlock first level by default
                 if (isFirstLevel)
                 {
                     levelUnlocked = true;
@@ -107,14 +107,6 @@ public class LevelSelect : UIBase
                     if (levelIndex > 0 && levelRecords.ContainsKey(levels[levelIndex - 1].levelID))
                     {
                         levelUnlocked = true;//if previous level in this chapter is beaten
-                    }
-                    else if (chapterIndex > 0)
-                    {
-                        var previousChapterLastLevelID = levelLists[chapterIndex - 1].levels[levelLists[chapterIndex - 1].levels.Count - 1].levelID;
-                        if (levelIndex == 0 && levelRecords.ContainsKey(previousChapterLastLevelID)) //if first level of a chapter and previous chapter is beaten
-                        {
-                            levelUnlocked = true;
-                        }
                     }
                 }
             }
@@ -136,8 +128,9 @@ public class LevelSelect : UIBase
             }
         }
 
-        var nextChapterAvailable = (currentChapter < levelLists.Length - 1) && (currentChapterStars >= levels.Count * GameConstants.AverageLevelStarsForChapterUnlock);
-        if (!nextChapterAvailable)
+        var nextChapterExists = (currentChapter < levelLists.Length - 1);
+        var nextChapterUnlocked =  (currentChapterStars >= levels.Count * GameConstants.AverageLevelStarsForChapterUnlock);
+        if (nextChapterExists && !nextChapterUnlocked)
         {
             chapterStarsText.text = $"{currentChapterStars}/{levels.Count * GameConstants.AverageLevelStarsForChapterUnlock}";
         }
@@ -145,7 +138,7 @@ public class LevelSelect : UIBase
         {
             chapterStarsText.text = currentChapterStars.ToString();
         }
-        nextChapterButton.interactable = nextChapterAvailable;
+        nextChapterButton.interactable = nextChapterExists && nextChapterUnlocked;
         RefreshFontSize(buttonTexts);
         RefreshFontSize(numberTextList);
         RefreshFontSize(hiscoreTextList);

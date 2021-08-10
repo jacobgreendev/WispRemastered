@@ -9,6 +9,7 @@ public class ScoreManager : MonoBehaviour
     private float timeElapsed;
     public event OnScoreUpdateEventHandler OnScoreUpdate;
     public event OnTimeElapsedUpdateEventHandler OnTimeElapsedUpdate;
+    private bool timerStarted = false;
 
     private void Awake()
     {
@@ -17,6 +18,7 @@ public class ScoreManager : MonoBehaviour
 
     private void OnEnable()
     {
+        PlayerController.Instance.OnFire += StartTimer;
         PlayerController.Instance.OnLand += AddScoreOnLand;
         PlayerController.Instance.OnDeath += UpdateEndlessHiScore;
     }
@@ -25,22 +27,30 @@ public class ScoreManager : MonoBehaviour
     void Start()
     {
         score = 0;
+        timeElapsed = 0;
+        OnTimeElapsedUpdate(0);
     }
 
     private void OnDisable()
     {
         //Unsubscribe from all events
+        PlayerController.Instance.OnFire -= StartTimer;
         PlayerController.Instance.OnLand -= AddScoreOnLand;
         PlayerController.Instance.OnDeath -= UpdateEndlessHiScore;
     }
 
     private void Update()
     {
-        if(SceneData.levelJustCompleted == null)
+        if(timerStarted && SceneData.levelJustCompleted == null)
         {
             timeElapsed += Time.deltaTime;
             OnTimeElapsedUpdate(timeElapsed);
         }
+    }
+
+    private void StartTimer()
+    {
+        timerStarted = true;
     }
 
     private void AddScoreOnLand(Interactable landedOn)

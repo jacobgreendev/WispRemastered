@@ -16,11 +16,11 @@ MonoBehaviour:
   levelPrefab: {fileID: 7646407741062631488, guid: 646379b2154d30647b8a1b49ce844600, type: 3}
   scoreStarInfo:
     starThresholds:
-    - 3
+    - 4
     - 6
-    - 9
+    - 7
   timeSecondsStarInfo:
     starThresholds:
+    - 30
     - 20
-    - 12
-    - 8
+    - 10
