@@ -14,4 +14,14 @@ public class LevelInfo : ScriptableObject
 public class StarInfo
 {
     public float[] starThresholds;
+
+    public StarInfo(float[] starThresholds)
+    {
+        this.starThresholds = starThresholds;
+    }
+
+    public StarInfo()
+    {
+
+    }
 }
