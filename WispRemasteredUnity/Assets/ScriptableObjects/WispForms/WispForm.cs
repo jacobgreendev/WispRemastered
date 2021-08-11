@@ -17,5 +17,6 @@ public enum WispFormType
 {
     Flame,
     Spark,
+    Aether,
     None = 99
 }

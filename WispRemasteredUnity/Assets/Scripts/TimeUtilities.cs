@@ -11,6 +11,7 @@ public class TimeUtilities : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        SetTimeScaleAndFixedDeltaTime(1);
     }
 
     public void SetTimescale(float timescale)

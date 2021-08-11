@@ -145,7 +145,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd0f181fd32174042b414d420027d908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usableByList: 0000000001000000
+  usableByList: 000000000100000002000000
+  collidersToDisableOnFire:
+  - {fileID: 1797312092753947240}
+  - {fileID: 1797312091568363966}
   scoreValue: 1
   landPosition: {fileID: 1797312093061580601}
 --- !u!135 &9218290643502459542

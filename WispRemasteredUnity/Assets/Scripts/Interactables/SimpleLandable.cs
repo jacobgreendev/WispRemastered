@@ -8,6 +8,7 @@ public class SimpleLandable : Interactable
 
     public override void DoInteraction(PlayerController player)
     {
-        player.Land(this, landPosition);  
+        player.Land(this, landPosition);
+        DisableColliders();
     }
 }
