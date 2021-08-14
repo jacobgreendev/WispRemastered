@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Land100
   m_EditorClassIdentifier: 
   id: Land100
-  title: Amateur Lander
+  title: Apprentice Lander
   amountToUnlock: 100
   description: Land 100 Times

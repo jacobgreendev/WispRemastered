@@ -61,10 +61,13 @@ public class AchievementHandler : MonoBehaviour
     {
         if (SceneData.achievementDetailsByID.ContainsKey(id))
         {
-            if (LocalSaveData.Instance.achievementsInfo.ContainsKey(id) && !LocalSaveData.Instance.achievementsInfo[id].unlocked)
+            if (LocalSaveData.Instance.achievementsInfo.ContainsKey(id))
             {
-                LocalSaveData.Instance.achievementsInfo[id].unlocked = true;
-                GameUIController.Instance.ShowAchievementPopup(SceneData.achievementDetailsByID[id].title);
+                if (!LocalSaveData.Instance.achievementsInfo[id].unlocked)
+                {
+                    LocalSaveData.Instance.achievementsInfo[id].unlocked = true;
+                    GameUIController.Instance.ShowAchievementPopup(SceneData.achievementDetailsByID[id].title);
+                }
             }
             else
             {
