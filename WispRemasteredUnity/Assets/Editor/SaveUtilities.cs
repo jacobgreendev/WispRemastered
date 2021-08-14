@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class SaveUtilities : MonoBehaviour
 {
-    [MenuItem("Save Options/Save Test File")]
+    [MenuItem("Game Utilities/Save Options/Save Test File")]
     static void SaveTestFile()
     {
         if (LocalSaveData.Instance == null)
@@ -24,7 +24,7 @@ public class SaveUtilities : MonoBehaviour
         PlayerSaveManager.SaveFile();
     }
 
-    [MenuItem("Save Options/View Save Details")]
+    [MenuItem("Game Utilities/Save Options/View Save Details")]
     static void LoadTestFile()
     {
         if (PlayerSaveManager.LoadSaveFile())
@@ -43,7 +43,7 @@ public class SaveUtilities : MonoBehaviour
         }
     }
 
-    [MenuItem("Save Options/Delete Save File")]
+    [MenuItem("Game Utilities/Save Options/Delete Save File")]
     static void DeleteSaveFile()
     {
         File.Delete(Application.persistentDataPath + GameConstants.SaveDataFilePath);

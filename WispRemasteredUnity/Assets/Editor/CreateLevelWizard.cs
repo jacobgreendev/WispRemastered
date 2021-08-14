@@ -12,7 +12,7 @@ public class CreateLevelWizard : EditorWindow
     private bool addToList;
     private LevelList chapterToAddTo;
 
-    [MenuItem("Levels/Create Level")]
+    [MenuItem("Game Utilities/Levels/Create Level")]
     public static void ShowWindow()
     {
         EditorWindow.GetWindow(typeof(CreateLevelWizard));

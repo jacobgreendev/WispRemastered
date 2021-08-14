@@ -28,6 +28,7 @@ public static class GameConstants
     //Values
     public const int AverageLevelStarsForChapterUnlock = 4;
     public const float PixelPerUnitReferenceScreenWidth = 1080;
+    public const float AchievementEntryVerticalSizePerScreenHeight = 350f/1920f;
     public const float DefaultShadowSize = 20;
     public const float ShadowReferenceScreenWidth = 1080;
 }

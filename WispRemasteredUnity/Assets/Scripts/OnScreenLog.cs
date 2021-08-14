@@ -8,12 +8,12 @@ public class OnScreenLog : MonoBehaviour
 
     void OnEnable()
     {
-        Application.logMessageReceived += HandleLog;
+        //Application.logMessageReceived += HandleLog;
     }
 
     void OnDisable()
     {
-        Application.logMessageReceived -= HandleLog;
+        //Application.logMessageReceived -= HandleLog;
     }
 
     void HandleLog(string logString, string stackTrace, LogType type)
