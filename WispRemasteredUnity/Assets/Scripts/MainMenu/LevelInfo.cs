@@ -8,6 +8,7 @@ public class LevelInfo : ScriptableObject
     public string levelID;
     public GameObject levelPrefab;
     public StarInfo scoreStarInfo, timeSecondsStarInfo;
+    public EnvironmentSettings environmentSettings;
 }
 
 [System.Serializable]

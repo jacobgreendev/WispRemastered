@@ -24,3 +24,4 @@ MonoBehaviour:
     - 30
     - 20
     - 10
+  environmentSettings: {fileID: 11400000, guid: 476f5a7ca00778546ae920240994d524, type: 2}

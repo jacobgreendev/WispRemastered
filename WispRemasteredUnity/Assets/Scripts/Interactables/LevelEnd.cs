@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelEnd : SimpleLandable
+public class LevelEnd : Interactable
 {
     public override void DoInteraction(PlayerController player)
     {
-        base.DoInteraction(player);
+        player.Rigidbody.isKinematic = true;
         player.IsInteracting = true;
         ScoreManager.Instance.FinishLevel();
         SceneData.levelJustCompleted = SceneData.levelToLoad;

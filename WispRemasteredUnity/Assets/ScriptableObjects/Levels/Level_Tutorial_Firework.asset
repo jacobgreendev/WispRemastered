@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4917ce249d68c0746a981fef0fdc4379, type: 3}
-  m_Name: Level1-2
+  m_Name: Level_Tutorial_Firework
   m_EditorClassIdentifier: 
-  levelID: 1-2
-  levelPrefab: {fileID: 7646407741062631488, guid: 646379b2154d30647b8a1b49ce844600, type: 3}
+  levelID: Level_Tutorial_Firework
+  levelPrefab: {fileID: 7646407741062631488, guid: 7fe8d40bfe42d70439ab2b091a48ec3d, type: 3}
   scoreStarInfo:
     starThresholds:
-    - 4
-    - 6
+    - 5
     - 7
+    - 9
   timeSecondsStarInfo:
     starThresholds:
-    - 30
+    - 45
+    - 35
     - 20
-    - 10
+  environmentSettings: {fileID: 11400000, guid: 476f5a7ca00778546ae920240994d524, type: 2}
