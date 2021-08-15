@@ -19,18 +19,25 @@ public class AchievementHandler : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-
-        SceneManager.sceneLoaded += SubscribeToEvents;
-        SubscribeToEvents(SceneManager.GetActiveScene(), LoadSceneMode.Single);
-
-        SceneData.achievementDetailsByID = new();
-        foreach(var achievement in achievementDetailsList.list)
+        if (Instance != null)
         {
-            SceneData.achievementDetailsByID.Add(achievement.id, achievement);
+            Destroy(gameObject);
+            Destroy(this);
         }
+        else
+        {
+            Instance = this;
+            SceneManager.sceneLoaded += SubscribeToEvents;
+            SubscribeToEvents(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
-        DontDestroyOnLoad(gameObject);
+            SceneData.achievementDetailsByID = new();
+            foreach (var achievement in achievementDetailsList.list)
+            {
+                SceneData.achievementDetailsByID.Add(achievement.id, achievement);
+            }
+
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     // Start is called before the first frame update
@@ -122,12 +129,10 @@ public class AchievementHandler : MonoBehaviour
     private void StoreTimeoutTimer(float time)
     {
         storedTimeoutTimer = time;
-        Debug.Log("Updated " + time);
     }
 
     private void CheckJustInTime(Interactable landedOn)
     {
-        Debug.Log("Checking " + storedTimeoutTimer);
         if (storedTimeoutTimer > 0.3)
         {
             UnlockAchievement("JustInTime");

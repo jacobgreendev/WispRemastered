@@ -204,7 +204,6 @@ public class PlayerController : MonoBehaviour
 
     private void StopDeathTimer()
     {
-        Debug.Log("Stopping death timer");
         if (deathTimeoutRoutine != null) StopCoroutine(deathTimeoutRoutine);
         OnTimeoutTimerUpdate(0); //Timer is effectively 0
     }
