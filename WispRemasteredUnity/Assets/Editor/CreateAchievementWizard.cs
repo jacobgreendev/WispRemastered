@@ -29,7 +29,7 @@ public class CreateAchievementWizard : EditorWindow
         amountToUnlock = EditorGUILayout.FloatField("Amount To Unlock", amountToUnlock);
         EditorGUILayout.EndToggleGroup();
 
-        addToList = EditorGUILayout.BeginToggleGroup("Progressable", addToList);
+        addToList = EditorGUILayout.BeginToggleGroup("Add To Achievement List", addToList);
         achievementListToAddTo = (AchievementList) EditorGUILayout.ObjectField("Achievement List To Add To", achievementListToAddTo, typeof(AchievementList), false);
         EditorGUILayout.EndToggleGroup();
 
