@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,6 +16,8 @@ public class GameUIController : UIBase
     [SerializeField] private TextMeshProUGUI popupText;
     [SerializeField] private TextMeshProUGUI timeElapsedText;
     [SerializeField] private Slider timeoutSlider;
+    [SerializeField] private GameObject achievementPanel;
+    [SerializeField] private TextMeshProUGUI achievementTitleText, achievementLabel;
 
     [Header("Level Complete Elements")]
     [SerializeField] private GameObject levelCompleteScreen;
@@ -62,6 +65,7 @@ public class GameUIController : UIBase
         popupTextInitialScale = popupText.transform.localScale;
 
         levelCompleteScreen.SetActive(false);
+        achievementPanel.SetActive(false);
     }
 
     private void OnEnable()
@@ -130,6 +134,13 @@ public class GameUIController : UIBase
 
         popupTextAnimationRoutine = StartCoroutine(TextAnimation(popupText, popupAnimationScaleCurve, popupAnimationAlphaCurve,
             popupTextInitialScale, popupAnimationDuration, popupAnimationScaleMultiplier, true));
+    }
+
+    public void ShowAchievementPopup(string text)
+    {
+        achievementTitleText.text = text;
+        achievementPanel.SetActive(true);
+        RefreshFontSize(new() { achievementTitleText, achievementLabel });
     }
 
     public void ShowLevelCompleteStats(int score, float time)

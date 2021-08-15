@@ -6,18 +6,16 @@ public class UIPanelAnimator : MonoBehaviour
 {
     [SerializeField] private float animationLength = 0.3f;
     [SerializeField] private AnimationCurve animationCurve;
-    //[SerializeField] private float rotationAmount = 90f;
+    [SerializeField] private bool reverseAfter = false;
+    [SerializeField] private float waitTimeBeforeReverse;
+    [SerializeField] private bool deactivateAfter = false;
 
     private Vector3 initialScale;
-    //private Quaternion initialRotation, rotatedRotation;
     private Coroutine currentAnimation;
 
     private void Awake()
     {
         initialScale = transform.localScale;
-        //initialRotation = transform.localRotation;
-        //var initialEulers = initialRotation.eulerAngles;
-        //rotatedRotation = Quaternion.Euler(initialEulers.x, initialEulers.y, initialEulers.z + rotationAmount);
     }
 
     void OnEnable()
@@ -36,10 +34,27 @@ public class UIPanelAnimator : MonoBehaviour
         {
             time += Time.deltaTime;
             transform.localScale = initialScale * animationCurve.Evaluate(time / animationLength);
-            //transform.localRotation = Quaternion.Lerp(rotatedRotation, initialRotation, animationCurve.Evaluate(time / animationLength));
             yield return null;
         }
         transform.localScale = initialScale;
-        //transform.localRotation = initialRotation;
+
+        yield return new WaitForSeconds(waitTimeBeforeReverse);
+
+        if (reverseAfter)
+        {
+            time = 0f;
+            while (time < animationLength)
+            {
+                time += Time.deltaTime;
+                transform.localScale = initialScale * animationCurve.Evaluate( 1 - (time / animationLength));
+                yield return null;
+            }
+            transform.localScale = initialScale * animationCurve.Evaluate(0);
+        }
+
+        if (deactivateAfter)
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

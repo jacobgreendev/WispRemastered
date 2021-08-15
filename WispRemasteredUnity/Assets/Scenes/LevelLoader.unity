@@ -810,5 +810,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 5841093235781122438, guid: 9acedb95043e64c4fa2af4b6a37d1ec1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9acedb95043e64c4fa2af4b6a37d1ec1, type: 3}

@@ -1679,7 +1679,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  rotationAmount: 90
 --- !u!1 &7596714074254036922
 GameObject:
   m_ObjectHideFlags: 0

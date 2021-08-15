@@ -150,20 +150,19 @@ public class PlayerController : MonoBehaviour
     }
 
     public void Land(Interactable landedOn, Transform landTransform, bool inPlace = false)
-    {      
-        ResetJourney();
-        StopDeathTimer();
-
-        if (!inPlace)
+    {
+        if (inPlace)
+        {
+            OnLand?.Invoke(lastInteracted);
+            inFlight = false;
+            ResetJourney();
+        }
+        else
         {
             playerRigidbody.isKinematic = true;
             StartCoroutine(LandingLerp(transform.position, landTransform.position, landedOn));
         }
-        else
-        {
-            inFlight = false;
-            OnLand?.Invoke(lastInteracted);
-        }
+
     }
 
     public void ResetJourney()
@@ -301,6 +300,7 @@ public class PlayerController : MonoBehaviour
         }
         inFlight = false;
         OnLand?.Invoke(landedOn);
+        StopDeathTimer();
     }
 }
 
