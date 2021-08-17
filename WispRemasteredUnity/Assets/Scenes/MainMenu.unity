@@ -589,6 +589,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  reverseAfter: 0
+  waitTimeBeforeReverse: 0
+  deactivateAfter: 0
 --- !u!114 &302845676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1073,6 +1076,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  reverseAfter: 0
+  waitTimeBeforeReverse: 0
+  deactivateAfter: 0
 --- !u!1 &476128968
 GameObject:
   m_ObjectHideFlags: 0
@@ -1748,6 +1754,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  reverseAfter: 0
+  waitTimeBeforeReverse: 0
+  deactivateAfter: 0
 --- !u!1 &871243895
 GameObject:
   m_ObjectHideFlags: 0
@@ -2134,6 +2143,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  reverseAfter: 0
+  waitTimeBeforeReverse: 0
+  deactivateAfter: 0
 --- !u!114 &1169406265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2610,6 +2622,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  reverseAfter: 0
+  waitTimeBeforeReverse: 0
+  deactivateAfter: 0
 --- !u!1 &1479175467
 GameObject:
   m_ObjectHideFlags: 0
@@ -3405,6 +3420,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  reverseAfter: 0
+  waitTimeBeforeReverse: 0
+  deactivateAfter: 0
 --- !u!1 &1892082524
 GameObject:
   m_ObjectHideFlags: 0
@@ -3925,3 +3943,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  reverseAfter: 0
+  waitTimeBeforeReverse: 0
+  deactivateAfter: 0

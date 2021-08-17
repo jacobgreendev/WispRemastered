@@ -10,6 +10,7 @@ public class MainMenuController : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
         playButton.onClick.AddListener(ShowLevelSelect);
         levelSelectBackButton.onClick.AddListener(ShowMainMenu);
         achievementsButton.onClick.AddListener(ShowAchievements);

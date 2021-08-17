@@ -520,7 +520,6 @@ GameObject:
   - component: {fileID: 9083968083303370655}
   - component: {fileID: 8080601812207988926}
   - component: {fileID: 8612294178710310644}
-  - component: {fileID: 2828727598258266517}
   m_Layer: 0
   m_Name: Moon
   m_TagString: Untagged
@@ -593,19 +592,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &2828727598258266517
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495802613696611869}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2021734776398399854
 PrefabInstance:
   m_ObjectHideFlags: 0
