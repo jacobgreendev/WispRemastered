@@ -11,12 +11,18 @@ public class WispForm : ScriptableObject
 
     public float gravityMultiplier;
     public float drag;
+
+    public int bounces;
+    public float bouncePowerRetention;
 }
 
+//Keep indices the same when altering!
 public enum WispFormType
 {
-    Flame,
-    Spark,
-    Aether,
+    All = 0,
+    Flame = 1,
+    Spark = 2,
+    Aether = 3,
+    Frost = 4,
     None = 99
 }

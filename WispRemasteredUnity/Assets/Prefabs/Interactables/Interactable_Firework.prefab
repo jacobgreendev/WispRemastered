@@ -331,7 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bd64299aad544d46856993522a450a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usableByList: 00000000
+  usableByList: 01000000
   collidersToDisableOnFire: []
   scoreValue: 1
   landLerpTime: 0.2

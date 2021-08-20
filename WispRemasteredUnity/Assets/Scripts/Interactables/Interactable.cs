@@ -25,7 +25,7 @@ public abstract class Interactable : MonoBehaviour
 
     public bool IsUsableBy(WispFormType form)
     {
-        return usableBy.Contains(form);
+        return usableBy.Contains(WispFormType.All) || usableBy.Contains(form);
     }
 
     public void DisableColliders()

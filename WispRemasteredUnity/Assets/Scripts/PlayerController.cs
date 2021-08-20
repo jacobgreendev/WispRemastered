@@ -22,6 +22,10 @@ public class PlayerController : MonoBehaviour
     private Vector2 touchPosition;
     private Vector3 currentForceVector;
 
+    private Vector3 velocityBeforePhysicsUpdate;
+    private int currentMaxBounces, currentBouncesRemaining;
+    private float currentBounceRetention;
+
     private WispFormType currentForm = WispFormType.None;
 
     private Interactable lastInteracted;
@@ -95,6 +99,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        velocityBeforePhysicsUpdate = playerRigidbody.velocity;
+    }
+
     private void DoInput()
     {
         var isTouching = Input.touchCount > 0 || Input.GetMouseButton(0);
@@ -162,7 +171,7 @@ public class PlayerController : MonoBehaviour
             playerRigidbody.isKinematic = true;
             StartCoroutine(LandingLerp(transform.position, landTransform.position, landedOn));
         }
-
+        currentBouncesRemaining = currentMaxBounces;
     }
 
     public void ResetJourney()
@@ -186,6 +195,10 @@ public class PlayerController : MonoBehaviour
 
             Physics.gravity = 9.81f * wispForm.gravityMultiplier * Vector3.down;
             playerRigidbody.drag = wispForm.drag;
+
+            currentMaxBounces = wispForm.bounces;
+            currentBouncesRemaining = currentMaxBounces;
+            currentBounceRetention = wispForm.bouncePowerRetention;
         }   
     }
         
@@ -193,6 +206,7 @@ public class PlayerController : MonoBehaviour
     {
         OnDeath?.Invoke();
         playerRigidbody.isKinematic = true;
+        StopDeathTimer();
         StartCoroutine(WaitAndReloadScene());
     }
 
@@ -244,9 +258,24 @@ public class PlayerController : MonoBehaviour
         {
             if (!isInteracting)
             {
-                Die();
+                if (currentBouncesRemaining < 1)
+                {
+                    Die();
+                }
+                else
+                {
+                    Bounce();
+                }
             }
         }
+    }
+
+    private void Bounce()
+    {
+        currentBouncesRemaining--;
+        var currentVelocity = velocityBeforePhysicsUpdate;
+        currentVelocity.y = -currentVelocity.y * currentBounceRetention;
+        playerRigidbody.velocity = currentVelocity;
     }
 
     private void TryInteractWith(Interactable interactable)
